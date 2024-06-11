@@ -22,5 +22,5 @@ a MicroSD card with the following directories:
 	CONF80
 
 Copy the *.bin program files from src-examples into CODE80.
-Copy the *.dsk disk immage files from disks into DISKS80.
+Copy the *.dsk disk image files from disks into DISKS80.
 In CONF80 create an empty text file with the name cfg.txt.
