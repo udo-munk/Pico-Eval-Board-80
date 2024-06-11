@@ -13,6 +13,7 @@
  * 28-MAY-2024 implemented boot from disk images with some OS
  * 31-MAY-2024 use USB UART
  * 09-JUN-2024 implemented boot ROM
+ * 11-JUN-2024 ported to Pico Eval Board
  */
 
 /* Raspberry SDK and FatFS includes */
@@ -35,7 +36,7 @@
 #include "memsim.h"
 #include "sd-fdc.h"
 
-#define SWITCH_BREAK 15 /* switch we use to interrupt the system */
+#define SWITCH_BREAK 2 /* switch we use to interrupt the system (User Key) */
 
 #define BS  0x08 /* backspace */
 #define DEL 0x7f /* delete */
@@ -55,7 +56,7 @@ static sd_card_t sd_card = {
 	.sdio_if_p = &sdio_if
 };
 
-FATFS fs;	/* FatFs */
+FATFS fs;	/* FatFs on SDIO MicroSD */
 FIL sd_file;	/* at any time we have only one file open */
 FRESULT sd_res;	/* result code from FatFS */
 char disks[2][22]; /* path name for 2 disk images /DISKS80/filename.BIN */
@@ -88,7 +89,8 @@ int main(void)
 
 	gpio_init(SWITCH_BREAK); /* setupt interrupt for break switch */
 	gpio_set_dir(SWITCH_BREAK, GPIO_IN);
-	gpio_set_irq_enabled_with_callback(SWITCH_BREAK, GPIO_IRQ_EDGE_RISE,
+	gpio_pull_up(SWITCH_BREAK);
+	gpio_set_irq_enabled_with_callback(SWITCH_BREAK, GPIO_IRQ_EDGE_FALL,
 					   true, &gpio_callback);
 
 	/* when using USB UART wait until it is connected */
@@ -147,6 +149,7 @@ NOPE:	config();		/* configure the machine */
 #endif
 	putchar('\n');
 	stdio_flush();
+	sleep_ms(500);
 	return 0;
 }
 

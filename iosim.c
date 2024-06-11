@@ -13,6 +13,7 @@
  * 31-MAY-2024 added hardware control port for z80pack machines
  * 08-JUN-2024 implemented system reset
  * 09-JUN-2024 implemented boot ROM
+ * 11-JUN-2024 ported to Pico Eval Board
  */
 
 /* Raspberry SDK includes */
