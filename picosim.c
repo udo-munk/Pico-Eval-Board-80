@@ -41,7 +41,7 @@
 #define BS  0x08 /* backspace */
 #define DEL 0x7f /* delete */
 
-/* global variables for access to SPI MicroSD drive */
+/* global variables for access to SDIO MicroSD drive */
 
 /* SDIO Interface */
 static sd_sdio_if_t sdio_if = {
