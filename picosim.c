@@ -24,7 +24,6 @@
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
-//#include "sd_card.h"
 #include "f_util.h"
 #include "ff.h"
 #include "hw_config.h"
@@ -66,7 +65,6 @@ int speed = CPU_SPEED;
 
 extern void init_cpu(void), init_io(void), run_cpu(void);
 extern void report_cpu_error(void), report_cpu_stats(void);
-extern BYTE read_sec(int, int, int, WORD);
 
 uint64_t get_clock_us(void);
 void gpio_callback(uint, uint32_t);
@@ -75,7 +73,7 @@ void gpio_callback(uint, uint32_t);
 size_t sd_get_num() { return 1; }
 
 sd_card_t *sd_get_by_num(size_t num) {
-	if (0 == num)
+	if (num == 0)
 		return &sd_card;
 	else
 		return NULL;
@@ -83,8 +81,6 @@ sd_card_t *sd_get_by_num(size_t num) {
 
 int main(void)
 {
-	BYTE stat;
-
 	stdio_init_all();	/* initialize Pico stdio */
 
 	gpio_init(SWITCH_BREAK); /* setupt interrupt for break switch */
