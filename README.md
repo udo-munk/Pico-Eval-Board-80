@@ -11,5 +11,6 @@ more convenient.
 For the Raspberry Pi Pico board a number of extension boards and headers
 exist, the one used here is this:
 
+	https://www.waveshare.com/pico-eval-board.htm
 	https://www.waveshare.com/wiki/Pico-Eval-Board
 
