@@ -41,7 +41,10 @@ target_compile_definitions(picosim INTERFACE
 	PICO_DEFAULT_UART=0
 )
 
-target_link_libraries(picosim pico_stdlib no-OS-FatFS-SD-SDIO-SPI-RPi-Pico)
+target_link_libraries(picosim
+	pico_stdlib
+	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
+)
 
 pico_add_extra_outputs(picosim)
 
