@@ -14,3 +14,28 @@ exist, the one used here is this:
 	https://www.waveshare.com/pico-eval-board.htm
 	https://www.waveshare.com/wiki/Pico-Eval-Board
 
+To install z80pack on this device:
+
+1. clone z80pack: git clone https://github.com/udo-munk/z80pack.git
+2. checkout dev branch: cd z80pack; git checkout dev
+3. clone this: git clone https://github.com/udo-munk/Pico-Eval-Board-80.git
+
+To build the application:
+
+	cd Pico-Eval-Board-80
+	mkdir build
+	cd build
+	cmake ..
+	make
+
+Flash picosim.uf2 into the device, and then prepare a MicroSD card.
+
+In the root directory of the card create these directories:
+
+	CONF80
+	CODE80
+	DISKS80
+
+Into the CODE80 directory copy all the .bin files from src-examples.
+Into the DISKS80 directory copy the disk images from disks.
+In CONF80 create an empty text file CFG.TXT.
