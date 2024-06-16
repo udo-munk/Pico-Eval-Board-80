@@ -17,7 +17,7 @@ exist, the one used here is this:
 To install z80pack on this device:
 
 1. clone z80pack: git clone https://github.com/udo-munk/z80pack.git
-2. checkout dev branch: cd z80pack; git checkout dev
+2. checkout dev branch: cd z80pack; git checkout dev; cd ..
 3. clone this: git clone https://github.com/udo-munk/Pico-Eval-Board-80.git
 
 To build the application:
