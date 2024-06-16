@@ -71,6 +71,8 @@ void my_ls(const char *dir, const char *ext)
 	if (res == FR_OK) {
 		while (1) {
 			printf("%s\t", fno.fname);
+			if (strlen(fno.fname) < 8)
+				putchar('\t');
 			i++;
 			if (i > 4) {
 				putchar('\n');
