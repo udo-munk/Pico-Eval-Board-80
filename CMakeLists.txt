@@ -9,6 +9,9 @@ include_directories(
 	.
 	../z80pack/z80core
 	../z80pack/iodevices
+	./lcd/config
+	./lcd/font
+	./lcd/lcd
 )
 
 add_executable(picosim
@@ -31,9 +34,10 @@ add_executable(picosim
 	iosim.c
 )
 
-add_subdirectory(
-	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs
-)
+add_subdirectory(no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
+add_subdirectory(lcd/config)
+add_subdirectory(lcd/font)
+add_subdirectory(lcd/lcd)
 
 target_compile_definitions(picosim PRIVATE
 	PICO_STACK_SIZE=4096
@@ -48,6 +52,10 @@ target_compile_definitions(picosim INTERFACE
 target_link_libraries(picosim
 	pico_stdlib
 	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
+	lcd
+	font
+	config
+	hardware_spi
 )
 
 pico_add_extra_outputs(picosim)
