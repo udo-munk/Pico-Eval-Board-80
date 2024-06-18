@@ -32,6 +32,7 @@ add_executable(picosim
 	config.c
 	memsim.c
 	iosim.c
+	lcd.c
 )
 
 add_subdirectory(no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)

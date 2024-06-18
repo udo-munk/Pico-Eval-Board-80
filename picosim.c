@@ -34,6 +34,7 @@
 #include "config.h"
 #include "memsim.h"
 #include "sd-fdc.h"
+#include "lcd.h"
 
 #define SWITCH_BREAK 2 /* switch we use to interrupt the system (User Key) */
 
@@ -82,6 +83,9 @@ sd_card_t *sd_get_by_num(size_t num) {
 int main(void)
 {
 	stdio_init_all();	/* initialize Pico stdio */
+
+	/* initialize LCD */
+	lcd_init();
 
 	gpio_init(SWITCH_BREAK); /* setupt interrupt for break switch */
 	gpio_set_dir(SWITCH_BREAK, GPIO_IN);
