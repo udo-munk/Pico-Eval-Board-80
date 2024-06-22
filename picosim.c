@@ -100,6 +100,7 @@ int main(void)
 #endif
 
 	/* print banner */
+	lcd_banner();
 	printf("\fZ80pack release %s, %s\n", RELEASE, COPYR);
 	printf("%s release %s\n", USR_COM, USR_REL);
 	printf("%s\n\n", USR_CPR);

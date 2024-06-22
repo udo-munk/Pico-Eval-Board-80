@@ -5,6 +5,8 @@
  */
 
 #include "lcd.h"
+#include "LCD_GUI.h"
+#include "fonts.h"
 
 void lcd_init(void)
 {
@@ -15,4 +17,10 @@ void lcd_init(void)
 
 	/* initialize LCD, set orientation and backlight */
 	LCD_Init(lcd_scan_dir, 1000);
+}
+
+void lcd_banner(void)
+{
+	GUI_Clear(BLACK);
+	GUI_DisString_EN(50, 40, "Z80pack test", &Font24, BLACK, WHITE);
 }
