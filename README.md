@@ -38,4 +38,3 @@ In the root directory of the card create these directories:
 
 Into the CODE80 directory copy all the .bin files from src-examples.
 Into the DISKS80 directory copy the disk images from disks.
-In CONF80 create an empty text file CFG.TXT.
