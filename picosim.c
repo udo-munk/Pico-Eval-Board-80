@@ -47,7 +47,7 @@
 static sd_sdio_if_t sdio_if = {
 	.CMD_gpio = 18,
 	.D0_gpio = 19,
-	.baud_rate = 15 * 1000 * 1000  // 15 MHz
+	.baud_rate = 15 * 1000 * 1000  /* 15 MHz */
 };
 
 /* Configuration of the SD Card socket object */
