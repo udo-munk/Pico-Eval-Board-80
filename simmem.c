@@ -24,7 +24,7 @@
 #include "ff.h"
 #include "sim.h"
 #include "simglb.h"
-#include "memsim.h"
+#include "simmem.h"
 #include "sd-fdc.h"
 
 extern FIL sd_file;

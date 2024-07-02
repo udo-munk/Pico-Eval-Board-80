@@ -31,8 +31,9 @@
 /* Project includes */
 #include "sim.h"
 #include "simglb.h"
-#include "config.h"
-#include "memsim.h"
+#include "simcore.h"
+#include "simcfg.h"
+#include "simmem.h"
 #include "sd-fdc.h"
 #include "lcd.h"
 
