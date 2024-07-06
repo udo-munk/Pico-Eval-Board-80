@@ -3,17 +3,23 @@
  *
  * Copyright (C) 2024 by Udo Munk
  *
- * This module implements memory management for the Z80/8080 CPU
+ * This module implements memory management for the Z80/8080 CPU.
  *
  * History:
  * 23-APR-2024 derived from z80sim
+ * 29-JUN-2024 implemented banked memory
  */
 
-#ifndef MEMSIM_INC
-#define MEMSIM_INC
+#ifndef SIMMEM_INC
+#define SIMMEM_INC
+
+#include "sim.h"
+#include "simdefs.h"
+
+extern BYTE bnk0[65536], bnk1[49152];
+extern BYTE selbnk;
 
 extern void init_memory(void);
-extern BYTE memory[];
 
 /* Last page in memory is ROM and write protected. Some software */
 /* expects a ROM in upper memory, if not it will wrap arround to */
@@ -24,13 +30,20 @@ extern BYTE memory[];
  */
 static inline void memwrt(WORD addr, BYTE data)
 {
-	if (addr < 0xff00)
-		memory[addr] = data;
+	if ((selbnk == 0) || (addr >= 0xc000)) {
+		if (addr < 0xff00)
+			bnk0[addr] = data;
+	} else {
+		bnk1[addr] = data;
+	}
 }
 
 static inline BYTE memrdr(WORD addr)
 {
-	return (memory[addr]);
+	if ((selbnk == 0) || (addr >= 0xc000))
+		return bnk0[addr];
+	else
+		return bnk1[addr];
 }
 
 /*
@@ -38,13 +51,20 @@ static inline BYTE memrdr(WORD addr)
  */
 static inline void dma_write(WORD addr, BYTE data)
 {
-	if (addr < 0xff00)
-		memory[addr] = data;
+	if ((selbnk == 0) || (addr >= 0xc000)) {
+		if (addr < 0xff00)
+			bnk0[addr] = data;
+	} else {
+		bnk1[addr] = data;
+	}
 }
 
 static inline BYTE dma_read(WORD addr)
 {
-	return (memory[addr]);
+	if ((selbnk == 0) || (addr >= 0xc000))
+		return bnk0[addr];
+	else
+		return bnk1[addr];
 }
 
 /*
@@ -52,13 +72,20 @@ static inline BYTE dma_read(WORD addr)
  */
 static inline void putmem(WORD addr, BYTE data)
 {
-	if (addr < 0xff00)
-		memory[addr] = data;
+	if ((selbnk == 0) || (addr >= 0xc000)) {
+		if (addr < 0xff00)
+			bnk0[addr] = data;
+	} else {
+		bnk1[addr] = data;
+	}
 }
 
 static inline BYTE getmem(WORD addr)
 {
-	return (memory[addr]);
+	if ((selbnk == 0) || (addr >= 0xc000))
+		return bnk0[addr];
+	else
+		return bnk1[addr];
 }
 
-#endif
+#endif /* !SIMMEM_INC */

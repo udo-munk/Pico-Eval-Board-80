@@ -14,28 +14,27 @@
  * 03-JUN-2024 added directory list for code files and disk images
  */
 
-#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "pico/stdlib.h"
+#include "pico/time.h"
+
 #include "f_util.h"
 #include "ff.h"
+
 #include "sim.h"
+#include "simdefs.h"
 #include "simglb.h"
+#include "simcore.h"
+#include "simutil.h"
+#include "simport.h"
+#include "simio.h"
+#include "simcfg.h"
 
-extern FIL sd_file;
-extern FRESULT sd_res;
-extern char disks[2][22];
-extern int speed;
-extern BYTE fp_value;
-
-extern int get_cmdline(char *, int);
-extern void switch_cpu(int);
-extern void load_file(char *);
-extern void mount_disk(int, char *);
-extern void my_ls(const char *, const char *);
-extern unsigned char fp_value;
+#include "disks.h"
+#include "picosim.h"
 
 /*
  * prompt for a filename
@@ -116,7 +115,7 @@ again:
 			break;
 
 		case '4':
-			my_ls(cpath, cext);
+			list_files(cpath, cext);
 			printf("\n\n");
 			break;
 
@@ -127,7 +126,7 @@ again:
 			break;
 
 		case '6':
-			my_ls(dpath, dext);
+			list_files(dpath, dext);
 			printf("\n\n");
 			break;
 

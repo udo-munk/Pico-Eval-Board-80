@@ -24,17 +24,23 @@
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
-#include "f_util.h"
+
 #include "ff.h"
 #include "hw_config.h"
 
 /* Project includes */
 #include "sim.h"
+#include "simdefs.h"
 #include "simglb.h"
-#include "simcore.h"
 #include "simcfg.h"
 #include "simmem.h"
-#include "sd-fdc.h"
+#include "simcore.h"
+#include "simport.h"
+#include "simio.h"
+#ifdef WANT_ICE
+#include "simice.h"
+#endif
+#include "disks.h"
 #include "lcd.h"
 
 #define SWITCH_BREAK 2 /* switch we use to interrupt the system (User Key) */
@@ -42,47 +48,23 @@
 #define BS  0x08 /* backspace */
 #define DEL 0x7f /* delete */
 
-/* global variables for access to MicroSD drive */
-
-/* SDIO Interface */
-static sd_sdio_if_t sdio_if = {
-	.CMD_gpio = 18,
-	.D0_gpio = 19,
-	.baud_rate = 15 * 1000 * 1000  /* 15 MHz */
-};
-
-/* Configuration of the SD Card socket object */
-static sd_card_t sd_card = {
-	.type = SD_IF_SDIO,
-	.sdio_if_p = &sdio_if
-};
-
-FATFS fs;	/* FatFs on MicroSD */
-FIL sd_file;	/* at any time we have only one file open */
-FRESULT sd_res;	/* result code from FatFS */
-char disks[2][22]; /* path name for 2 disk images /DISKS80/filename.DSK */
-
 /* CPU speed */
 int speed = CPU_SPEED;
 
-extern void init_cpu(void), init_io(void), run_cpu(void);
-extern void report_cpu_error(void), report_cpu_stats(void);
-
-uint64_t get_clock_us(void);
-void gpio_callback(uint, uint32_t);
-
-/* Callbacks used by the SD library */
-size_t sd_get_num() { return 1; }
-
-sd_card_t *sd_get_by_num(size_t num) {
-	if (num == 0)
-		return &sd_card;
-	else
-		return NULL;
+/*
+ * interrupt handler for break switch
+ * stops CPU
+ */
+void gpio_callback(uint gpio, uint32_t events)
+{
+	cpu_error = USERINT;
+	cpu_state = STOPPED;
 }
 
 int main(void)
 {
+	char s[2];
+
 	stdio_init_all();	/* initialize Pico stdio */
 
 	/* initialize LCD */
@@ -106,24 +88,11 @@ int main(void)
 	printf("%s release %s\n", USR_COM, USR_REL);
 	printf("%s\n\n", USR_CPR);
 
-	/* try to mount SD card */
-	sd_res = f_mount(&fs, "", 1);
-	if (sd_res != FR_OK)
-		panic("f_mount error: %s (%d)\n", FRESULT_str(sd_res), sd_res);
-
 	init_cpu();		/* initialize CPU */
+	init_disks();		/* initialize disk drives */
 	init_memory();		/* initialize memory configuration */
 	init_io();		/* initialize I/O devices */
-NOPE:	config();		/* configure the machine */
-
-	/* check if there are disks in the drives */
-	if (strlen(disks[0]) != 0) {
-		/* they will try this for sure, so ... */
-		if (!strcmp(disks[0], disks[1])) {
-			printf("Not with this config dude\n");
-			goto NOPE;
-		}
-	}
+	config();		/* configure the machine */
 
 	/* setup speed of the CPU */
 	f_flag = speed;
@@ -141,44 +110,31 @@ NOPE:	config();		/* configure the machine */
 	run_cpu();
 #endif
 
-	/* unmount SD card */
-	f_unmount("");
+        exit_disks();		/* stop disk drives */
 
 #ifndef WANT_ICE
 	putchar('\n');
 	report_cpu_error();	/* check for CPU emulation errors and report */
 	report_cpu_stats();	/* print some execution statistics */
 #endif
-	putchar('\n');
+	puts("\nPress any key to restart CPU");
+	get_cmdline(s, 2);
+
 	stdio_flush();
-	sleep_ms(500);
 	return 0;
 }
 
-uint64_t get_clock_us(void)
-{
-	return to_us_since_boot(get_absolute_time());
-}
-
 /*
- * interrupt handler for break switch
- * stops CPU
- */
-void gpio_callback(uint gpio, uint32_t events)
-{
-	cpu_error = USERINT;
-	cpu_state = STOPPED;
-}
-
-/*
- * read an ICE or config command line from the terminal
+ * Read an ICE or config command line of maximum length len - 1
+ * from the terminal. For single character requests (len == 2),
+ * returns immediately after input is received.
  */
 int get_cmdline(char *buf, int len)
 {
 	int i = 0;
 	char c;
 
-	while (i < len - 1) {
+	for (;;) {
 		c = getchar();
 		if ((c == BS) || (c == DEL)) {
 			if (i >= 1) {
@@ -188,13 +144,17 @@ int get_cmdline(char *buf, int len)
 				i--;
 			}
 		} else if (c != '\r') {
-			buf[i++] = c;
-			putchar(c);
+			if (i < len - 1) {
+				buf[i++] = c;
+				putchar(c);
+				if (len == 2)
+					break;
+			}
 		} else {
 			break;
 		}
 	}
-	buf[i++] = '\0';
+	buf[i] = '\0';
 	putchar('\n');
 	return 0;
 }
