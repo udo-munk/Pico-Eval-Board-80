@@ -89,16 +89,28 @@ target_link_libraries(${PROJECT_NAME}
 	config
 	hardware_spi
 )
+# for Pico W
+#target_link_libraries(${PROJECT_NAME}
+#	pico_stdlib
+#	pico_cyw43_arch_none
+#	stdio_msc_usb
+#	tinyusb_device
+#	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
+#	lcd
+#	font
+#	config
+#	hardware_spi
+#)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 
 target_link_options(${PROJECT_NAME} PRIVATE -Xlinker --print-memory-usage)
 
-pico_set_program_name(picosim "z80pack picosim")
-pico_set_program_description(picosim "z80pack on Waveshare Pico-Eval-Board")
-pico_set_program_version(picosim "1.2")
-pico_set_program_url(picosim "https://github.com/udo-munk/Pico-Eval-Board-80")
+pico_set_program_name(${PROJECT_NAME} "z80pack picosim")
+pico_set_program_description(${PROJECT_NAME} "z80pack on Waveshare Pico-Eval-Board")
+pico_set_program_version(${PROJECT_NAME} "1.2")
+pico_set_program_url(${PROJECT_NAME} "https://github.com/udo-munk/Pico-Eval-Board-80")
 
 # disable UART in/out, enable USB in/out
-pico_enable_stdio_uart(picosim 0)
-#pico_enable_stdio_usb(picosim 1)
+pico_enable_stdio_uart(${PROJECT_NAME} 0)
+#pico_enable_stdio_usb(${PROJECT_NAME} 1)
