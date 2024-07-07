@@ -11,8 +11,9 @@ more convenient.
 For the Raspberry Pi Pico board a number of extension boards and headers
 exist, the one used here is this:
 
-	https://www.waveshare.com/pico-eval-board.htm
-	https://www.waveshare.com/wiki/Pico-Eval-Board
+[Waveshare Evaluation board product page](https://www.waveshare.com/pico-eval-board.htm)
+and
+[Waveshare Pico Eval Board Wiki](https://www.waveshare.com/wiki/Pico-Eval-Board)
 
 To install z80pack on this device:
 
