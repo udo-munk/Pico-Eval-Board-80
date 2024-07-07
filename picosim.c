@@ -19,14 +19,19 @@
 /* Raspberry SDK and FatFS includes */
 #include <stdio.h>
 #include <string.h>
-#if LIB_PICO_STDIO_USB
+#if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 #include <tusb.h>
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
+/* Pico W also needs this */
+#if PICO == 1
+#include "pico/cyw43_arch.h"
+#endif
 
 #include "ff.h"
 #include "hw_config.h"
+#include "rtc.h"
 
 /* Project includes */
 #include "sim.h"
@@ -51,12 +56,26 @@
 /* CPU speed */
 int speed = CPU_SPEED;
 
+#if LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)
+void tud_cdc_send_break_cb(uint8_t itf, uint16_t duration_ms)
+{
+	UNUSED(itf);
+	UNUSED(duration_ms);
+
+	cpu_error = USERINT;
+	cpu_state = STOPPED;
+}
+#endif
+
 /*
  * interrupt handler for break switch
  * stops CPU
  */
 void gpio_callback(uint gpio, uint32_t events)
 {
+	UNUSED(gpio);
+	UNUSED(events);
+
 	cpu_error = USERINT;
 	cpu_state = STOPPED;
 }
@@ -65,7 +84,13 @@ int main(void)
 {
 	char s[2];
 
-	stdio_init_all();	/* initialize Pico stdio */
+	stdio_init_all();	/* initialize stdio */
+#if LIB_STDIO_MSC_USB
+	sd_init_driver();	/* initialize SD card driver */
+	tusb_init();		/* initialize TinyUSB */
+	stdio_msc_usb_init();	/* initialize MSC USB stdio */
+#endif
+	time_init();		/* initialize FatFS RTC */
 
 	/* initialize LCD */
 	lcd_init();
@@ -77,7 +102,7 @@ int main(void)
 					   true, &gpio_callback);
 
 	/* when using USB UART wait until it is connected */
-#if LIB_PICO_STDIO_USB
+#if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 	while (!tud_cdc_connected())
 		sleep_ms(100);
 #endif
@@ -94,12 +119,10 @@ int main(void)
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
 
-	/* setup speed of the CPU */
-	f_flag = speed;
-	tmax = speed * 10000; /* theoretically */
+	f_flag = speed;		/* setup speed of the CPU */
+	tmax = speed * 10000;	/* theoretically */
 
-	/* power on jump into the boot ROM */
-	PC = 0xff00;
+	PC = 0xff00;		/* power on jump into the boot ROM */
 
 	/* run the CPU with whatever is in memory */
 #ifdef WANT_ICE

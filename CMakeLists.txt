@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)
 
 # Set default build type to Release
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# Set platform, board and compiler
+# Set platform, board, and compiler
 set(PICO_PLATFORM rp2040)
 set (PICO_BOARD pico)
 #set(PICO_BOARD pico_w)
@@ -14,7 +14,7 @@ set(PICO_COMPILER pico_arm_gcc)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-# Pull in SDK (must be before project
+# Pull in SDK (must be before project)
 include(pico_sdk_import.cmake)
 
 project(picosim C CXX ASM)
@@ -44,7 +44,7 @@ add_executable(${PROJECT_NAME}
 	../z80pack/z80core/simz80.c
 )
 
-include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
 	${CMAKE_SOURCE_DIR}
 	../z80pack/iodevices
 	../z80pack/z80core
@@ -55,18 +55,34 @@ include_directories(${PROJECT_NAME} PUBLIC
 
 
 add_subdirectory(no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
+add_subdirectory(stdio_msc_usb)
 add_subdirectory(lcd/config)
 add_subdirectory(lcd/font)
 add_subdirectory(lcd/lcd)
 
-target_compile_definitions(picosim PRIVATE
+target_compile_definitions(${PROJECT_NAME} PRIVATE
 	PICO_STACK_SIZE=4096
 	PICO_CORE1_STACK_SIZE=4096
 	PICO_HEAP_SIZE=8192
 )
 
+# compiler diagnostic options
+if (PICO_C_COMPILER_IS_GNU)
+	target_compile_options(${PROJECT_NAME} PUBLIC -fdiagnostics-color=always)
+elseif (PICO_C_COMPILER_IS_CLANG)
+	target_compile_options(${PROJECT_NAME} PUBLIC -fcolor-diagnostics)
+endif ()
+target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wextra)
+if (PICO_C_COMPILER_IS_CLANG)
+	target_compile_options(${PROJECT_NAME} PUBLIC -Weverything)
+endif ()
+# -Wno-unused-parameter because no-OS-FatFS-SD-SDIO-SPI-RPi-Pico isn't clean
+target_compile_options(${PROJECT_NAME} PUBLIC -Wno-unused-parameter)
+
 target_link_libraries(${PROJECT_NAME}
 	pico_stdlib
+	stdio_msc_usb
+	tinyusb_device
 	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
 	lcd
 	font
@@ -85,4 +101,4 @@ pico_set_program_url(picosim "https://github.com/udo-munk/Pico-Eval-Board-80")
 
 # disable UART in/out, enable USB in/out
 pico_enable_stdio_uart(picosim 0)
-pico_enable_stdio_usb(picosim 1)
+#pico_enable_stdio_usb(picosim 1)
