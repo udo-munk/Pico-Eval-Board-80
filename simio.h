@@ -1,13 +1,14 @@
 /*
  * Z80SIM  -  a Z80-CPU simulator
  *
- * Copyright (C) 2024 by Udo Munk & Thomas Eberhardt
+ * Copyright (C) 2024 by Udo Munk
  */
 
 #ifndef SIMIO_INC
 #define SIMIO_INC
 
 #include "sim.h"
+#include "simdefs.h"
 
 #define IO_DATA_UNUSED	0xff	/* data returned on unused ports */
 

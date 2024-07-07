@@ -13,29 +13,40 @@
  * 31-MAY-2024 added hardware control port for z80pack machines
  * 08-JUN-2024 implemented system reset
  * 09-JUN-2024 implemented boot ROM
- * 11-JUN-2024 ported to Pico Eval Board
+ * 29-JUN-2024 implemented banked memory
  */
 
 /* Raspberry SDK includes */
 #include <stdio.h>
-#if LIB_PICO_STDIO_USB
+#if LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)
 #include <tusb.h>
 #endif
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
+/* Pico W also needs this */
+#if PICO == 1
+#include "pico/cyw43_arch.h"
+#endif
 
 /* Project includes */
 #include "sim.h"
+#include "simdefs.h"
 #include "simglb.h"
+#include "simmem.h"
+#include "simcore.h"
+#include "simio.h"
+
+#include "sd-fdc.h"
 
 /*
  *	Forward declarations of the I/O functions
  *	for all port addresses.
  */
-static void p001_out(BYTE), p255_out(BYTE), hwctl_out(BYTE);
+static void p000_out(BYTE data), p001_out(BYTE data), p255_out(BYTE data);
+static void hwctl_out(BYTE data);
 static BYTE p000_in(void), p001_in(void), p255_in(void), hwctl_in(void);
-extern void fdc_out(BYTE);
-extern BYTE fdc_in(void);
+static void mmu_out(BYTE data);
+static BYTE mmu_in(void);
 
 static BYTE sio_last;	/* last character received */
        BYTE fp_value;	/* port 255 value, can be set from ICE or config() */
@@ -45,10 +56,11 @@ static BYTE hwctl_lock = 0xff; /* lock status hardware control port */
  *	This array contains function pointers for every input
  *	I/O port (0 - 255), to do the required I/O.
  */
-BYTE (*port_in[256])(void) = {
+BYTE (*const port_in[256])(void) = {
 	[  0] = p000_in,	/* SIO status */
 	[  1] = p001_in,	/* SIO data */
 	[  4] = fdc_in,		/* FDC status */
+	[ 64] = mmu_in,		/* MMU */
 	[160] = hwctl_in,	/* virtual hardware control */
 	[255] = p255_in		/* for frontpanel */
 };
@@ -57,9 +69,11 @@ BYTE (*port_in[256])(void) = {
  *	This array contains function pointers for every output
  *	I/O port (0 - 255), to do the required I/O.
  */
-void (*port_out[256])(BYTE) = {
+void (*const port_out[256])(BYTE data) = {
+	[  0] = p000_out,	/* internal LED */
 	[  1] = p001_out,	/* SIO data */
 	[  4] = fdc_out,	/* FDC command */
+	[ 64] = mmu_out,	/* MMU */
 	[160] = hwctl_out,	/* virtual hardware control */
 	[255] = p255_out	/* for frontpanel */
 };
@@ -91,7 +105,7 @@ static BYTE p000_in(void)
 	if (uart_is_readable(my_uart))	/* check if there is input from UART */
 		stat &= 0b11111110;	/* if so flip status bit */
 #endif
-#if LIB_PICO_STDIO_USB
+#if LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)
 	if (tud_cdc_write_available())	/* check if output to UART is possible */
 		stat &= 0b01111111;	/* if so flip status bit */
 	if (tud_cdc_available())	/* check if there is input from UART */
@@ -107,15 +121,15 @@ static BYTE p000_in(void)
  */
 static BYTE p001_in(void)
 {
-#if LIB_PICO_STDIO_UART && !LIB_PICO_STDIO_USB
+#if LIB_PICO_STDIO_UART && !(LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO))
 	uart_inst_t *my_uart = PICO_DEFAULT_UART_INSTANCE;
 
 	if (!uart_is_readable(my_uart))
 #endif
-#if LIB_PICO_STDIO_USB && !LIB_PICO_STDIO_UART
+#if (LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)) && !LIB_PICO_STDIO_UART
 	if (!tud_cdc_available())
 #endif
-#if LIB_PICO_STDIO_USB && LIB_PICO_STDIO_UART
+#if (LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)) && LIB_PICO_STDIO_UART
 	uart_inst_t *my_uart = PICO_DEFAULT_UART_INSTANCE;
 
 	if (!uart_is_readable(my_uart) && !tud_cdc_available())
@@ -137,6 +151,14 @@ static BYTE hwctl_in(void)
 }
 
 /*
+ *	read MMU register
+ */
+static BYTE mmu_in(void)
+{
+	return selbnk;
+}
+
+/*
  *	I/O function port 255 read:
  *	used by frontpanel machines
  */
@@ -145,6 +167,29 @@ static BYTE p255_in(void)
 	return fp_value;
 }
 
+/*
+ * 	I/O function port 0 write:
+ *	Switch builtin LED on/off.
+ */
+static void p000_out(BYTE data)
+{
+	if (!data) {
+		/* 0 switches LED off */
+#if PICO == 1
+		cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+#else
+		gpio_put(LED, 0);
+#endif
+	} else {
+		/* everything else on */
+#if PICO == 1
+		cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+#else
+		gpio_put(LED, 1);
+#endif
+	}
+}	
+ 
 /*
  *	I/O function port 1 write:
  *	Write byte to Pico UART.
@@ -167,11 +212,6 @@ static void p001_out(BYTE data)
  */
 static void hwctl_out(BYTE data)
 {
-#if !defined (EXCLUDE_I8080) && !defined(EXCLUDE_Z80)
-	extern void switch_cpu(int);
-#endif
-	extern void reset_cpu(void);
-
 	/* if port is locked do nothing */
 	if (hwctl_lock && (data != 0xaa))
 		return;
@@ -193,8 +233,8 @@ static void hwctl_out(BYTE data)
 	}
 
 	if (data & 64) {
-		reset_cpu();
-		PC = 0xff00;	/* power on jump */
+		reset_cpu();		/* reset CPU */
+		PC = 0xff00;		/* power on jump to boot ROM */
 		return;
 	}
 
@@ -209,6 +249,14 @@ static void hwctl_out(BYTE data)
 		return;
 	}
 #endif
+}
+
+/*
+ *	write MMU register
+ */
+static void mmu_out(BYTE data)
+{
+	selbnk = data;
 }
 
 /*

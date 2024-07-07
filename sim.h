@@ -9,8 +9,12 @@
 #ifndef SIM_INC
 #define SIM_INC
 
+#define PICO 0		/* board we use, 0 for Pico 1 for Pico W */
+//#define LED PICO_DEFAULT_LED_PIN	/* use builtin LED */
+#define LED 14			/* or another one */
+
 #define DEF_CPU Z80	/* default CPU (Z80 or I8080) */
-//#define EXCLUDE_I8080	/* we want 8080 and Z80 CPU's */
+//#define EXCLUDE_I8080	/* don't include 8080, for now we want both */
 #define CPU_SPEED 4	/* CPU speed 0=unlimited */
 /*#define ALT_I8080*/	/* use alt. 8080 sim. primarily optimized for size */
 /*#define ALT_Z80*/	/* use alt. Z80 sim. primarily optimized for size */
@@ -32,7 +36,5 @@
 #ifndef PRIu64
 #define PRIu64 "llu"
 #endif
-
-#include "simdefs.h"
 
 #endif
