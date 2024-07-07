@@ -42,7 +42,7 @@
  *	Forward declarations of the I/O functions
  *	for all port addresses.
  */
-static void p000_out(BYTE data), p001_out(BYTE data), p255_out(BYTE data);
+static void p001_out(BYTE data), p255_out(BYTE data);
 static void hwctl_out(BYTE data);
 static BYTE p000_in(void), p001_in(void), p255_in(void), hwctl_in(void);
 static void mmu_out(BYTE data);
@@ -70,7 +70,6 @@ BYTE (*const port_in[256])(void) = {
  *	I/O port (0 - 255), to do the required I/O.
  */
 void (*const port_out[256])(BYTE data) = {
-	[  0] = p000_out,	/* internal LED */
 	[  1] = p001_out,	/* SIO data */
 	[  4] = fdc_out,	/* FDC command */
 	[ 64] = mmu_out,	/* MMU */
@@ -167,29 +166,6 @@ static BYTE p255_in(void)
 	return fp_value;
 }
 
-/*
- * 	I/O function port 0 write:
- *	Switch builtin LED on/off.
- */
-static void p000_out(BYTE data)
-{
-	if (!data) {
-		/* 0 switches LED off */
-#if PICO == 1
-		cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-#else
-		gpio_put(LED, 0);
-#endif
-	} else {
-		/* everything else on */
-#if PICO == 1
-		cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-#else
-		gpio_put(LED, 1);
-#endif
-	}
-}	
- 
 /*
  *	I/O function port 1 write:
  *	Write byte to Pico UART.
