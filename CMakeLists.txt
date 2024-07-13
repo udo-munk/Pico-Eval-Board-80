@@ -113,7 +113,7 @@ target_link_options(${PROJECT_NAME} PRIVATE -Xlinker --print-memory-usage)
 
 pico_set_program_name(${PROJECT_NAME} "z80pack picosim")
 pico_set_program_description(${PROJECT_NAME} "z80pack on Waveshare Pico-Eval-Board")
-pico_set_program_version(${PROJECT_NAME} "1.2")
+pico_set_program_version(${PROJECT_NAME} "1.3")
 pico_set_program_url(${PROJECT_NAME} "https://github.com/udo-munk/Pico-Eval-Board-80")
 
 # disable UART in/out, enable USB in/out
