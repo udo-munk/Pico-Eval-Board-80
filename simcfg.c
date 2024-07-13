@@ -25,6 +25,8 @@
 #include "f_util.h"
 #include "ff.h"
 
+#include "LCD_Driver.h"
+
 #include "sim.h"
 #include "simdefs.h"
 #include "simglb.h"
@@ -91,6 +93,7 @@ void config(void)
 	int go_flag = 0;
 	int i, n, menu;
 	datetime_t t;
+	int brightness = 1000;
 	static const char *dotw[7] = { "Sun", "Mon", "Tue", "Wed",
 				       "Thu", "Fri", "Sat" };
 
@@ -100,6 +103,7 @@ void config(void)
 		f_read(&sd_file, &cpu, sizeof(cpu), &br);
 		f_read(&sd_file, &speed, sizeof(speed), &br);
 		f_read(&sd_file, &fp_value, sizeof(fp_value), &br);
+		f_read(&sd_file, &brightness, sizeof(brightness), &br);
 		f_read(&sd_file, &t, sizeof(datetime_t), &br);
 		f_read(&sd_file, &disks[0], DISKLEN, &br);
 		f_read(&sd_file, &disks[1], DISKLEN, &br);
@@ -108,6 +112,7 @@ void config(void)
 		f_close(&sd_file);
 	}
 	rtc_set_datetime(&t);
+	LCD_SetBackLight(brightness);
 	sleep_us(64);
 	menu = 1;
 
@@ -118,6 +123,7 @@ void config(void)
 				       "%02d:%02d:%02d\n", dotw[t.dotw],
 				       t.year, t.month, t.day, t.hour, t.min, t.sec);
 			}
+			printf("b - LCD brightness: %d\n", brightness);
 			printf("a - set date\n");
 			printf("t - set time\n");
 #if LIB_STDIO_MSC_USB
@@ -146,6 +152,14 @@ void config(void)
 		putchar('\n');
 
 		switch (tolower((unsigned char) s[0])) {
+		case 'b':
+			if ((i = get_int("brightness", "", 0, 1000)) >= 0) {
+				brightness = i;
+				LCD_SetBackLight(brightness);
+			}
+			putchar('\n');
+			break;
+
 		case 'a':
 			n = 0;
 			if ((i = get_int("weekday", " (0=Sun)", 0, 6)) >= 0) {
@@ -285,6 +299,7 @@ again:
 		f_write(&sd_file, &cpu, sizeof(cpu), &br);
 		f_write(&sd_file, &speed, sizeof(speed), &br);
 		f_write(&sd_file, &fp_value, sizeof(fp_value), &br);
+		f_write(&sd_file, &brightness, sizeof(brightness), &br);
 		f_write(&sd_file, &t, sizeof(datetime_t), &br);
 		f_write(&sd_file, &disks[0], DISKLEN, &br);
 		f_write(&sd_file, &disks[1], DISKLEN, &br);
