@@ -103,6 +103,7 @@ int main(void)
 
 	/* when using USB UART wait until it is connected */
 #if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
+	lcd_wait_term();
 	while (!tud_cdc_connected())
 		sleep_ms(100);
 #endif

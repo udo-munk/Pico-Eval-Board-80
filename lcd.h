@@ -11,6 +11,6 @@
 #include "LCD_Driver.h"
 
 extern void lcd_init(void);
-extern void lcd_banner(void);
+extern void lcd_wait_term(void), lcd_banner(void);
 
 #endif
