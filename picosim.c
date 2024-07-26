@@ -24,6 +24,7 @@
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
+
 /* Pico W also needs this */
 #if PICO == 1
 #include "pico/cyw43_arch.h"
@@ -47,8 +48,10 @@
 #endif
 #include "disks.h"
 #include "lcd.h"
+#include "rgbled.h"
 
-#define SWITCH_BREAK 2 /* switch we use to interrupt the system (User Key) */
+#define SWITCH_BREAK 2	/* switch we use to interrupt the system (User Key) */
+#define WS2812_PIN 4	/* pin with the RGB LED */
 
 #define BS  0x08 /* backspace */
 #define DEL 0x7f /* delete */
@@ -95,18 +98,27 @@ int main(void)
 	/* initialize LCD */
 	lcd_init();
 
-	gpio_init(SWITCH_BREAK); /* setupt interrupt for break switch */
+	/* setupt interrupt for break switch */
+	gpio_init(SWITCH_BREAK);
 	gpio_set_dir(SWITCH_BREAK, GPIO_IN);
 	gpio_pull_up(SWITCH_BREAK);
 	gpio_set_irq_enabled_with_callback(SWITCH_BREAK, GPIO_IRQ_EDGE_FALL,
 					   true, &gpio_callback);
 
+	/* initialize RGB LED */
+	uint sm = pio_claim_unused_sm(pio0, true);
+	uint offset = pio_add_program(pio0, &ws2812_program);
+	ws2812_program_init(pio0, sm, offset, WS2812_PIN, 800000, false);
+	put_pixel(0x004400); /* red */
+
 	/* when using USB UART wait until it is connected */
 #if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 	lcd_wait_term();
-	while (!tud_cdc_connected())
+	while (!tud_cdc_connected()) {
 		sleep_ms(100);
+}
 #endif
+	put_pixel(0x000044); /* blue */
 
 	/* print banner */
 	lcd_banner();
@@ -119,6 +131,8 @@ int main(void)
 	init_memory();		/* initialize memory configuration */
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
+
+	put_pixel(0x440000);	/* here it doesn't work anymore */
 
 	f_flag = speed;		/* setup speed of the CPU */
 	tmax = speed * 10000;	/* theoretically */
