@@ -59,7 +59,8 @@
 /* CPU speed */
 int speed = CPU_SPEED;
 
-/* sm used for RGB LED */
+/* PIO and sm used for RGB LED */
+PIO pio = pio1;
 uint sm;
 
 #if LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)
@@ -109,9 +110,9 @@ int main(void)
 					   true, &gpio_callback);
 
 	/* initialize RGB LED */
-	sm = pio_claim_unused_sm(pio0, true);
-	uint offset = pio_add_program(pio0, &ws2812_program);
-	ws2812_program_init(pio0, sm, offset, WS2812_PIN, 800000, true);
+	sm = pio_claim_unused_sm(pio, true);
+	uint offset = pio_add_program(pio, &ws2812_program);
+	ws2812_program_init(pio, sm, offset, WS2812_PIN, 800000, true);
 	put_pixel(0x004400); /* red */
 
 	/* when using USB UART wait until it is connected */
@@ -135,7 +136,7 @@ int main(void)
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
 
-	put_pixel(0x440000);	/* green, from here it doesn't work anymore */
+	put_pixel(0x440000);	/* green */
 
 	f_flag = speed;		/* setup speed of the CPU */
 	tmax = speed * 10000;	/* theoretically */

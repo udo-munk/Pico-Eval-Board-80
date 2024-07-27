@@ -5,9 +5,10 @@
 #include "WS2812.pio.h"
 
 extern uint sm;
+extern PIO pio;
 
 static inline void put_pixel(uint32_t pixel_grb) {
-	pio_sm_put_blocking(pio0, sm, pixel_grb << 8u);
+	pio_sm_put_blocking(pio, sm, pixel_grb << 8u);
 }
 
 #endif
