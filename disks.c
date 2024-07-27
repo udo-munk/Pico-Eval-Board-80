@@ -280,6 +280,7 @@ BYTE read_sec(int drive, int track, int sector, WORD addr)
 		stat = FDC_STAT_READ;
 	}
 
+	sleep_ms(1);
 	put_pixel(0x000000); /* LED off */
 	return stat;
 }
@@ -316,6 +317,7 @@ BYTE write_sec(int drive, int track, int sector, WORD addr)
 		stat = FDC_STAT_WRITE;
 	}
 
+	sleep_ms(1);
 	put_pixel(0x000000); /* LED off */
 	return stat;
 }
