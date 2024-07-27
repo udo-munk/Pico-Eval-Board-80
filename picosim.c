@@ -136,8 +136,6 @@ int main(void)
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
 
-	put_pixel(0x440000);	/* green */
-
 	f_flag = speed;		/* setup speed of the CPU */
 	tmax = speed * 10000;	/* theoretically */
 
