@@ -1,7 +1,7 @@
-# 查找当前目录下的所有源文件
-# 并将名称保存到 DIR_Config_SRCS 变量
+# Find all source files in the current directory
+# and save their names in the DIR_Config_SRCS variable
 aux_source_directory(. DIR_CONFIG_SRCS)
 
-# 生成链接库
+# Generate link library
 add_library(config ${DIR_CONFIG_SRCS})
 target_link_libraries(config PUBLIC pico_stdlib hardware_spi hardware_pwm)
