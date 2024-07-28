@@ -26,7 +26,7 @@ To build the application:
 	cd Pico-Eval-Board-80
 	mkdir build
 	cd build
-	cmake ..
+	cmake .. -G "Unix Makefiles"
 	make
 
 Flash picosim.uf2 into the device, and then prepare a MicroSD card.
