@@ -90,6 +90,7 @@ void gpio_callback(uint gpio, uint32_t events)
 int main(void)
 {
 	char s[2];
+	uint32_t rgb = 0x005500;
 
 	stdio_init_all();	/* initialize stdio */
 #if LIB_STDIO_MSC_USB
@@ -113,13 +114,17 @@ int main(void)
 	sm = pio_claim_unused_sm(pio, true);
 	uint offset = pio_add_program(pio, &ws2812_program);
 	ws2812_program_init(pio, sm, offset, WS2812_PIN, 800000, true);
-	put_pixel(0x004400); /* red */
+	put_pixel(rgb); /* red */
 
 	/* when using USB UART wait until it is connected */
 #if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 	lcd_wait_term();
 	while (!tud_cdc_connected()) {
-		sleep_ms(100);
+		rgb = rgb - 0x000100;	/* while waiting make */
+		if (rgb == 0)		/* RGB LED fading */
+			rgb = 0x005500;
+		put_pixel(rgb);
+		sleep_ms(50);
 }
 #endif
 	put_pixel(0x000044); /* blue */
