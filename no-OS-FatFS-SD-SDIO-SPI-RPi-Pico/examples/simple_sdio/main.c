@@ -44,8 +44,8 @@ static sd_sdio_if_t sdio_if = {
         D2_gpio = D0_gpio + 2;
         D3_gpio = D0_gpio + 3;
     */
-    .CMD_gpio = 18,
-    .D0_gpio = 19,
+    .CMD_gpio = 17,
+    .D0_gpio = 18,
     .baud_rate = 15 * 1000 * 1000  // 15 MHz
 };
 

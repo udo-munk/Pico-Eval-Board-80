@@ -36,7 +36,7 @@
 ;   PINCTRL_IN_BASE configuration, modulo 32.
 ; This is used as a WAIT index, and must be between 4 and 31.
 ; (Offsets 0-3 are D0, D1, D2, and D3.)
-; .define PUBLIC SDIO_CLK_PIN_D0_OFFSET 30    ; (-2 in mod32 arithmetic)
+;.define PUBLIC SDIO_CLK_PIN_D0_OFFSET 30    ; (-2 in mod32 arithmetic)
 .define PUBLIC SDIO_CLK_PIN_D0_OFFSET 18    ; (-14 in mod32 arithmetic)
 
 ; State machine 0 is used to:
