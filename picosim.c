@@ -146,6 +146,8 @@ int main(void)
 
 	PC = 0xff00;		/* power on jump into the boot ROM */
 
+	put_pixel(0x440000);	/* LED green */
+
 	/* run the CPU with whatever is in memory */
 #ifdef WANT_ICE
 	extern void ice_cmd_loop(int);
@@ -155,7 +157,8 @@ int main(void)
 	run_cpu();
 #endif
 
-        exit_disks();		/* stop disk drives */
+	put_pixel(0x000000);	/* LED off */
+	exit_disks();		/* stop disk drives */
 
 #ifndef WANT_ICE
 	putchar('\n');
