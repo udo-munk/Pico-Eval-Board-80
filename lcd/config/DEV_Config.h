@@ -44,7 +44,4 @@ void System_Exit(void);
 uint8_t SPI4W_Write_Byte(uint8_t value);
 uint8_t SPI4W_Read_Byte(uint8_t value);
 
-void Driver_Delay_ms(uint32_t xms);
-void Driver_Delay_us(uint32_t xus);
-
 #endif
