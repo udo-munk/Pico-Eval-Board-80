@@ -7,7 +7,6 @@
 * | This version: V1.0
 * | Date        : 2018-01-11
 * | Info        : Basic version
-*
 ******************************************************************************/
 #include "DEV_Config.h"
 #include "pico/stdlib.h"
@@ -22,14 +21,11 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 	return gpio_get(Pin);
 }
 
-/**
- * GPIO Mode
-**/
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
     gpio_init(Pin);
-    if (Mode == 0 || Mode == GPIO_IN) {
-	    gpio_set_dir(Pin, GPIO_IN);
+    if ((Mode == 0) || (Mode == GPIO_IN)) {
+		gpio_set_dir(Pin, GPIO_IN);
     } else {
 		gpio_set_dir(Pin, GPIO_OUT);
     }
@@ -37,14 +33,14 @@ void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 
 void DEV_GPIO_Init(void)
 {
-	DEV_GPIO_Mode(LCD_RST_PIN,GPIO_OUT);
+	DEV_GPIO_Mode(LCD_RST_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(LCD_DC_PIN, GPIO_OUT);
 	//DEV_GPIO_Mode(LCD_BKL_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(LCD_CS_PIN, GPIO_OUT);
-	DEV_GPIO_Mode(TP_CS_PIN,GPIO_OUT);
-	DEV_GPIO_Mode(TP_IRQ_PIN,GPIO_IN);
-	DEV_GPIO_Mode(SD_CS_PIN,GPIO_OUT);
-	//gpio_set_pulls(TP_IRQ_PIN,true,false);
+	DEV_GPIO_Mode(TP_CS_PIN, GPIO_OUT);
+	DEV_GPIO_Mode(TP_IRQ_PIN, GPIO_IN);
+	DEV_GPIO_Mode(SD_CS_PIN, GPIO_OUT);
+	//gpio_set_pulls(TP_IRQ_PIN, true, false);
 
 	DEV_Digital_Write(TP_CS_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
@@ -55,19 +51,17 @@ void DEV_GPIO_Init(void)
 	gpio_set_function(LCD_BKL_PIN, GPIO_FUNC_PWM);
 }
 
-
 /*******************************************************************************
 function:	System Init
 note:		Initialize the communication method
 *******************************************************************************/
 uint8_t System_Init(void)
 {
-	stdio_init_all();
 	DEV_GPIO_Init();
-	spi_init(SPI_PORT,5000000);
-	gpio_set_function(LCD_CLK_PIN,GPIO_FUNC_SPI);
-	gpio_set_function(LCD_MOSI_PIN,GPIO_FUNC_SPI);
-	gpio_set_function(LCD_MISO_PIN,GPIO_FUNC_SPI);
+	spi_init(SPI_PORT, 5000000);
+	gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
+	gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
+	gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
 
 	return 0;
 }
@@ -97,7 +91,7 @@ uint8_t SPI4W_Read_Byte(uint8_t value)
 function:	Delay function
 note:		Driver_Delay_ms(xms) : Delay x ms
 		Driver_Delay_us(xus) : Delay x us
-********************************************************************************/
+*******************************************************************************/
 void Driver_Delay_ms(uint32_t xms)
 {
 	sleep_ms(xms);
