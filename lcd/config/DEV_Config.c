@@ -70,10 +70,10 @@ void System_Exit(void)
 {
 }
 
-/*********************************************
+/*******************************************************************************
 function:	Hardware interface
 note:		SPI4W_Write_Byte(value) : Register hardware SPI
-*********************************************/	
+*******************************************************************************/
 uint8_t SPI4W_Write_Byte(uint8_t value)                                    
 {   
 	uint8_t rxDat;
@@ -85,21 +85,4 @@ uint8_t SPI4W_Write_Byte(uint8_t value)
 uint8_t SPI4W_Read_Byte(uint8_t value)                                    
 {
 	return SPI4W_Write_Byte(value);
-}
-
-/*******************************************************************************
-function:	Delay function
-note:		Driver_Delay_ms(xms) : Delay x ms
-		Driver_Delay_us(xus) : Delay x us
-*******************************************************************************/
-void Driver_Delay_ms(uint32_t xms)
-{
-	sleep_ms(xms);
-}
-
-void Driver_Delay_us(uint32_t xus)
-{
-	int j;
-
-	for (j=xus; j > 0; j--);
 }

@@ -33,7 +33,7 @@ static uint16_t TP_Read_ADC(uint8_t CMD)
     DEV_Digital_Write(TP_CS_PIN, 0);
 
     SPI4W_Write_Byte(CMD);
-    Driver_Delay_us(200);
+    sleep_us(200);
 
     //	dont write 0xff, it will block xpt2046
     //Data = SPI4W_Read_Byte(0Xff);
@@ -67,7 +67,7 @@ TP_Read_ADC_Average(uint8_t Channel_Cmd)
     for (i = 0; i < READ_TIMES; i++)
     {
         Read_Buff[i] = TP_Read_ADC(Channel_Cmd);
-        Driver_Delay_us(200);
+        sleep_us(200);
     }
     //LCD SPI speed = 18 MHz
     spi_set_baudrate(SPI_PORT, 18000000);
@@ -123,9 +123,9 @@ static bool TP_Read_TwiceADC(uint16_t *pXCh_Adc, uint16_t *pYCh_Adc)
 
     //Read the ADC values Read the ADC values twice
     TP_Read_ADC_XY(&XCh_Adc1, &YCh_Adc1);
-    Driver_Delay_us(10);
+    sleep_us(10);
     TP_Read_ADC_XY(&XCh_Adc2, &YCh_Adc2);
-    Driver_Delay_us(10);
+    sleep_us(10);
 
     //The ADC error used twice is greater than ERR_RANGE to take the average
     if (((XCh_Adc2 <= XCh_Adc1 && XCh_Adc1 < XCh_Adc2 + ERR_RANGE) ||
@@ -342,7 +342,7 @@ void TP_Adjust(void)
             XYpoint_Arr[cnt][1] = sTP_DEV.Ypoint;
             printf("X%d,Y%d = %d,%d\r\n", cnt, cnt, XYpoint_Arr[cnt][0], XYpoint_Arr[cnt][1]);
             cnt++;
-            Driver_Delay_ms(200);
+            sleep_ms(200);
 
             switch (cnt)
             {
@@ -350,20 +350,20 @@ void TP_Adjust(void)
                 //DEBUG("not touch TP_IRQ 2 = %d\r\n", GET_TP_IRQ);
                 TP_DrawCross(Mar_Val, Mar_Val, WHITE);
                 TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val, Mar_Val, RED);
-                Driver_Delay_ms(200);
+                sleep_ms(200);
                 break;
             case 2:
                 //DEBUG("not touch TP_IRQ 3 = %d\r\n", GET_TP_IRQ);
                 TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val, Mar_Val, WHITE);
                 TP_DrawCross(Mar_Val, sLCD_DIS.LCD_Dis_Page - Mar_Val, RED);
-                Driver_Delay_ms(200);
+                sleep_ms(200);
                 break;
             case 3:
                 //DEBUG("not touch TP_IRQ 4 = %d\r\n", GET_TP_IRQ);
                 TP_DrawCross(Mar_Val, sLCD_DIS.LCD_Dis_Page - Mar_Val, WHITE);
                 TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val,
                              sLCD_DIS.LCD_Dis_Page - Mar_Val, RED);
-                Driver_Delay_ms(200);
+                sleep_ms(200);
                 break;
             case 4:
 
@@ -394,7 +394,7 @@ void TP_Adjust(void)
                                 XYpoint_Arr[2][0], XYpoint_Arr[2][1],
                                 XYpoint_Arr[3][0], XYpoint_Arr[3][1],
                                 Dsqrt * 100);
-                    Driver_Delay_ms(1000);
+                    sleep_ms(1000);
                     TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val,
                                  sLCD_DIS.LCD_Dis_Page - Mar_Val, WHITE);
                     TP_DrawCross(Mar_Val, Mar_Val, RED);
@@ -428,7 +428,7 @@ void TP_Adjust(void)
                                 XYpoint_Arr[2][0], XYpoint_Arr[2][1],
                                 XYpoint_Arr[3][0], XYpoint_Arr[3][1],
                                 Dsqrt * 100);
-                    Driver_Delay_ms(1000);
+                    sleep_ms(1000);
                     TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val,
                                  sLCD_DIS.LCD_Dis_Page - Mar_Val, WHITE);
                     TP_DrawCross(Mar_Val, Mar_Val, RED);
@@ -462,7 +462,7 @@ void TP_Adjust(void)
                                 XYpoint_Arr[2][0], XYpoint_Arr[2][1],
                                 XYpoint_Arr[3][0], XYpoint_Arr[3][1],
                                 Dsqrt * 100);
-                    Driver_Delay_ms(1000);
+                    sleep_ms(1000);
                     TP_DrawCross(sLCD_DIS.LCD_Dis_Column - Mar_Val,
                                  sLCD_DIS.LCD_Dis_Page - Mar_Val, WHITE);
                     TP_DrawCross(Mar_Val, Mar_Val, RED);
@@ -563,7 +563,7 @@ void TP_Adjust(void)
                 LCD_Clear(LCD_BACKGROUND);
                 GUI_DisString_EN(35, 110, "Touch Screen Adjust OK!",
                                  &Font16, FONT_BACKGROUND, RED);
-                Driver_Delay_ms(1000);
+                sleep_ms(1000);
                 LCD_Clear(LCD_BACKGROUND);
                 return;
                 //Exception handling,Reset  Initial value

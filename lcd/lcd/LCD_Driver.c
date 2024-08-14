@@ -24,11 +24,11 @@ function:
 static void LCD_Reset(void)
 {
     DEV_Digital_Write(LCD_RST_PIN,1);
-    Driver_Delay_ms(500);
+    sleep_ms(500);
     DEV_Digital_Write(LCD_RST_PIN,0);
-    Driver_Delay_ms(500);
+    sleep_ms(500);
     DEV_Digital_Write(LCD_RST_PIN,1);
-    Driver_Delay_ms(500);
+    sleep_ms(500);
 }
 void PWM_SetValue(uint16_t duty)
 {	
@@ -95,7 +95,7 @@ static void LCD_InitReg(void)
 	id = LCD_Read_Id();
 	if(LCD_2_8 == id){
 		LCD_WriteReg(0x11);
-		Driver_Delay_ms(100);
+		sleep_ms(100);
 		LCD_WriteReg(0x36);
 		LCD_WriteData(0x00);
 		LCD_WriteReg(0x3a);
@@ -203,7 +203,7 @@ static void LCD_InitReg(void)
 		LCD_WriteReg(0X3A);	//Set Interface Pixel Format
 		LCD_WriteData(0x55);
 		LCD_WriteReg(0x11);//sleep out
-		Driver_Delay_ms(120);
+		sleep_ms(120);
 		LCD_WriteReg(0x29);//Turn on the LCD display
 	}
 }
@@ -366,7 +366,7 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 	LCD_SetBackLight(LCD_BLval);
 	
 	LCD_SetGramScanWay(LCD_ScanDir);//Set the display scan and color transfer modes
-	Driver_Delay_ms(200);
+	sleep_ms(200);
 }
 
 /********************************************************************************
