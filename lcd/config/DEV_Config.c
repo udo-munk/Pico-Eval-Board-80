@@ -23,19 +23,18 @@ UBYTE DEV_Digital_Read(UWORD Pin)
 
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
-    gpio_init(Pin);
-    if ((Mode == 0) || (Mode == GPIO_IN)) {
+	gpio_init(Pin);
+	if ((Mode == 0) || (Mode == GPIO_IN)) {
 		gpio_set_dir(Pin, GPIO_IN);
-    } else {
+	} else {
 		gpio_set_dir(Pin, GPIO_OUT);
-    }
+	}
 }
 
 void DEV_GPIO_Init(void)
 {
 	DEV_GPIO_Mode(LCD_RST_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(LCD_DC_PIN, GPIO_OUT);
-	//DEV_GPIO_Mode(LCD_BKL_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(LCD_CS_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(TP_CS_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(TP_IRQ_PIN, GPIO_IN);
@@ -44,8 +43,6 @@ void DEV_GPIO_Init(void)
 
 	DEV_Digital_Write(TP_CS_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
-	//DEV_Digital_Write(LCD_BKL_PIN, 0);
-	
 	DEV_Digital_Write(SD_CS_PIN, 1);
 
 	gpio_set_function(LCD_BKL_PIN, GPIO_FUNC_PWM);
@@ -78,7 +75,7 @@ uint8_t SPI4W_Write_Byte(uint8_t value)
 {   
 	uint8_t rxDat;
 
-	spi_write_read_blocking(spi1, &value, &rxDat, 1);
+	spi_write_read_blocking(SPI_PORT, &value, &rxDat, 1);
 	return rxDat;
 }
 
