@@ -38,12 +38,13 @@
 
 #include "rtc80.h"
 #include "sd-fdc.h"
+#include "rgbled.h"
 
 /*
  *	Forward declarations of the I/O functions
  *	for all port addresses.
  */
-static void p001_out(BYTE data), p255_out(BYTE data);
+static void p000_out(BYTE data), p001_out(BYTE data), p255_out(BYTE data);
 static void hwctl_out(BYTE data);
 static BYTE p000_in(void), p001_in(void), p255_in(void), hwctl_in(void);
 static void mmu_out(BYTE data);
@@ -73,6 +74,7 @@ BYTE (*const port_in[256])(void) = {
  *	I/O port (0 - 255), to do the required I/O.
  */
 void (*const port_out[256])(BYTE data) = {
+	[  0] = p000_out,	/* RGB LED */
 	[  1] = p001_out,	/* SIO data */
 	[  4] = fdc_out,	/* FDC command */
 	[ 64] = mmu_out,	/* MMU */
@@ -169,6 +171,23 @@ static BYTE p255_in(void)
 {
 	return fp_value;
 }
+
+/*
+ * 	I/O function port 0 write:
+ *	Switch RGB LED on/off.
+ */
+static void p000_out(BYTE data)
+{
+	if (!data) {
+		/* 0 switches LED off */
+		put_pixel(0x000000); /* LED off */
+		sleep_us(300);
+	} else {
+		/* everything else on */
+		put_pixel(0x404000); /* LED on */
+		sleep_us(300);
+	}
+}	
 
 /*
  *	I/O function port 1 write:
