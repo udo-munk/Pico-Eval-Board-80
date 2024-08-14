@@ -11,6 +11,7 @@
 * | Info        :   Basic version
 *
 ******************************************************************************/
+#include <stdlib.h>
 #include "LCD_Touch.h"
 
 extern LCD_DIS sLCD_DIS;
