@@ -35,12 +35,7 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "fonts.h"
-
-// 
-//  Font data for Courier New 12pt
-// 
 
 const uint8_t Font16_Table[] = 
 {
@@ -1756,9 +1751,9 @@ const uint8_t Font16_Table[] =
 };
 
 sFONT Font16 = {
-  Font16_Table,
-  11, /* Width */
-  16, /* Height */
+	Font16_Table,
+	11, /* Width */
+	16, /* Height */
 };
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

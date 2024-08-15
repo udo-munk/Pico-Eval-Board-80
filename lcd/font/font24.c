@@ -35,7 +35,6 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "fonts.h"
 
 const uint8_t Font24_Table [] = 
@@ -2512,9 +2511,9 @@ const uint8_t Font24_Table [] =
 };
 
 sFONT Font24 = {
-  Font24_Table,
-  17, /* Width */
-  24, /* Height */
+	Font24_Table,
+	17, /* Width */
+	24, /* Height */
 };
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
