@@ -464,10 +464,11 @@ uint8_t LCD_Read_Id(void)
 	uint8_t reg = 0xDC;
 	uint8_t tx_val = 0x00;
 	uint8_t rx_val;
-    DEV_Digital_Write(LCD_CS_PIN, 0);
-    DEV_Digital_Write(LCD_DC_PIN, 0);
+
+	DEV_Digital_Write(LCD_CS_PIN, 0);
+	DEV_Digital_Write(LCD_DC_PIN, 0);
 	SPI4W_Write_Byte(reg);
-	spi_write_read_blocking(spi1,&tx_val,&rx_val,1);
-    DEV_Digital_Write(LCD_CS_PIN, 1);
+	spi_write_read_blocking(SPI_PORT, &tx_val, &rx_val, 1);
+	DEV_Digital_Write(LCD_CS_PIN, 1);
 	return rx_val;
 }
