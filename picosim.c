@@ -53,8 +53,8 @@
 #define SWITCH_BREAK 2	/* switch we use to interrupt the system (User Key) */
 #define WS2812_PIN 4	/* pin with the RGB LED */
 
-#define BS  0x08 /* backspace */
-#define DEL 0x7f /* delete */
+#define BS  0x08 /* ASCII backspace */
+#define DEL 0x7f /* ASCII delete */
 
 /* CPU speed */
 int speed = CPU_SPEED;
@@ -63,6 +63,10 @@ int speed = CPU_SPEED;
 PIO pio = pio1;
 uint sm;
 
+/*
+ * callback for TinyUSB when terminal sends a break
+ * stops CPU
+ */
 #if LIB_PICO_STDIO_USB || (LIB_STDIO_MSC_USB && !STDIO_MSC_USB_DISABLE_STDIO)
 void tud_cdc_send_break_cb(uint8_t itf, uint16_t duration_ms)
 {
