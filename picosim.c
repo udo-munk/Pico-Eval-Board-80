@@ -24,6 +24,8 @@
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
+#include "hardware/uart.h"
+#include "hardware/watchdog.h"
 
 /* Pico W also needs this */
 #if PICO == 1
@@ -121,9 +123,15 @@ int main(void)
 	put_pixel(rgb); /* red */
 
 	/* when using USB UART wait until it is connected */
+	/* also get out if input on the default UART is available */
+	uart_inst_t *my_uart = uart_default;
 #if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 	lcd_wait_term();
 	while (!tud_cdc_connected()) {
+		if (uart_is_readable(my_uart)) {
+			getchar();
+			break;
+		}
 		rgb = rgb - 0x000100;	/* while waiting make */
 		if (rgb == 0)		/* RGB LED fading */
 			rgb = 0x005500;
@@ -172,8 +180,9 @@ int main(void)
 	puts("\nPress any key to restart CPU");
 	get_cmdline(s, 2);
 
-	stdio_flush();
-	return 0;
+	/* reset machine */
+	watchdog_enable(1, 1);
+	for (;;);
 }
 
 /*
