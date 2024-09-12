@@ -23,7 +23,7 @@ project(picosim C CXX ASM)
 
 pico_sdk_init()
 
-set(Z80PACK ${CMAKE_SOURCE_DIR}/../z80pack)
+set(Z80PACK ${CMAKE_SOURCE_DIR}/../../z80pack)
 
 add_executable(${PROJECT_NAME}
 	picosim.c
