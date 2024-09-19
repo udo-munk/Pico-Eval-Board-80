@@ -32,7 +32,6 @@
 #define SD_CS_PIN	22
 
 #define SPI_PORT	spi1
-#define MAX_BMP_FILES	25 
 
 static inline void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
