@@ -70,6 +70,7 @@ function:
 static void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 {
 	register uint32_t i;
+
 	DEV_Digital_Write(LCD_DC_PIN,1);
 	DEV_Digital_Write(LCD_CS_PIN,0);
 	for (i = 0; i < DataLen; i++) {
@@ -188,7 +189,7 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		DisFunReg_Data = 0x02;
 		break;
 	case D2U_L2R: //0XA
-		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 	X-Y Exchange*/
+		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
