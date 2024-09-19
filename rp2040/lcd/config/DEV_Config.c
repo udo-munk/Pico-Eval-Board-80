@@ -11,16 +11,6 @@
 #include "DEV_Config.h"
 #include "pico/stdlib.h"
 
-void DEV_Digital_Write(UWORD Pin, UBYTE Value)
-{
-	gpio_put(Pin, Value);
-}
-
-UBYTE DEV_Digital_Read(UWORD Pin)
-{
-	return gpio_get(Pin);
-}
-
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
 	gpio_init(Pin);
@@ -55,7 +45,7 @@ note:		Initialize the communication method
 uint8_t System_Init(void)
 {
 	DEV_GPIO_Init();
-	spi_init(SPI_PORT, 5000000);
+	spi_init(SPI_PORT, 40 * 1000 * 1000);
 	gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
@@ -65,21 +55,4 @@ uint8_t System_Init(void)
 
 void System_Exit(void)
 {
-}
-
-/*******************************************************************************
-function:	Hardware interface
-note:		SPI4W_Write_Byte(value) : Register hardware SPI
-*******************************************************************************/
-uint8_t SPI4W_Write_Byte(uint8_t value)                                    
-{   
-	uint8_t rxDat;
-
-	spi_write_read_blocking(SPI_PORT, &value, &rxDat, 1);
-	return rxDat;
-}
-
-uint8_t SPI4W_Read_Byte(uint8_t value)                                    
-{
-	return SPI4W_Write_Byte(value);
 }

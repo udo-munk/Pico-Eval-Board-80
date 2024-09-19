@@ -34,14 +34,34 @@
 #define SPI_PORT	spi1
 #define MAX_BMP_FILES	25 
 
-extern void DEV_Digital_Write(UWORD Pin, UBYTE Value);
-extern UBYTE DEV_Digital_Read(UWORD Pin);
+static inline void DEV_Digital_Write(UWORD Pin, UBYTE Value)
+{
+	gpio_put(Pin, Value);
+}
+
+static inline UBYTE DEV_Digital_Read(UWORD Pin)
+{
+	return gpio_get(Pin);
+}
+
+static inline uint8_t SPI4W_Write_Byte(uint8_t value)
+{   
+	uint8_t rxDat;
+
+	spi_write_read_blocking(SPI_PORT, &value, &rxDat, 1);
+
+	return rxDat;
+}
+
+static inline uint8_t SPI4W_Read_Byte(uint8_t value)
+{
+	return SPI4W_Write_Byte(value);
+}
+
 extern void DEV_GPIO_Mode(UWORD Pin, UWORD Mode);
 extern void DEV_GPIO_Init(void);
 
 extern uint8_t System_Init(void);
 extern void System_Exit(void);
-extern uint8_t SPI4W_Write_Byte(uint8_t value);
-extern uint8_t SPI4W_Read_Byte(uint8_t value);
 
 #endif
