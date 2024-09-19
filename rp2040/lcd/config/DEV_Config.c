@@ -41,15 +41,13 @@ void DEV_GPIO_Init(void)
 function:	System Init
 note:		Initialize the communication method
 *******************************************************************************/
-uint8_t System_Init(void)
+void System_Init(void)
 {
 	DEV_GPIO_Init();
 	spi_init(SPI_PORT, 40 * 1000 * 1000);
 	gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
-
-	return 0;
 }
 
 void System_Exit(void)

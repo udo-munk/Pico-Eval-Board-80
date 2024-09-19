@@ -60,7 +60,7 @@ static inline uint8_t SPI4W_Read_Byte(uint8_t value)
 extern void DEV_GPIO_Mode(UWORD Pin, UWORD Mode);
 extern void DEV_GPIO_Init(void);
 
-extern uint8_t System_Init(void);
+extern void System_Init(void);
 extern void System_Exit(void);
 
 #endif
