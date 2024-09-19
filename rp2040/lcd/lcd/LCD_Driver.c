@@ -29,9 +29,10 @@ static void LCD_Reset(void)
 	sleep_ms(500);
 }
 
-void PWM_SetValue(uint16_t duty)
+static void PWM_SetValue(uint16_t duty)
 {	
 	uint slice_num = pwm_gpio_to_slice_num(LCD_BKL_PIN);
+
 	pwm_set_wrap(slice_num, 10000);
 	pwm_set_chan_level(slice_num, PWM_CHAN_B, duty * 10);
 	pwm_set_enabled(slice_num, true);
@@ -89,16 +90,16 @@ static void LCD_InitReg(void)
 	id = LCD_Read_Id();
 
 	LCD_WriteReg(0x21);
-	LCD_WriteReg(0xC2);  //Normal mode, increase can change the display quality, while increasing power consumption
+	LCD_WriteReg(0xC2);  // Normal mode, increase can change the display quality, while increasing power consumption
 	LCD_WriteData(0x33);
 	LCD_WriteReg(0XC5);
 	LCD_WriteData(0x00);
-	LCD_WriteData(0x1e); //VCM_REG[7:0]. <=0X80.
+	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0X80.
 	LCD_WriteData(0x80);
-	LCD_WriteReg(0xB1);  //Sets the frame frequency of full color normal mode
-	LCD_WriteData(0xB0); //0XB0 =70HZ, <=0XB0.0xA0=62HZ
+	LCD_WriteReg(0xB1);  // Sets the frame frequency of full color normal mode
+	LCD_WriteData(0xB0); // 0XB0 =70HZ, <=0XB0.0xA0=62HZ
 	LCD_WriteReg(0x36);
-	LCD_WriteData(0x28); //2 DOT FRAME MODE,F<=70HZ.
+	LCD_WriteData(0x28); // 2 DOT FRAME MODE,F<=70HZ.
 	LCD_WriteReg(0XE0);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
@@ -131,11 +132,11 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x31);
 	LCD_WriteData(0x37);
 	LCD_WriteData(0x0f);
-	LCD_WriteReg(0X3A);  //Set Interface Pixel Format
+	LCD_WriteReg(0X3A);  // Set Interface Pixel Format
 	LCD_WriteData(0x55);
-	LCD_WriteReg(0x11);  //sleep out
+	LCD_WriteReg(0x11);  // sleep out
 	sleep_ms(120);
-	LCD_WriteReg(0x29);  //Turn on the LCD display
+	LCD_WriteReg(0x29);  // Turn on the LCD display
 }
 
 /********************************************************************************
@@ -146,8 +147,8 @@ parameter:
 ********************************************************************************/
 void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 {
-	uint16_t MemoryAccessReg_Data = 0;	//addr:0x36
-	uint16_t DisFunReg_Data = 0;		//addr:0xB6
+	uint16_t MemoryAccessReg_Data = 0;	// addr:0x36
+	uint16_t DisFunReg_Data = 0;		// addr:0xB6
 
 	// Pico-ResTouch-LCD-3.5
 	// Gets the scan direction of GRAM
@@ -176,25 +177,25 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		MemoryAccessReg_Data = 0x08;
 		DisFunReg_Data = 0x42;
 		break;
-	case U2D_L2R: //0X2
+	case U2D_L2R: // 0X2
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x22;
 		break;
-	case U2D_R2L: //0X6
+	case U2D_R2L: // 0X6
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x02;
 		break;
-	case D2U_L2R: //0XA
+	case D2U_L2R: // 0XA
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
 		break;
-	case D2U_R2L: //0XE
+	case D2U_R2L: // 0XE
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0	*/
 		MemoryAccessReg_Data = 0x28;
@@ -233,13 +234,13 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 {
     
 	LCD_Reset();	// Hardware reset
-	LCD_InitReg();	//Set the initialization register
+	LCD_InitReg();	// Set the initialization register
 	
 	if (LCD_BLval > 1000)
 		LCD_BLval = 1000;
 	LCD_SetBackLight(LCD_BLval);
 	
-	LCD_SetGramScanWay(LCD_ScanDir); //Set the display scan and color transfer modes
+	LCD_SetGramScanWay(LCD_ScanDir); // Set the display scan and color transfer modes
 	sleep_ms(200);
 }
 
@@ -254,14 +255,14 @@ parameter:
 void LCD_SetWindow(POINT Xstart, POINT Ystart,	POINT Xend, POINT Yend)
 {	
 
-	//set the X coordinates
+	// set the X coordinates
 	LCD_WriteReg(0x2A);
-	LCD_WriteData(Xstart >> 8);       //Set the horizontal starting point to the high octet
-	LCD_WriteData(Xstart & 0xff);	  //Set the horizontal starting point to the low octet
-	LCD_WriteData((Xend - 1) >> 8);   //Set the horizontal end to the high octet
-	LCD_WriteData((Xend - 1) & 0xff); //Set the horizontal end to the low octet
+	LCD_WriteData(Xstart >> 8);       // Set the horizontal starting point to the high octet
+	LCD_WriteData(Xstart & 0xff);	  // Set the horizontal starting point to the low octet
+	LCD_WriteData((Xend - 1) >> 8);   // Set the horizontal end to the high octet
+	LCD_WriteData((Xend - 1) & 0xff); // Set the horizontal end to the low octet
 
-	//set the Y coordinates
+	// set the Y coordinates
 	LCD_WriteReg(0x2B);
 	LCD_WriteData(Ystart >> 8);
 	LCD_WriteData(Ystart & 0xff );
@@ -347,5 +348,6 @@ uint8_t LCD_Read_Id(void)
 	SPI4W_Write_Byte(reg);
 	spi_write_read_blocking(SPI_PORT, &tx_val, &rx_val, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
+
 	return rx_val;
 }
