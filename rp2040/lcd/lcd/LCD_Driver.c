@@ -22,11 +22,11 @@ function:
 static void LCD_Reset(void)
 {
 	DEV_Digital_Write(LCD_RST_PIN, 1);
-	sleep_ms(500);
+	sleep_ms(100);
 	DEV_Digital_Write(LCD_RST_PIN, 0);
-	sleep_ms(500);
+	sleep_ms(100);
 	DEV_Digital_Write(LCD_RST_PIN, 1);
-	sleep_ms(500);
+	sleep_ms(100);
 }
 
 static void PWM_SetValue(uint16_t duty)
