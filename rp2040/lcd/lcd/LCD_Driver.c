@@ -21,11 +21,11 @@ function:
 *******************************************************************************/
 static void LCD_Reset(void)
 {
-	DEV_Digital_Write(LCD_RST_PIN,1);
+	DEV_Digital_Write(LCD_RST_PIN, 1);
 	sleep_ms(500);
-	DEV_Digital_Write(LCD_RST_PIN,0);
+	DEV_Digital_Write(LCD_RST_PIN, 0);
 	sleep_ms(500);
-	DEV_Digital_Write(LCD_RST_PIN,1);
+	DEV_Digital_Write(LCD_RST_PIN, 1);
 	sleep_ms(500);
 }
 
@@ -49,19 +49,19 @@ function:
 *******************************************************************************/
 void LCD_WriteReg(uint8_t Reg)
 {
-	DEV_Digital_Write(LCD_DC_PIN,0);
-	DEV_Digital_Write(LCD_CS_PIN,0);
+	DEV_Digital_Write(LCD_DC_PIN, 0);
+	DEV_Digital_Write(LCD_CS_PIN, 0);
 	SPI4W_Write_Byte(Reg);
-	DEV_Digital_Write(LCD_CS_PIN,1);
+	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
 void LCD_WriteData(uint16_t Data)
 {
-	DEV_Digital_Write(LCD_DC_PIN,1);
-	DEV_Digital_Write(LCD_CS_PIN,0);
+	DEV_Digital_Write(LCD_DC_PIN, 1);
+	DEV_Digital_Write(LCD_CS_PIN, 0);
 	SPI4W_Write_Byte(Data >> 8);
 	SPI4W_Write_Byte(Data & 0XFF);
-	DEV_Digital_Write(LCD_CS_PIN,1);
+	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
 /*******************************************************************************
@@ -72,13 +72,13 @@ static void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 {
 	register uint32_t i;
 
-	DEV_Digital_Write(LCD_DC_PIN,1);
-	DEV_Digital_Write(LCD_CS_PIN,0);
+	DEV_Digital_Write(LCD_DC_PIN, 1);
+	DEV_Digital_Write(LCD_CS_PIN, 0);
 	for (i = 0; i < DataLen; i++) {
 		SPI4W_Write_Byte(Data >> 8);
 		SPI4W_Write_Byte(Data & 0XFF);
 	}
-	DEV_Digital_Write(LCD_CS_PIN,1);
+	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
 /*******************************************************************************
