@@ -29,7 +29,6 @@
 #define LCD_MISO_PIN	12
 #define TP_CS_PIN	16
 #define TP_IRQ_PIN	17
-#define SD_CS_PIN	22
 
 #define SPI_PORT	spi1
 

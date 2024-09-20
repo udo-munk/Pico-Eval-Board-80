@@ -28,11 +28,9 @@ void DEV_GPIO_Init(void)
 	DEV_GPIO_Mode(LCD_CS_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(TP_CS_PIN, GPIO_OUT);
 	DEV_GPIO_Mode(TP_IRQ_PIN, GPIO_IN);
-	DEV_GPIO_Mode(SD_CS_PIN, GPIO_OUT);
 
 	DEV_Digital_Write(TP_CS_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
-	DEV_Digital_Write(SD_CS_PIN, 1);
 
 	gpio_set_function(LCD_BKL_PIN, GPIO_FUNC_PWM);
 }
