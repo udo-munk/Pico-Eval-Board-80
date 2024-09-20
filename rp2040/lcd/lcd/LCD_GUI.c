@@ -230,14 +230,14 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 }
 
 /******************************************************************************
-function:	Show English characters
+function:	Show ASCII characters
 parameter:
 	Xpoint           ：X coordinate
 	Ypoint           ：Y coordinate
-	Acsii_Char       ：To display the English characters
+	Acsii_Char       ：To display the ASCII characters
 	Font             ：A structure pointer that displays a character size
-	Color_Background : Select the background color of the English character
-	Color_Foreground : Select the foreground color of the English character
+	Color_Background : Select the background color of the ASCII character
+	Color_Foreground : Select the foreground color of the ASCII character
 ******************************************************************************/
 void GUI_DisChar(POINT Xpoint, POINT Ypoint, const char Acsii_Char,
                  sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
@@ -280,10 +280,10 @@ function:	Display the string
 parameter:
 	Xstart           ：X coordinate
 	Ystart           ：Y coordinate
-	pString          ：The first address of the English string to be displayed
+	pString          ：The first address of the ASCII string to be displayed
 	Font             ：A structure pointer that displays a character size
-	Color_Background : Select the background color of the English character
-	Color_Foreground : Select the foreground color of the English character
+	Color_Background : Select the background color of the ASCII character
+	Color_Foreground : Select the foreground color of the ASCII character
 ******************************************************************************/
 void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
                    sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
@@ -325,8 +325,8 @@ parameter:
 	Ystart           : Y coordinate
 	Nummber          : The number displayed
 	Font             ：A structure pointer that displays a character size
-	Color_Background : Select the background color of the English character
-	Color_Foreground : Select the foreground color of the English character
+	Color_Background : Select the background color of the ASCII character
+	Color_Foreground : Select the foreground color of the ASCII character
 ******************************************************************************/
 #define  ARRAY_LEN 255
 void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
