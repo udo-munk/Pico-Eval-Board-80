@@ -1,26 +1,28 @@
 /*****************************************************************************
-* | File      	:	LCD_GUI.c
-* | Author      :   Waveshare team
-* | Function    :	Achieve drawing: draw points, lines, boxes, circles and
-*                   their size, solid dotted line, solid rectangle hollow
-*					rectangle, solid circle hollow circle.
-* | Info        :
-*   Achieve display characters: Display a single character, string, number
-*   Achieve time display: adaptive size display time minutes and seconds
+* | File      	: LCD_GUI.c
+* | Author      : Waveshare team
+* | Function    : Achieve drawing: draw points, lines, boxes, circles and
+*                 their size, solid dotted line, solid rectangle hollow
+*		  rectangle, solid circle hollow circle.
+* | Info        : Achieve display characters: Display a single character,
+*		  string, number
+*		  Achieve time display: adaptive size display time minutes
+*		  and seconds
 *----------------
-* |	This version:   V1.0
-* | Date        :   2017-08-16
-* | Info        :   Basic version
+* | This version: V1.0
+* | Date        : 2017-08-16
+* | Info        : Basic version
 *
 ******************************************************************************/
 #include "LCD_GUI.h"
 
 extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
+
 /******************************************************************************
 function:	Coordinate conversion
 ******************************************************************************/
-void GUI_Swop(POINT Point1, POINT Point2)
+void GUI_Swap(POINT Point1, POINT Point2)
 {
     POINT Temp;
     Temp = Point1;
@@ -87,9 +89,9 @@ void GUI_DrawLine(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
     }
 
     if(Xstart > Xend)
-        GUI_Swop(Xstart, Xend);
+        GUI_Swap(Xstart, Xend);
     if(Ystart > Yend)
-        GUI_Swop(Ystart, Yend);
+        GUI_Swap(Ystart, Yend);
 
     POINT Xpoint = Xstart;
     POINT Ypoint = Ystart;
@@ -147,9 +149,9 @@ void GUI_DrawRectangle(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
     }
 
     if(Xstart > Xend)
-        GUI_Swop(Xstart, Xend);
+        GUI_Swap(Xstart, Xend);
     if(Ystart > Yend)
-        GUI_Swop(Ystart, Yend);
+        GUI_Swap(Ystart, Yend);
 
     
     if(Filled ) {
