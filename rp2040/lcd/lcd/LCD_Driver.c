@@ -210,11 +210,11 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 	// 480*320, horizontal default
 	if (Scan_dir == L2R_U2D || Scan_dir == L2R_D2U ||
 	    Scan_dir == R2L_U2D || Scan_dir == R2L_D2U) {
-		sLCD_DIS.LCD_Dis_Column	= LCD_3_5_HEIGHT ;
-		sLCD_DIS.LCD_Dis_Page = LCD_3_5_WIDTH ;
+		sLCD_DIS.LCD_Dis_Column	= LCD_3_5_HEIGHT;
+		sLCD_DIS.LCD_Dis_Page = LCD_3_5_WIDTH;
 	} else {
-		sLCD_DIS.LCD_Dis_Column	= LCD_3_5_WIDTH ;
-		sLCD_DIS.LCD_Dis_Page = LCD_3_5_HEIGHT ;
+		sLCD_DIS.LCD_Dis_Column	= LCD_3_5_WIDTH;
+		sLCD_DIS.LCD_Dis_Page = LCD_3_5_HEIGHT;
 	}
 
 	// Set the read / write scan direction of the frame memory
