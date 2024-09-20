@@ -40,7 +40,7 @@ typedef enum {
 	DOT_PIXEL_8X8,	 		// dot pixel 8 X 8
 } DOT_PIXEL;
 
-#define DOT_PIXEL_DFT  DOT_PIXEL_1X1  //Default dot pilex
+#define DOT_PIXEL_DFT  DOT_PIXEL_1X1	// Default dot pixel
 
 /********************************************************************************
 function:
@@ -51,7 +51,7 @@ typedef enum {
 	DOT_FILL_RIGHTUP, 		// dot pixel 2 X 2
 } DOT_STYLE;
 
-#define DOT_STYLE_DFT  DOT_FILL_AROUND  //Default dot pilex
+#define DOT_STYLE_DFT  DOT_FILL_AROUND  // Default dot pixel
 
 /********************************************************************************
 function:
@@ -76,12 +76,12 @@ function:
 	time
 ********************************************************************************/
 typedef struct {
-	uint16_t Year;  //0000
-	uint8_t  Month; //1 - 12
-	uint8_t  Day;   //1 - 30
-	uint8_t  Hour;  //0 - 23
-	uint8_t  Min;   //0 - 59
-	uint8_t  Sec;   //0 - 59
+	uint16_t Year;  // 0000
+	uint8_t  Month; // 1 - 12
+	uint8_t  Day;   // 1 - 30
+	uint8_t  Hour;  // 0 - 23
+	uint8_t  Min;   // 0 - 59
+	uint8_t  Sec;   // 0 - 59
 } DEV_TIME;
 
 extern DEV_TIME sDev_time;
@@ -90,9 +90,9 @@ extern DEV_TIME sDev_time;
 function:
 			Defines commonly used colors for the display
 ********************************************************************************/
-#define LCD_BACKGROUND	WHITE   //Default background color
-#define FONT_BACKGROUND	WHITE   //Default font background color
-#define FONT_FOREGROUND	GRED    //Default font foreground color
+#define LCD_BACKGROUND	WHITE   // Default background color
+#define FONT_BACKGROUND	WHITE   // Default font background color
+#define FONT_FOREGROUND	GRED    // Default font foreground color
 
 #define WHITE		0xFFFF
 #define BLACK		0x0000
