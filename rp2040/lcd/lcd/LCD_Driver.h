@@ -79,7 +79,7 @@ extern void LCD_WriteData(uint16_t Data);
 extern void LCD_SetWindow(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend);
 extern void LCD_SetCursor(POINT Xpoint, POINT Ypoint);
 extern void LCD_SetColor(COLOR Color, POINT Xpoint, POINT Ypoint);
-extern void LCD_SetPointlColor(POINT Xpoint, POINT Ypoint, COLOR Color);
+extern void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color);
 extern void LCD_SetArealColor(POINT Xstart, POINT Ystart, POINT Xend,
 			      POINT Yend,COLOR  Color);
 extern void LCD_Clear(COLOR Color);

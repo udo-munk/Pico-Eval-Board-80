@@ -56,13 +56,13 @@ void GUI_DrawPoint(POINT Xpoint, POINT Ypoint, COLOR Color,
     if(DOT_STYLE == DOT_STYLE_DFT) {
         for(XDir_Num = 0; XDir_Num < 2 * Dot_Pixel - 1; XDir_Num++) {
             for(YDir_Num = 0; YDir_Num < 2 * Dot_Pixel - 1; YDir_Num++) {
-                LCD_SetPointlColor(Xpoint + XDir_Num - Dot_Pixel, Ypoint + YDir_Num - Dot_Pixel, Color);
+                LCD_SetPointColor(Xpoint + XDir_Num - Dot_Pixel, Ypoint + YDir_Num - Dot_Pixel, Color);
             }
         }
     } else {
         for(XDir_Num = 0; XDir_Num <  Dot_Pixel; XDir_Num++) {
             for(YDir_Num = 0; YDir_Num <  Dot_Pixel; YDir_Num++) {
-                LCD_SetPointlColor(Xpoint + XDir_Num - 1, Ypoint + YDir_Num - 1, Color);
+                LCD_SetPointColor(Xpoint + XDir_Num - 1, Ypoint + YDir_Num - 1, Color);
             }
         }
     }

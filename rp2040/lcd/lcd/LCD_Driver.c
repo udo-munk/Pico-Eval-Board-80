@@ -299,7 +299,7 @@ parameter:
 	Ypoint :   The y coordinate of the point
 	Color  :   Set the color
 ********************************************************************************/
-void LCD_SetPointlColor(POINT Xpoint, POINT Ypoint, COLOR Color)
+void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
 {
 	if ((Xpoint <= sLCD_DIS.LCD_Dis_Column) &&
 	    (Ypoint <= sLCD_DIS.LCD_Dis_Page)) {
