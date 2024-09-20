@@ -285,14 +285,14 @@ parameter:
 	Color_Background : Select the background color of the English character
 	Color_Foreground : Select the foreground color of the English character
 ******************************************************************************/
-void GUI_DisString_EN(POINT Xstart, POINT Ystart, const char * pString,
-                      sFONT* Font, COLOR Color_Background, COLOR Color_Foreground )
+void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
+                   sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
 {
     POINT Xpoint = Xstart;
     POINT Ypoint = Ystart;
 
     if(Xstart > sLCD_DIS.LCD_Dis_Column || Ystart > sLCD_DIS.LCD_Dis_Page) {
-        //DEBUG("GUI_DisString_EN Input exceeds the normal display range\r\n");
+        //DEBUG("GUI_DisString Input exceeds the normal display range\r\n");
         return;
     }
 
@@ -357,7 +357,7 @@ void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
     }
 
     //show
-    GUI_DisString_EN(Xpoint, Ypoint, (const char*)pStr, Font, Color_Background, Color_Foreground );
+    GUI_DisString(Xpoint, Ypoint, (const char*)pStr, Font, Color_Background, Color_Foreground );
 }
 
 

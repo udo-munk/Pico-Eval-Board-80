@@ -24,14 +24,14 @@ void lcd_init(void)
 void lcd_wait_term(void)
 {
 	GUI_Clear(BLACK);
-	GUI_DisString_EN(70, 150, "Waiting for terminal", &Font24, BLACK, RED);
+	GUI_DisString(70, 150, "Waiting for terminal", &Font24, BLACK, RED);
 }
 
 void lcd_banner(void)
 {
 	GUI_Clear(BLACK);
-	GUI_DisString_EN(70, 80, "Z80pack release " RELEASE, &Font24,
+	GUI_DisString(70, 80, "Z80pack release " RELEASE, &Font24,
 			 BLACK, WHITE);
-	GUI_DisString_EN(70, 105, USR_COM " "  USR_REL, &Font24,
+	GUI_DisString(70, 105, USR_COM " "  USR_REL, &Font24,
 			 BLACK, WHITE);
 }
