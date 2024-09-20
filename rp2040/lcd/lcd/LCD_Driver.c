@@ -45,44 +45,6 @@ void LCD_SetBackLight(uint16_t value)
 
 /*******************************************************************************
 function:
-		Write register address and data
-*******************************************************************************/
-void LCD_WriteReg(uint8_t Reg)
-{
-	DEV_Digital_Write(LCD_DC_PIN, 0);
-	DEV_Digital_Write(LCD_CS_PIN, 0);
-	SPI4W_Write_Byte(Reg);
-	DEV_Digital_Write(LCD_CS_PIN, 1);
-}
-
-void LCD_WriteData(uint16_t Data)
-{
-	DEV_Digital_Write(LCD_DC_PIN, 1);
-	DEV_Digital_Write(LCD_CS_PIN, 0);
-	SPI4W_Write_Byte(Data >> 8);
-	SPI4W_Write_Byte(Data & 0XFF);
-	DEV_Digital_Write(LCD_CS_PIN, 1);
-}
-
-/*******************************************************************************
-function:
-		Write register data
-*******************************************************************************/
-static void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
-{
-	register uint32_t i;
-
-	DEV_Digital_Write(LCD_DC_PIN, 1);
-	DEV_Digital_Write(LCD_CS_PIN, 0);
-	for (i = 0; i < DataLen; i++) {
-		SPI4W_Write_Byte(Data >> 8);
-		SPI4W_Write_Byte(Data & 0XFF);
-	}
-	DEV_Digital_Write(LCD_CS_PIN, 1);
-}
-
-/*******************************************************************************
-function:
 		Common register initialization
 *******************************************************************************/
 static void LCD_InitReg(void)
@@ -241,89 +203,6 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 	LCD_SetBackLight(LCD_BLval);
 	
 	LCD_SetGramScanWay(LCD_ScanDir); // Set the display scan and color transfer modes
-}
-
-/********************************************************************************
-function:	Sets the start position and size of the display area
-parameter:
-	Xstart 	:   X direction Start coordinates
-	Ystart  :   Y direction Start coordinates
-	Xend    :   X direction end coordinates
-	Yend    :   Y direction end coordinates
-********************************************************************************/
-void LCD_SetWindow(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend)
-{	
-
-	// set the X coordinates
-	LCD_WriteReg(0x2A);
-	LCD_WriteData(Xstart >> 8);       // Set the horizontal starting point to the high octet
-	LCD_WriteData(Xstart & 0xff);	  // Set the horizontal starting point to the low octet
-	LCD_WriteData((Xend - 1) >> 8);   // Set the horizontal end to the high octet
-	LCD_WriteData((Xend - 1) & 0xff); // Set the horizontal end to the low octet
-
-	// set the Y coordinates
-	LCD_WriteReg(0x2B);
-	LCD_WriteData(Ystart >> 8);
-	LCD_WriteData(Ystart & 0xff );
-	LCD_WriteData((Yend - 1) >> 8);
-	LCD_WriteData((Yend - 1) & 0xff);
-
-	LCD_WriteReg(0x2C);
-}
-
-/********************************************************************************
-function:	Set the display point (Xpoint, Ypoint)
-parameter:
-	xStart :   X direction Start coordinates
-	xEnd   :   X direction end coordinates
-********************************************************************************/
-void LCD_SetCursor(POINT Xpoint, POINT Ypoint)
-{
-	LCD_SetWindow(Xpoint, Ypoint, Xpoint, Ypoint);
-}
-
-/********************************************************************************
-function:	Set show color
-parameter:
-		Color  :   Set show color, 16-bit depth
-********************************************************************************/
-void LCD_SetColor(COLOR Color, POINT Xpoint, POINT Ypoint)
-{
-	LCD_Write_AllData(Color, (uint32_t) Xpoint * (uint32_t) Ypoint);
-}
-
-/********************************************************************************
-function:	Point (Xpoint, Ypoint) Fill the color
-parameter:
-	Xpoint :   The x coordinate of the point
-	Ypoint :   The y coordinate of the point
-	Color  :   Set the color
-********************************************************************************/
-void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
-{
-	if ((Xpoint <= sLCD_DIS.LCD_Dis_Column) &&
-	    (Ypoint <= sLCD_DIS.LCD_Dis_Page)) {
-		LCD_SetCursor (Xpoint, Ypoint);
-		LCD_SetColor(Color, 1, 1);
-	}
-}
-
-/********************************************************************************
-function:	Fill the area with the color
-parameter:
-	Xstart :   Start point x coordinate
-	Ystart :   Start point y coordinate
-	Xend   :   End point coordinates
-	Yend   :   End point coordinates
-	Color  :   Set the color
-********************************************************************************/
-void LCD_SetArealColor(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
-		       COLOR Color)
-{
-	if ((Xend > Xstart) && (Yend > Ystart)) {
-		LCD_SetWindow(Xstart, Ystart, Xend, Yend);
-		LCD_SetColor (Color, Xend - Xstart, Yend - Ystart);
-	}
 }
 
 /********************************************************************************
