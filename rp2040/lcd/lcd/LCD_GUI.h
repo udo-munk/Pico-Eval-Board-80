@@ -109,6 +109,17 @@ function:
 #define BRRED		0xFC07
 #define GRAY		0x8430
 
+/******************************************************************************
+function:	Coordinate conversion
+******************************************************************************/
+static inline void GUI_Swap(POINT Point1, POINT Point2)
+{
+    POINT Temp;
+    Temp = Point1;
+    Point1 = Point2;
+    Point2 = Temp;
+}
+
 /********************************************************************************
 function:
 			Macro definition variable name

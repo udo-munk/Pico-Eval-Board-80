@@ -20,18 +20,7 @@ extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
 
 /******************************************************************************
-function:	Coordinate conversion
-******************************************************************************/
-void GUI_Swap(POINT Point1, POINT Point2)
-{
-    POINT Temp;
-    Temp = Point1;
-    Point1 = Point2;
-    Point2 = Temp;
-}
-
-/******************************************************************************
-function:	Coordinate conversion
+function:	Clear LCD
 ******************************************************************************/
 void GUI_Clear(COLOR Color)
 {
