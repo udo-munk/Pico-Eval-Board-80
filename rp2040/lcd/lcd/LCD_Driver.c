@@ -147,8 +147,8 @@ parameter:
 ********************************************************************************/
 void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 {
-	uint16_t MemoryAccessReg_Data = 0;	// addr:0x36
-	uint16_t DisFunReg_Data = 0;		// addr:0xB6
+	uint16_t MemoryAccessReg_Data = 0;
+	uint16_t DisFunReg_Data = 0;
 
 	// Pico-ResTouch-LCD-3.5
 	// Gets the scan direction of GRAM
