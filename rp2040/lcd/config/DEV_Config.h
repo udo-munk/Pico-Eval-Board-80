@@ -14,7 +14,6 @@
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
 #include "hardware/pwm.h"
-#include "stdio.h"
 
 #define UBYTE   uint8_t
 #define UWORD   uint16_t
