@@ -251,7 +251,7 @@ parameter:
 	Xend    :   X direction end coordinates
 	Yend    :   Y direction end coordinates
 ********************************************************************************/
-void LCD_SetWindow(POINT Xstart, POINT Ystart,	POINT Xend, POINT Yend)
+void LCD_SetWindow(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend)
 {	
 
 	// set the X coordinates
