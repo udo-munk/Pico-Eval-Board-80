@@ -9,7 +9,6 @@
 * | Info        : Basic version
 ******************************************************************************/
 #include "DEV_Config.h"
-#include "pico/stdlib.h"
 
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
