@@ -24,10 +24,9 @@
 #define	POINT  uint16_t // The type of coordinate (unsigned short) 
 #define	LENGTH uint16_t // The type of coordinate (unsigned short) 
 
-/********************************************************************************
-function:
-		Define the full screen height length of the display
-********************************************************************************/
+/*******************************************************************************
+function:	Define the full screen height length of the display
+*******************************************************************************/
 #define LCD_X_MAXPIXEL 480 // LCD width maximum memory 
 #define LCD_Y_MAXPIXEL 320 // LCD height maximum memory
 #define LCD_X 0
@@ -36,10 +35,9 @@ function:
 #define LCD_3_5_WIDTH  (LCD_X_MAXPIXEL - 2 * LCD_X) // LCD width
 #define LCD_3_5_HEIGHT LCD_Y_MAXPIXEL		    // LCD height
 
-/********************************************************************************
-function:
-			scanning method
-********************************************************************************/
+/*******************************************************************************
+function:	scanning method
+*******************************************************************************/
 typedef enum {
 	L2R_U2D  = 0, // display left to right, up to down
 	L2R_D2U,
@@ -54,10 +52,9 @@ typedef enum {
 
 #define SCAN_DIR_DFT D2U_L2R // Default scan direction
 
-/********************************************************************************
-function:
-	Defines the total number of rows in the display area
-********************************************************************************/
+/*******************************************************************************
+function:	Defines the total number of rows in the display area
+*******************************************************************************/
 typedef struct {
 	LENGTH LCD_Dis_Column;	// COLUMN
 	LENGTH LCD_Dis_Page;	// PAGE
@@ -69,10 +66,9 @@ typedef struct {
 extern LCD_DIS sLCD_DIS;
 extern uint8_t id;
 
-/*******************************************************************************
-function:
-		Write register address and data
-*******************************************************************************/
+/******************************************************************************
+function:	Write register address and data
+******************************************************************************/
 static inline void LCD_WriteReg(uint8_t Reg)
 {
 	DEV_Digital_Write(LCD_DC_PIN, 0);
@@ -90,9 +86,8 @@ static inline void LCD_WriteData(uint16_t Data)
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
-/*******************************************************************************
-function:
-		Write register data
+/******************************************************************************
+function:	Write register data
 *******************************************************************************/
 static inline void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 {
@@ -107,24 +102,28 @@ static inline void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Sets the start position and size of the display area
 parameter:
 	Xstart 	:   X direction Start coordinates
 	Ystart  :   Y direction Start coordinates
 	Xend    :   X direction end coordinates
 	Yend    :   Y direction end coordinates
-********************************************************************************/
+*******************************************************************************/
 static inline void LCD_SetWindow(POINT Xstart, POINT Ystart,
 				 POINT Xend, POINT Yend)
 {	
 
 	// set the X coordinates
 	LCD_WriteReg(0x2A);
-	LCD_WriteData(Xstart >> 8);       // Set the horizontal starting point to the high octet
-	LCD_WriteData(Xstart & 0xff);	  // Set the horizontal starting point to the low octet
-	LCD_WriteData((Xend - 1) >> 8);   // Set the horizontal end to the high octet
-	LCD_WriteData((Xend - 1) & 0xff); // Set the horizontal end to the low octet
+	LCD_WriteData(Xstart >> 8);       // Set the horizontal starting point
+					  // to the high octet
+	LCD_WriteData(Xstart & 0xff);	  // Set the horizontal starting point
+					  // to the low octet
+	LCD_WriteData((Xend - 1) >> 8);   // Set the horizontal end to the
+					  // high octet
+	LCD_WriteData((Xend - 1) & 0xff); // Set the horizontal end to the
+					  // low octet
 
 	// set the Y coordinates
 	LCD_WriteReg(0x2B);
@@ -136,34 +135,34 @@ static inline void LCD_SetWindow(POINT Xstart, POINT Ystart,
 	LCD_WriteReg(0x2C);
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Set the display point (Xpoint, Ypoint)
 parameter:
 	xStart :   X direction Start coordinates
 	xEnd   :   X direction end coordinates
-********************************************************************************/
+*******************************************************************************/
 static inline void LCD_SetCursor(POINT Xpoint, POINT Ypoint)
 {
 	LCD_SetWindow(Xpoint, Ypoint, Xpoint, Ypoint);
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Set show color
 parameter:
 		Color  :   Set show color, 16-bit depth
-********************************************************************************/
+*******************************************************************************/
 static inline void LCD_SetColor(COLOR Color, POINT Xpoint, POINT Ypoint)
 {
 	LCD_Write_AllData(Color, (uint32_t) Xpoint * (uint32_t) Ypoint);
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Point (Xpoint, Ypoint) Fill the color
 parameter:
 	Xpoint :   The x coordinate of the point
 	Ypoint :   The y coordinate of the point
 	Color  :   Set the color
-********************************************************************************/
+*******************************************************************************/
 static inline void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
 {
 	if ((Xpoint <= sLCD_DIS.LCD_Dis_Column) &&
@@ -173,7 +172,7 @@ static inline void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
 	}
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Fill the area with the color
 parameter:
 	Xstart :   Start point x coordinate
@@ -181,7 +180,7 @@ parameter:
 	Xend   :   End point coordinates
 	Yend   :   End point coordinates
 	Color  :   Set the color
-********************************************************************************/
+*******************************************************************************/
 static inline void LCD_SetArealColor(POINT Xstart, POINT Ystart,
 				     POINT Xend, POINT Yend, COLOR Color)
 {
@@ -191,10 +190,9 @@ static inline void LCD_SetArealColor(POINT Xstart, POINT Ystart,
 	}
 }
 
-/********************************************************************************
-function:
-			Macro definition variable name
-********************************************************************************/
+/*******************************************************************************
+function:	Macro definition variable name
+*******************************************************************************/
 extern void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval);
 extern void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir);
 

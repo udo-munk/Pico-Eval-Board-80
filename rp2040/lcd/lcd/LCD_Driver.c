@@ -16,8 +16,7 @@ LCD_DIS sLCD_DIS;
 uint8_t id;
 
 /*******************************************************************************
-function:
-	Hardware reset
+function:	Hardware reset
 *******************************************************************************/
 static void LCD_Reset(void)
 {
@@ -44,21 +43,23 @@ void LCD_SetBackLight(uint16_t value)
 }
 
 /*******************************************************************************
-function:
-		Common register initialization
+function:	Common register initialization
 *******************************************************************************/
 static void LCD_InitReg(void)
 {
 	id = LCD_Read_Id();
 
 	LCD_WriteReg(0x21);
-	LCD_WriteReg(0xC2);  // Normal mode, increase can change the display quality, while increasing power consumption
+	LCD_WriteReg(0xC2);  // Normal mode, increase can change the
+			     // display quality, while increasing power
+			     // consumption
 	LCD_WriteData(0x33);
 	LCD_WriteReg(0XC5);
 	LCD_WriteData(0x00);
 	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0X80.
 	LCD_WriteData(0x80);
-	LCD_WriteReg(0xB1);  // Sets the frame frequency of full color normal mode
+	LCD_WriteReg(0xB1);  // Sets the frame frequency of full color normal
+			     // mode
 	LCD_WriteData(0xB0); // 0XB0 =70HZ, <=0XB0.0xA0=62HZ
 	LCD_WriteReg(0x36);
 	LCD_WriteData(0x28); // 2 DOT FRAME MODE,F<=70HZ.
@@ -77,7 +78,7 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x06);
 	LCD_WriteData(0x30);
 	LCD_WriteData(0x3e);
-	LCD_WriteData(0x0f);		
+	LCD_WriteData(0x0f);
 	LCD_WriteReg(0XE1);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
@@ -101,12 +102,12 @@ static void LCD_InitReg(void)
 	LCD_WriteReg(0x29);  // Turn on the LCD display
 }
 
-/********************************************************************************
+/*******************************************************************************
 function:	Set the display scan and color transfer modes
 parameter:
 		Scan_dir   :   Scan direction
 		Colorchose :   RGB or GBR color format
-********************************************************************************/
+*******************************************************************************/
 void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 {
 	uint16_t MemoryAccessReg_Data = 0;
@@ -140,26 +141,30 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		DisFunReg_Data = 0x42;
 		break;
 	case U2D_L2R: // 0X2
-		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange */
+		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
+		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x22;
 		break;
 	case U2D_R2L: // 0X6
-		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange */
+		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
+		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x02;
 		break;
 	case D2U_L2R: // 0XA
-		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange*/
+		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
+		   X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
 		break;
 	case D2U_R2L: // 0XE
-		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0 X-Y Exchange*/
-		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0	*/
+		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
+		   X-Y Exchange*/
+		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x42;
 		break;
@@ -188,10 +193,9 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 	LCD_WriteData(MemoryAccessReg_Data);
 }
 
-/********************************************************************************
-function:
-	initialization
-********************************************************************************/
+/*******************************************************************************
+function:	initialization
+*******************************************************************************/
 void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 {
     
@@ -202,13 +206,13 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 		LCD_BLval = 1000;
 	LCD_SetBackLight(LCD_BLval);
 	
-	LCD_SetGramScanWay(LCD_ScanDir); // Set the display scan and color transfer modes
+	LCD_SetGramScanWay(LCD_ScanDir); // Set the display scan and color
+					 // transfer modes
 }
 
-/********************************************************************************
-function:
-			Clear screen
-********************************************************************************/
+/*******************************************************************************
+function:	Clear screen
+*******************************************************************************/
 void LCD_Clear(COLOR Color)
 {
 	LCD_SetArealColor(0, 0, sLCD_DIS.LCD_Dis_Column, sLCD_DIS.LCD_Dis_Page,
