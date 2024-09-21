@@ -25,10 +25,9 @@
 #define LOW_Speed_Show 0
 #define HIGH_Speed_Show 1
 
-/********************************************************************************
-function:
-			dot pixel
-********************************************************************************/
+/*******************************************************************************
+function:	dot pixel
+*******************************************************************************/
 typedef enum {
 	DOT_PIXEL_1X1  = 1,		// dot pixel 1 x 1
 	DOT_PIXEL_2X2,	 		// dot pixel 2 X 2
@@ -42,10 +41,9 @@ typedef enum {
 
 #define DOT_PIXEL_DFT  DOT_PIXEL_1X1	// Default dot pixel
 
-/********************************************************************************
-function:
-			dot Fill style
-********************************************************************************/
+/*******************************************************************************
+function:	dot Fill style
+*******************************************************************************/
 typedef enum {
 	DOT_FILL_AROUND  = 1,		// dot pixel 1 x 1
 	DOT_FILL_RIGHTUP, 		// dot pixel 2 X 2
@@ -53,28 +51,25 @@ typedef enum {
 
 #define DOT_STYLE_DFT  DOT_FILL_AROUND  // Default dot pixel
 
-/********************************************************************************
-function:
-			solid line and dotted line
-********************************************************************************/
+/*******************************************************************************
+function:	solid line and dotted line
+*******************************************************************************/
 typedef enum {
 	LINE_SOLID = 0,
 	LINE_DOTTED,
 } LINE_STYLE;
 
-/********************************************************************************
-function:
-			DRAW Internal fill
-********************************************************************************/
+/*******************************************************************************
+function:	DRAW Internal fill
+*******************************************************************************/
 typedef enum {
 	DRAW_EMPTY = 0,
 	DRAW_FULL,
 } DRAW_FILL;
 
-/********************************************************************************
-function:
-	time
-********************************************************************************/
+/*******************************************************************************
+function:	time
+*******************************************************************************/
 typedef struct {
 	uint16_t Year;  // 0000
 	uint8_t  Month; // 1 - 12
@@ -86,10 +81,9 @@ typedef struct {
 
 extern DEV_TIME sDev_time;
 
-/********************************************************************************
-function:
-			Defines commonly used colors for the display
-********************************************************************************/
+/*******************************************************************************
+function:	Defines commonly used colors for the display
+*******************************************************************************/
 #define LCD_BACKGROUND	WHITE   // Default background color
 #define FONT_BACKGROUND	WHITE   // Default font background color
 #define FONT_FOREGROUND	GRED    // Default font foreground color
@@ -114,20 +108,20 @@ function:	Coordinate conversion
 ******************************************************************************/
 static inline void GUI_Swap(POINT Point1, POINT Point2)
 {
-    POINT Temp;
-    Temp = Point1;
-    Point1 = Point2;
-    Point2 = Temp;
+	POINT Temp;
+
+	Temp = Point1;
+	Point1 = Point2;
+	Point2 = Temp;
 }
 
-/********************************************************************************
-function:
-			Macro definition variable name
-********************************************************************************/
-//Clear
+/*******************************************************************************
+function:	Macro definition variable name
+*******************************************************************************/
+// Clear
 void GUI_Clear(COLOR Color);
 
-//Drawing
+// Drawing
 void GUI_DrawPoint(POINT Xpoint, POINT Ypoint, COLOR Color,
 		   DOT_PIXEL Dot_Pixel, DOT_STYLE Dot_FillWay);
 void GUI_DrawLine(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
@@ -137,12 +131,12 @@ void GUI_DrawRectangle(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 		    COLOR Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel);
 
-//pic
+// pic
 void GUI_Disbitmap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
 		   POINT Width, POINT Height);
 void GUI_DisGrayMap(POINT Xpoint, POINT Ypoint, const unsigned char *pBmp);
 
-//Display string
+// Display string
 void GUI_DisChar(POINT Xstart, POINT Ystart, const char Acsii_Char,
 		 sFONT* Font, COLOR Color_Background, COLOR Color_Foreground);
 void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
