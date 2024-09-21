@@ -108,7 +108,7 @@ function:	Coordinate conversion
 ******************************************************************************/
 static inline void GUI_Swap(POINT Point1, POINT Point2)
 {
-	POINT Temp;
+	register POINT Temp;
 
 	Temp = Point1;
 	Point1 = Point2;
