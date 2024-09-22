@@ -154,7 +154,7 @@ void GUI_DrawRectangle(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 	if (Ystart > Yend)
 		GUI_Swap(Ystart, Yend);
     
-	if (Filled ) {
+	if (Filled) {
 #if LOW_Speed_Show
 		POINT Ypoint;
 		for (Ypoint = Ystart; Ypoint < Yend; Ypoint++) {
@@ -201,61 +201,61 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 	YCurrent = Radius;
 
 	// Cumulative error, judge the next point of the logo
-	int16_t Esp = 3 - (Radius << 1 );
+	int16_t Esp = 3 - (Radius << 1);
 
 	int16_t sCountY;
 	if (Draw_Fill == DRAW_FULL) {
-		while(XCurrent <= YCurrent ) { // Realistic circles
+		while(XCurrent <= YCurrent) { // Realistic circles
 			for (sCountY = XCurrent; sCountY <= YCurrent;
-			     sCountY ++ ) {
+			     sCountY ++) {
 			  GUI_DrawPoint(X_Center + XCurrent, Y_Center + sCountY,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//1
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//1
 			  GUI_DrawPoint(X_Center - XCurrent, Y_Center + sCountY,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//2
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//2
 			  GUI_DrawPoint(X_Center - sCountY, Y_Center + XCurrent,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//3
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//3
 			  GUI_DrawPoint(X_Center - sCountY, Y_Center - XCurrent,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//4
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//4
 			  GUI_DrawPoint(X_Center - XCurrent, Y_Center - sCountY,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//5
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//5
 			  GUI_DrawPoint(X_Center + XCurrent, Y_Center - sCountY,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//6
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//6
 			  GUI_DrawPoint(X_Center + sCountY, Y_Center - XCurrent,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );//7
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//7
 			  GUI_DrawPoint(X_Center + sCountY, Y_Center + XCurrent,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT );
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);
 			}
-			if (Esp < 0 )
+			if (Esp < 0)
 				Esp += 4 * XCurrent + 6;
 			else {
-				Esp += 10 + 4 * (XCurrent - YCurrent );
+				Esp += 10 + 4 * (XCurrent - YCurrent);
 				YCurrent --;
 			}
 			XCurrent ++;
 		}
 	} else { // Draw a hollow circle
-		while (XCurrent <= YCurrent ) {
+		while (XCurrent <= YCurrent) {
 			GUI_DrawPoint(X_Center + XCurrent, Y_Center + YCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//1
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//1
 			GUI_DrawPoint(X_Center - XCurrent, Y_Center + YCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//2
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//2
 			GUI_DrawPoint(X_Center - YCurrent, Y_Center + XCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//3
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//3
 			GUI_DrawPoint(X_Center - YCurrent, Y_Center - XCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//4
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//4
 			GUI_DrawPoint(X_Center - XCurrent, Y_Center - YCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//5
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//5
 			GUI_DrawPoint(X_Center + XCurrent, Y_Center - YCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//6
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//6
 			GUI_DrawPoint(X_Center + YCurrent, Y_Center - XCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//7
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//7
 			GUI_DrawPoint(X_Center + YCurrent, Y_Center + XCurrent,
-				      Color, Dot_Pixel, DOT_STYLE_DFT );//0
+				      Color, Dot_Pixel, DOT_STYLE_DFT);//0
 
-			if (Esp < 0 )
+			if (Esp < 0)
 				Esp += 4 * XCurrent + 6;
 			else {
-				Esp += 10 + 4 * (XCurrent - YCurrent );
+				Esp += 10 + 4 * (XCurrent - YCurrent);
 				YCurrent --;
 			}
 			XCurrent ++;
@@ -288,8 +288,8 @@ void GUI_DisChar(POINT Xpoint, POINT Ypoint, const char Acsii_Char,
 				(Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
 	const unsigned char *ptr = &Font->table[Char_Offset];
 
-	for (Page = 0; Page < Font->Height; Page ++ ) {
-		for (Column = 0; Column < Font->Width; Column ++ ) {
+	for (Page = 0; Page < Font->Height; Page ++) {
+		for (Column = 0; Column < Font->Width; Column ++) {
 		// To determine whether the font background color and
 		// screen background color is consistent
 		  if (FONT_BACKGROUND == Color_Background) {
@@ -343,13 +343,13 @@ void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
 	while (*pString != '\0') {
 		// if X direction filled, reposition to(Xstart,Ypoint), Ypoint
 		// is Y direction plus the height of the character
-		if ((Xpoint + Font->Width ) > sLCD_DIS.LCD_Dis_Column ) {
+		if ((Xpoint + Font->Width) > sLCD_DIS.LCD_Dis_Column) {
 			Xpoint = Xstart;
 			Ypoint += Font->Height;
 		}
 
 		// If the Y direction is full, reposition to(Xstart, Ystart)
-		if ((Ypoint + Font->Height ) > sLCD_DIS.LCD_Dis_Page ) {
+		if ((Ypoint + Font->Height) > sLCD_DIS.LCD_Dis_Page) {
 			Xpoint = Xstart;
 			Ypoint = Ystart;
 		}
@@ -377,7 +377,7 @@ parameter:
 ******************************************************************************/
 #define  ARRAY_LEN 255
 void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
-                sFONT* Font, COLOR Color_Background, COLOR Color_Foreground )
+                sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
 {
 
 	int16_t Num_Bit = 0, Str_Bit = 0;
@@ -406,7 +406,7 @@ void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
 
 	// show
 	GUI_DisString(Xpoint, Ypoint, (const char*) pStr, Font,
-		      Color_Background, Color_Foreground );
+		      Color_Background, Color_Foreground);
 }
 
 /******************************************************************************

@@ -128,7 +128,7 @@ static inline void LCD_SetWindow(POINT Xstart, POINT Ystart,
 	// set the Y coordinates
 	LCD_WriteReg(0x2B);
 	LCD_WriteData(Ystart >> 8);
-	LCD_WriteData(Ystart & 0xff );
+	LCD_WriteData(Ystart & 0xff);
 	LCD_WriteData((Yend - 1) >> 8);
 	LCD_WriteData((Yend - 1) & 0xff);
 
