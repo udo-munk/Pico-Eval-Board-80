@@ -30,10 +30,10 @@ void GUI_Clear(COLOR Color)
 /******************************************************************************
 function:	Draw Point(Xpoint, Ypoint) Fill the color
 parameter:
-	Xpoint		:   The x coordinate of the point
-	Ypoint		:   The y coordinate of the point
-	Color		:   Set color
-	Dot_Pixel	:	point size
+	Xpoint		: The x coordinate of the point
+	Ypoint		: The y coordinate of the point
+	Color		: Set color
+	Dot_Pixel	: point size
 ******************************************************************************/
 void GUI_DrawPoint(POINT Xpoint, POINT Ypoint, COLOR Color,
                    DOT_PIXEL Dot_Pixel, DOT_STYLE DOT_STYLE)
@@ -133,12 +133,12 @@ void GUI_DrawLine(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 /******************************************************************************
 function:	Draw a rectangle
 parameter:
-	Xstart ：Rectangular  Starting x point coordinates
-	Ystart ：Rectangular  Starting x point coordinates
-	Xend   ：Rectangular  End point x coordinate
-	Yend   ：Rectangular  End point y coordinate
+	Xstart ：Rectangular Starting x point coordinates
+	Ystart ：Rectangular Starting y point coordinates
+	Xend   ：Rectangular End point x coordinate
+	Yend   ：Rectangular End point y coordinate
 	Color  ：The color of the Rectangular segment
-	Filled : Whether it is filled--- 1 solid 0：empty
+	Filled : Whether it is filled --- 1 solid 0：empty
 ******************************************************************************/
 void GUI_DrawRectangle(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
                        COLOR Color, DRAW_FILL Filled, DOT_PIXEL Dot_Pixel)
@@ -506,12 +506,12 @@ sFONT *GUI_GetFontSize(POINT Dx, POINT Dy)
 /******************************************************************************
   function:	According to the display area adaptive display time
   parameter:
-		xStart :   X direction Start coordinates
-		Ystart :   Y direction Start coordinates
-		Xend   :   X direction end coordinates
-		Yend   :   Y direction end coordinates
-		pTime  :   Pointer to the definition of the structure
-		Color  :   Set show color
+		xStart : X direction Start coordinates
+		Ystart : Y direction Start coordinates
+		Xend   : X direction end coordinates
+		Yend   : Y direction end coordinates
+		pTime  : Pointer to the definition of the structure
+		Color  : Set show color
   note:
 ******************************************************************************/
 void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
