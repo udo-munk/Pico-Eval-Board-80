@@ -115,6 +115,55 @@ static inline void GUI_Swap(POINT Point1, POINT Point2)
 	Point2 = Temp;
 }
 
+/*
+ * inline function to draw ASCII characters faster
+ */
+static inline void GUI_FastChar(POINT Xpoint, POINT Ypoint,
+				const char Acsii_Char, sFONT* Font,
+				COLOR Color_Background, COLOR Color_Foreground)
+{
+	POINT Page, Column;
+
+	if (Xpoint > sLCD_DIS.LCD_Dis_Column ||
+	    Ypoint > sLCD_DIS.LCD_Dis_Page) {
+		//DEBUG("GUI_DisChar Input exceeds the normal display range\r\n");
+		return;
+	}
+
+	uint32_t Char_Offset = (Acsii_Char - ' ') * Font->Height *
+				(Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+	const unsigned char *ptr = &Font->table[Char_Offset];
+
+	for (Page = 0; Page < Font->Height; Page ++) {
+		for (Column = 0; Column < Font->Width; Column ++) {
+		// To determine whether the font background color and
+		// screen background color is consistent
+		  if (FONT_BACKGROUND == Color_Background) {
+			// this process is to speed up the scan
+			if (*ptr & (0x80 >> (Column % 8)))
+				LCD_SetPointColor(Xpoint + Column,
+						  Ypoint + Page,
+					          Color_Foreground);
+		  } else {
+			if (*ptr & (0x80 >> (Column % 8))) {
+				LCD_SetPointColor(Xpoint + Column,
+						  Ypoint + Page,
+					          Color_Foreground);
+			} else {
+				LCD_SetPointColor(Xpoint + Column,
+						  Ypoint + Page,
+					          Color_Background);
+			}
+		  }
+		  // One pixel is 8 bits
+		  if (Column % 8 == 7)
+			ptr++;
+		} /* Write a line */
+		if (Font->Width % 8 != 0)
+			ptr++;
+	} /* Write all */
+}
+
 /*******************************************************************************
 function:	Macro definition variable name
 *******************************************************************************/
