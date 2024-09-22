@@ -12,7 +12,7 @@
 
 void lcd_init(void)
 {
-	LCD_SCAN_DIR  lcd_scan_dir = SCAN_DIR_DFT;
+	LCD_SCAN_DIR lcd_scan_dir = SCAN_DIR_DFT;
 
 	/* initialize hardware */
 	System_Init();
