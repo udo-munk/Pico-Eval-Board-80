@@ -113,7 +113,6 @@ parameter:
 static inline void LCD_SetWindow(POINT Xstart, POINT Ystart,
 				 POINT Xend, POINT Yend)
 {	
-
 	// set the X coordinates
 	LCD_WriteReg(0x2A);
 	LCD_WriteData(Xstart >> 8);       // Set the horizontal starting point
