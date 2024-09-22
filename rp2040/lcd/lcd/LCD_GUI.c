@@ -379,7 +379,6 @@ parameter:
 void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
                 sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
 {
-
 	int16_t Num_Bit = 0, Str_Bit = 0;
 	uint8_t Str_Array[ARRAY_LEN] = {0}, Num_Array[ARRAY_LEN] = {0};
 	uint8_t *pStr = Str_Array;
