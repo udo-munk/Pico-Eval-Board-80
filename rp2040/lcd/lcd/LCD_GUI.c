@@ -204,7 +204,7 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 	int16_t Esp = 3 - (Radius << 1);
 
 	int16_t sCountY;
-	if (Draw_Fill == DRAW_FULL) {
+	if (Draw_Fill == DRAW_FULL) { // Draw a filled circle
 		while(XCurrent <= YCurrent) { // Realistic circles
 			for (sCountY = XCurrent; sCountY <= YCurrent;
 			     sCountY ++) {
@@ -223,7 +223,7 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 			  GUI_DrawPoint(X_Center + sCountY, Y_Center - XCurrent,
 					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//7
 			  GUI_DrawPoint(X_Center + sCountY, Y_Center + XCurrent,
-					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//8
+					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//0
 			}
 			if (Esp < 0)
 				Esp += 4 * XCurrent + 6;
