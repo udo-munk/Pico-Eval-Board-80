@@ -50,20 +50,20 @@ static void LCD_InitReg(void)
 	id = LCD_Read_Id();
 
 	LCD_WriteReg(0x21);
-	LCD_WriteReg(0xC2);  // Normal mode, increase can change the
+	LCD_WriteReg(0xc2);  // Normal mode, increase can change the
 			     // display quality, while increasing power
 			     // consumption
 	LCD_WriteData(0x33);
-	LCD_WriteReg(0xC5);
+	LCD_WriteReg(0xc5);
 	LCD_WriteData(0x00);
 	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0x80.
 	LCD_WriteData(0x80);
-	LCD_WriteReg(0xB1);  // Sets the frame frequency of full color normal
+	LCD_WriteReg(0xb1);  // Sets the frame frequency of full color normal
 			     // mode
-	LCD_WriteData(0xB0); // 0xB0 =70HZ, <=0xB0.0xA0=62HZ
+	LCD_WriteData(0xb0); // 0xb0 =70HZ, <=0xb0.0xa0=62HZ
 	LCD_WriteReg(0x36);
 	LCD_WriteData(0x28); // 2 DOT FRAME MODE,F<=70HZ.
-	LCD_WriteReg(0xE0);
+	LCD_WriteReg(0xe0);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -79,7 +79,7 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x30);
 	LCD_WriteData(0x3e);
 	LCD_WriteData(0x0f);
-	LCD_WriteReg(0xE1);
+	LCD_WriteReg(0xe1);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -154,14 +154,14 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x02;
 		break;
-	case D2U_L2R: // 0xA
+	case D2U_L2R: // 0xa
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
 		break;
-	case D2U_R2L: // 0xE
+	case D2U_R2L: // 0xe
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0 */
@@ -185,7 +185,7 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 	}
 
 	// Set the read / write scan direction of the frame memory
-	LCD_WriteReg(0xB6);
+	LCD_WriteReg(0xb6);
 	LCD_WriteData(0x00);
 	LCD_WriteData(DisFunReg_Data);
 
@@ -221,7 +221,7 @@ void LCD_Clear(COLOR Color)
 
 uint8_t LCD_Read_Id(void)
 {
-	uint8_t reg = 0xDC;
+	uint8_t reg = 0xdc;
 	uint8_t tx_val = 0x00;
 	uint8_t rx_val;
 
