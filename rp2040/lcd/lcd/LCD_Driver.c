@@ -54,16 +54,16 @@ static void LCD_InitReg(void)
 			     // display quality, while increasing power
 			     // consumption
 	LCD_WriteData(0x33);
-	LCD_WriteReg(0XC5);
+	LCD_WriteReg(0xC5);
 	LCD_WriteData(0x00);
-	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0X80.
+	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0x80.
 	LCD_WriteData(0x80);
 	LCD_WriteReg(0xB1);  // Sets the frame frequency of full color normal
 			     // mode
-	LCD_WriteData(0xB0); // 0XB0 =70HZ, <=0XB0.0xA0=62HZ
+	LCD_WriteData(0xB0); // 0xB0 =70HZ, <=0xB0.0xA0=62HZ
 	LCD_WriteReg(0x36);
 	LCD_WriteData(0x28); // 2 DOT FRAME MODE,F<=70HZ.
-	LCD_WriteReg(0XE0);
+	LCD_WriteReg(0xE0);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -79,7 +79,7 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x30);
 	LCD_WriteData(0x3e);
 	LCD_WriteData(0x0f);
-	LCD_WriteReg(0XE1);
+	LCD_WriteReg(0xE1);
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -95,7 +95,7 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x31);
 	LCD_WriteData(0x37);
 	LCD_WriteData(0x0f);
-	LCD_WriteReg(0X3A);  // Set Interface Pixel Format
+	LCD_WriteReg(0x3A);  // Set Interface Pixel Format
 	LCD_WriteData(0x55);
 	LCD_WriteReg(0x11);  // sleep out
 	sleep_ms(120);
@@ -140,28 +140,28 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		MemoryAccessReg_Data = 0x08;
 		DisFunReg_Data = 0x42;
 		break;
-	case U2D_L2R: // 0X2
+	case U2D_L2R: // 0x2
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x22;
 		break;
-	case U2D_R2L: // 0X6
+	case U2D_R2L: // 0x6
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x02;
 		break;
-	case D2U_L2R: // 0XA
+	case D2U_L2R: // 0xA
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
 		break;
-	case D2U_R2L: // 0XE
+	case D2U_R2L: // 0xE
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange*/
 		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0 */
@@ -186,7 +186,7 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 
 	// Set the read / write scan direction of the frame memory
 	LCD_WriteReg(0xB6);
-	LCD_WriteData(0X00);
+	LCD_WriteData(0x00);
 	LCD_WriteData(DisFunReg_Data);
 
 	LCD_WriteReg(0x36);
