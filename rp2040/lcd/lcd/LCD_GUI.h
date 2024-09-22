@@ -131,7 +131,7 @@ static inline void GUI_FastChar(POINT Xpoint, POINT Ypoint,
 	}
 
 	uint32_t Char_Offset = (Acsii_Char - ' ') * Font->Height *
-				(Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+			       (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
 	const unsigned char *ptr = &Font->table[Char_Offset];
 
 	for (Page = 0; Page < Font->Height; Page ++) {
