@@ -30,8 +30,14 @@ void lcd_wait_term(void)
 void lcd_banner(void)
 {
 	GUI_Clear(BLACK);
-	GUI_DisString(70, 80, "Z80pack release " RELEASE, &Font24,
-			 BLACK, WHITE);
-	GUI_DisString(70, 105, USR_COM " "  USR_REL, &Font24,
-			 BLACK, WHITE);
+	GUI_DisString(70, 160, "Z80pack release " RELEASE, &Font24,
+		      BLACK, WHITE);
+	GUI_DisString(70, 185, USR_COM " "  USR_REL, &Font24,
+		      BLACK, WHITE);
+	GUI_DisString(40, 220, "by Udo Munk & Thomas Eberhardt", &Font20,
+		      BLACK, WHITE);
+	GUI_DrawCircle(100, 80, 50, BLUE, DRAW_FULL, DOT_PIXEL_1X1);
+	GUI_DisString(75, 70, "Z80", &Font24, BLUE, WHITE);
+	GUI_DrawRectangle(250, 30, 400, 120, BLUE, DRAW_FULL, DOT_PIXEL_1X1);
+	GUI_DisString(290, 70, "8080", &Font24, BLUE, WHITE);
 }
