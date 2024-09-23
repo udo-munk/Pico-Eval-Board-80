@@ -88,6 +88,7 @@ target_compile_options(${PROJECT_NAME} PUBLIC -Wno-unused-parameter)
 
 target_link_libraries(${PROJECT_NAME}
 	pico_stdlib
+#	pico_cyw43_arch_none
 	stdio_msc_usb
 	tinyusb_device
 	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
@@ -96,18 +97,6 @@ target_link_libraries(${PROJECT_NAME}
 	config
 	hardware_spi
 )
-# for Pico W
-#target_link_libraries(${PROJECT_NAME}
-#	pico_stdlib
-#	pico_cyw43_arch_none
-#	stdio_msc_usb
-#	tinyusb_device
-#	no-OS-FatFS-SD-SDIO-SPI-RPi-Pico
-#	lcd
-#	font
-#	config
-#	hardware_spi
-#)
 
 pico_add_extra_outputs(${PROJECT_NAME})
 
