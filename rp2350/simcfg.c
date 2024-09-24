@@ -84,7 +84,7 @@ static int get_int(const char *prompt, const char *hint,
  */
 void config(void)
 {
-	const char *cfg = "/CONF80/EVAL80.DAT";
+	const char *cfg = "/CONF80/EVA2350.DAT";
 	const char *cpath = "/CODE80";
 	const char *cext = "*.BIN";
 	const char *dpath = "/DISKS80";
