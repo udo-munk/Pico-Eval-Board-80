@@ -41,7 +41,7 @@ note:		Initialize the communication method
 void System_Init(void)
 {
 	DEV_GPIO_Init();
-	spi_init(SPI_PORT, 40 * 1000 * 1000);
+	spi_init(SPI_PORT, 125 * 1000 * 1000 / 4); /* 31.25 MHz */
 	gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
