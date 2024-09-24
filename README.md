@@ -21,9 +21,17 @@ To install z80pack on this device:
 2. checkout dev branch: cd z80pack; git checkout dev; cd ..
 3. clone this: git clone https://github.com/udo-munk/Pico-Eval-Board-80.git
 
-To build the application:
+To build the application for a Pi Pico RP2040 board:
 
 	cd Pico-Eval-Board-80/rp2040
+	mkdir build
+	cd build
+	cmake .. -G "Unix Makefiles"
+	make
+
+This device also can be used with a Pi Pico 2 RP2350 board, then build with:
+
+	cd Pico-Eval-Board-80/rp2350
 	mkdir build
 	cd build
 	cmake .. -G "Unix Makefiles"
