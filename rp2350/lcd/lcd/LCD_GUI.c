@@ -40,7 +40,7 @@ void GUI_DrawPoint(POINT Xpoint, POINT Ypoint, COLOR Color,
 {
 	if (Xpoint > sLCD_DIS.LCD_Dis_Column ||
 	    Ypoint > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DrawPoint Input exceeds the normal display range\r\n");
+		Debug("GUI_DrawPoint Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -79,7 +79,7 @@ void GUI_DrawLine(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 {
 	if (Xstart > sLCD_DIS.LCD_Dis_Column || Ystart > sLCD_DIS.LCD_Dis_Page
 	    || Xend > sLCD_DIS.LCD_Dis_Column || Yend > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DrawLine Input exceeds the normal display range\r\n");
+		Debug("GUI_DrawLine Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -107,7 +107,7 @@ void GUI_DrawLine(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 		Line_Style_Temp++;
 		// Painted dotted line, 2 point is really virtual
 		if (Line_Style == LINE_DOTTED && Line_Style_Temp % 3 == 0) {
-			//DEBUG("LINE_DOTTED\r\n");
+			Debug("LINE_DOTTED\r\n");
 			GUI_DrawPoint(Xpoint, Ypoint, LCD_BACKGROUND, Dot_Pixel,
 				      DOT_STYLE_DFT);
 			Line_Style_Temp = 0;
@@ -145,7 +145,7 @@ void GUI_DrawRectangle(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 {
 	if (Xstart > sLCD_DIS.LCD_Dis_Column || Ystart > sLCD_DIS.LCD_Dis_Page
 	    || Xend > sLCD_DIS.LCD_Dis_Column || Yend > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("Input exceeds the normal display range\r\n");
+		Debug("Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -191,7 +191,7 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 {
 	if (X_Center > sLCD_DIS.LCD_Dis_Column ||
 	Y_Center >= sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DrawCircle Input exceeds the normal display range\r\n");
+		Debug("GUI_DrawCircle Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -280,7 +280,7 @@ void GUI_DisChar(POINT Xpoint, POINT Ypoint, const char Acsii_Char,
 
 	if (Xpoint > sLCD_DIS.LCD_Dis_Column ||
 	    Ypoint > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DisChar Input exceeds the normal display range\r\n");
+		Debug("GUI_DisChar Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -336,7 +336,7 @@ void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
 
 	if (Xstart > sLCD_DIS.LCD_Dis_Column ||
 	    Ystart > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DisString Input exceeds the normal display range\r\n");
+		Debug("GUI_DisString Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -387,7 +387,7 @@ void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
 
 	if (Xpoint > sLCD_DIS.LCD_Dis_Column ||
 	    Ypoint > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DisNum Input exceeds the normal display range\r\n");
+		Debug("GUI_DisNum Input exceeds the normal display range\r\n");
 		return;
 	}
 
@@ -474,7 +474,7 @@ void GUI_DisGrayMap(POINT Xpoint, POINT Ypoint, const unsigned char *pBmp)
 				pBmp++;
 			}
 	} else {
-		//DEBUG("Does not support type\r\n");
+		Debug("Does not support type\r\n");
 		return;
 	}
 }
@@ -498,7 +498,7 @@ sFONT *GUI_GetFontSize(POINT Dx, POINT Dy)
 		   (Dy > Font8.Height && Dy < Font12.Height)) {
 		Font = &Font8;
 	} else {
-		//DEBUG("Please change the display area size, or add a larger font to modify\r\n");
+		Debug("Please change the display area size, or add a larger font to modify\r\n");
 	}
 	return Font;
 }

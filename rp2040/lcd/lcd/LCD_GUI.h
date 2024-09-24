@@ -21,6 +21,7 @@
 
 #include "LCD_Driver.h"
 #include "fonts.h"
+#include "Debug.h"
 
 #define LOW_Speed_Show 0
 #define HIGH_Speed_Show 1
@@ -126,7 +127,7 @@ static inline void GUI_FastChar(POINT Xpoint, POINT Ypoint,
 
 	if (Xpoint > sLCD_DIS.LCD_Dis_Column ||
 	    Ypoint > sLCD_DIS.LCD_Dis_Page) {
-		//DEBUG("GUI_DisChar Input exceeds the normal display range\r\n");
+		Debug("GUI_DisChar Input exceeds the normal display range\r\n");
 		return;
 	}
 
