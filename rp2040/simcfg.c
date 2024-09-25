@@ -92,8 +92,9 @@ void config(void)
 	unsigned int br;
 	int go_flag = 0;
 	int i, n, menu;
-	datetime_t t;
 	int brightness = 1000;
+	datetime_t t = { .year = 2024, .month = 1, .day = 1, .dotw = 1,
+			.hour = 0, .min = 0, .sec = 0 };
 	static const char *dotw[7] = { "Sun", "Mon", "Tue", "Wed",
 				       "Thu", "Fri", "Sat" };
 
