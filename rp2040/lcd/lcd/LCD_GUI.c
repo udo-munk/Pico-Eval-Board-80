@@ -207,7 +207,7 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 	if (Draw_Fill == DRAW_FULL) { // Draw a filled circle
 		while(XCurrent <= YCurrent) { // Realistic circles
 			for (sCountY = XCurrent; sCountY <= YCurrent;
-			     sCountY ++) {
+			     sCountY++) {
 			  GUI_DrawPoint(X_Center + XCurrent, Y_Center + sCountY,
 					Color, DOT_PIXEL_DFT, DOT_STYLE_DFT);//1
 			  GUI_DrawPoint(X_Center - XCurrent, Y_Center + sCountY,
@@ -229,9 +229,9 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 				Esp += 4 * XCurrent + 6;
 			else {
 				Esp += 10 + 4 * (XCurrent - YCurrent);
-				YCurrent --;
+				YCurrent--;
 			}
-			XCurrent ++;
+			XCurrent++;
 		}
 	} else { // Draw a hollow circle
 		while (XCurrent <= YCurrent) {
@@ -256,9 +256,9 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 				Esp += 4 * XCurrent + 6;
 			else {
 				Esp += 10 + 4 * (XCurrent - YCurrent);
-				YCurrent --;
+				YCurrent--;
 			}
-			XCurrent ++;
+			XCurrent++;
 		}
 	}
 }
@@ -288,8 +288,8 @@ void GUI_DisChar(POINT Xpoint, POINT Ypoint, const char Acsii_Char,
 			       (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
 	const unsigned char *ptr = &Font->table[Char_Offset];
 
-	for (Page = 0; Page < Font->Height; Page ++) {
-		for (Column = 0; Column < Font->Width; Column ++) {
+	for (Page = 0; Page < Font->Height; Page++) {
+		for (Column = 0; Column < Font->Width; Column++) {
 		// To determine whether the font background color and
 		// screen background color is consistent
 		  if (FONT_BACKGROUND == Color_Background) {
@@ -428,7 +428,7 @@ void GUI_Disbitmap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
 	POINT i, j, byteWidth = (Width + 7) / 8;
 
 	for (j = 0; j < Height; j++) {
-		for (i = 0; i < Width; i ++) {
+		for (i = 0; i < Width; i++) {
 			if (*(pMap + j * byteWidth + i / 8) &
 			    (128 >> (i & 7))) {
 				GUI_DrawPoint(Xpoint + i, Ypoint + j, WHITE,
