@@ -80,8 +80,6 @@ typedef struct {
 	uint8_t  Sec;   // 0 - 59
 } DEV_TIME;
 
-extern DEV_TIME sDev_time;
-
 /*******************************************************************************
 function:	Defines commonly used colors for the display
 *******************************************************************************/
