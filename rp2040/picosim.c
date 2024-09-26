@@ -24,6 +24,7 @@
 #endif
 #include "pico/stdlib.h"
 #include "pico/time.h"
+#include "pico/multicore.h"
 #include "hardware/uart.h"
 #include "hardware/watchdog.h"
 
@@ -153,6 +154,7 @@ int main(void)
 	PC = 0xff00;		/* power on jump into the boot ROM */
 
 	put_pixel(0x440000);	/* LED green */
+	multicore_launch_core1(lcd_task); /* start LCD task on core 1 */
 
 	/* run the CPU with whatever is in memory */
 #ifdef WANT_ICE
@@ -165,6 +167,8 @@ int main(void)
 
 	put_pixel(0x000000);	/* LED off */
 	exit_disks();		/* stop disk drives */
+	lcd_exit();		/* LCD off */
+	multicore_reset_core1();/* stop core 1 */
 
 #ifndef WANT_ICE
 	putchar('\n');

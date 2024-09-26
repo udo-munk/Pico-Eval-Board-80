@@ -88,6 +88,7 @@ target_compile_options(${PROJECT_NAME} PUBLIC -Wno-unused-parameter)
 
 target_link_libraries(${PROJECT_NAME}
 	pico_stdlib
+	pico_multicore
 #	pico_cyw43_arch_none
 	stdio_msc_usb
 	tinyusb_device
