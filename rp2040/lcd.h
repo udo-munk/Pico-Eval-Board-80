@@ -1,5 +1,5 @@
 /*
- * Functions for using the Pico-Eval-Board LCD from the emulation
+ * Functions for using the Pico-Eval-Board LCD
  *
  * Copyright (c) 2024 Udo Munk
  */
