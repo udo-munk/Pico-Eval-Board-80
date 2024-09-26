@@ -4,14 +4,20 @@
  * Copyright (c) 2024 Udo Munk
  */
 
+#include "hardware/rtc.h"
+
 #include "sim.h"
 #include "simdefs.h"
 #include "lcd.h"
 #include "LCD_GUI.h"
 #include "fonts.h"
 
-volatile bool do_refresh = true;
-volatile bool refresh_stopped = false;
+static volatile bool do_refresh = true;
+static volatile bool refresh_stopped = false;
+
+/*
+ * these functions are called from the application running on core 0
+ */
 
 void lcd_init(void)
 {
@@ -53,12 +59,31 @@ void lcd_banner(void)
 	GUI_DisString(290, 70, "8080", &Font24, BLUE, WHITE);
 }
 
+/*
+ * these functions are called from the lcd task running on core 1
+ */
+
+static void lcd_show_time(void)
+{
+	datetime_t t;
+	DEV_TIME dt;
+
+	rtc_get_datetime(&t);
+	dt.Hour = t.hour;
+	dt.Min = t.min;
+	dt.Sec = t.sec;
+
+	LCD_SetArealColor(100, 100, 380, 200, WHITE);
+	GUI_Showtime(100, 100, 380, 200, &dt, GREEN);
+}
+
 void lcd_task(void)
 {
 	GUI_Clear(BLACK);
 
 	while (do_refresh) {
-		sleep_ms(100);
+		lcd_show_time();
+		sleep_ms(1000);
 	}
 
 	refresh_stopped = true;
