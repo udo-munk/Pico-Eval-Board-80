@@ -274,7 +274,7 @@ parameter:
 	Color_Foreground : Select the foreground color of the ASCII character
 ******************************************************************************/
 void GUI_DisChar(POINT Xpoint, POINT Ypoint, const char Acsii_Char,
-                 sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
+                 sFONT *Font, COLOR Color_Background, COLOR Color_Foreground)
 {
 	POINT Page, Column;
 
@@ -328,8 +328,8 @@ parameter:
 	Color_Background : Select the background color of the ASCII character
 	Color_Foreground : Select the foreground color of the ASCII character
 ******************************************************************************/
-void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
-                   sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
+void GUI_DisString(POINT Xstart, POINT Ystart, const char *pString,
+                   sFONT *Font, COLOR Color_Background, COLOR Color_Foreground)
 {
 	POINT Xpoint = Xstart;
 	POINT Ypoint = Ystart;
@@ -353,9 +353,9 @@ void GUI_DisString(POINT Xstart, POINT Ystart, const char * pString,
 			Xpoint = Xstart;
 			Ypoint = Ystart;
 		}
-		//GUI_DisChar(Xpoint, Ypoint, * pString, Font, Color_Background,
+		//GUI_DisChar(Xpoint, Ypoint, *pString, Font, Color_Background,
 		//	    Color_Foreground);
-		GUI_FastChar(Xpoint, Ypoint, * pString, Font, Color_Background,
+		GUI_FastChar(Xpoint, Ypoint, *pString, Font, Color_Background,
 			     Color_Foreground);
 
 		// The next character of the address
@@ -379,7 +379,7 @@ parameter:
 ******************************************************************************/
 #define  ARRAY_LEN 255
 void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
-                sFONT* Font, COLOR Color_Background, COLOR Color_Foreground)
+                sFONT *Font, COLOR Color_Background, COLOR Color_Foreground)
 {
 	int16_t Num_Bit = 0, Str_Bit = 0;
 	uint8_t Str_Array[ARRAY_LEN] = {0}, Num_Array[ARRAY_LEN] = {0};
@@ -406,7 +406,7 @@ void GUI_DisNum(POINT Xpoint, POINT Ypoint, int32_t Nummber,
 	}
 
 	// show
-	GUI_DisString(Xpoint, Ypoint, (const char*) pStr, Font,
+	GUI_DisString(Xpoint, Ypoint, (const char *) pStr, Font,
 		      Color_Background, Color_Foreground);
 }
 
