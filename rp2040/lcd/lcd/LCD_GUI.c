@@ -528,26 +528,29 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 
 	if ((pTime->Sec % 10) < 10 && (pTime->Sec % 10) > 0) {
 		// xx:xx:x0
-		LCD_SetArealColor(Xstart + Dx * 6, Ystart, Xend, Yend, WHITE);
+		LCD_SetArealColor(Xstart + Dx * 6, Ystart, Xend, Yend,
+				  FONT_BACKGROUND);
 	} else {
 		if ((pTime->Sec / 10) < 6 && (pTime->Sec / 10) > 0) {
 			// xx:xx:00
 			LCD_SetArealColor(Xstart + Dx * 5, Ystart, Xend, Yend,
-					  WHITE);
+					  FONT_BACKGROUND);
 		} else { //sec = 60
 			pTime->Min = pTime->Min + 1;
 			pTime->Sec = 0;
 			if ((pTime->Min % 10) < 10 && (pTime->Min % 10) > 0) {
 				// xx:x0:00
 				LCD_SetArealColor(Xstart + Dx * 3 + Dx / 2,
-						  Ystart, Xend, Yend, WHITE);
+						  Ystart, Xend, Yend,
+						  FONT_BACKGROUND);
 			} else {
 				if ((pTime->Min / 10) < 6 && (pTime->Min / 10)
 				    > 0) {
 					// xx:00:00
 					LCD_SetArealColor(Xstart + Dx * 2 + Dx
 							  / 2, Ystart, Xend,
-							  Yend, WHITE);
+							  Yend,
+							  FONT_BACKGROUND);
 				} else { //min = 60
 					pTime->Hour =  pTime->Hour + 1;
 					pTime->Min = 0;
@@ -557,7 +560,8 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 						// x0:00:00
 						LCD_SetArealColor(Xstart + Dx,
 								  Ystart, Xend,
-								  Yend, WHITE);
+								  Yend,
+								  FONT_BACKGROUND);
 					} else {
 						pTime->Hour = 0;
 						pTime->Min = 0;
@@ -565,7 +569,8 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 						// 00:00:00
 						LCD_SetArealColor(Xstart,
 								  Ystart, Xend,
-								  Yend, WHITE);
+								  Yend,
+								  FONT_BACKGROUND);
 					}
 				}
 			}

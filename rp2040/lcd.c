@@ -73,8 +73,7 @@ static void lcd_show_time(void)
 	dt.Min = t.min;
 	dt.Sec = t.sec;
 
-	LCD_SetArealColor(100, 100, 380, 200, WHITE);
-	GUI_Showtime(100, 100, 380, 200, &dt, GREEN);
+	GUI_Showtime(10, 10, 155, 35, &dt, BLUE);
 }
 
 void lcd_task(void)
