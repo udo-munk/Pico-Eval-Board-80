@@ -4,7 +4,7 @@
  * Copyright (c) 2024 Udo Munk
  */
 
-#include "hardware/rtc.h"
+#include <time.h>
 
 #include "sim.h"
 #include "simdefs.h"
@@ -65,13 +65,15 @@ void lcd_banner(void)
 
 static void lcd_show_time(void)
 {
-	datetime_t t;
+	time_t Time;
+	struct tm *t;
 	DEV_TIME dt;
 
-	rtc_get_datetime(&t);
-	dt.Hour = t.hour;
-	dt.Min = t.min;
-	dt.Sec = t.sec;
+	time(&Time);
+	t = localtime(&Time);
+	dt.Hour = t->tm_hour;
+	dt.Min = t->tm_min;
+	dt.Sec = t->tm_sec;
 
 	GUI_Showtime(10, 10, 155, 35, &dt, BLUE);
 }
