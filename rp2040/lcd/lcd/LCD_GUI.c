@@ -534,8 +534,6 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 		LCD_SetArealColor(Xstart + Dx * 5, Ystart, Xend, Yend,
 				  FONT_BACKGROUND);
 	} else { //sec = 60
-		pTime->Min = pTime->Min + 1;
-		pTime->Sec = 0;
 		if ((pTime->Min % 10) < 10 && (pTime->Min % 10) > 0) {
 			// xx:x0:00
 			LCD_SetArealColor(Xstart + Dx * 3 + Dx / 2,
@@ -550,8 +548,6 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 						  Yend,
 						  FONT_BACKGROUND);
 			} else { //min = 60
-				pTime->Hour =  pTime->Hour + 1;
-				pTime->Min = 0;
 				if ((pTime->Hour % 10) < 4 &&
 				    (pTime->Hour % 10) > 0 &&
 				    pTime->Hour < 24) {
@@ -561,9 +557,6 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 							  Yend,
 							  FONT_BACKGROUND);
 				} else {
-					pTime->Hour = 0;
-					pTime->Min = 0;
-					pTime->Sec = 0;
 					// 00:00:00
 					LCD_SetArealColor(Xstart,
 							  Ystart, Xend,
