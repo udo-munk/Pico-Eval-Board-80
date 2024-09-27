@@ -118,7 +118,7 @@ static inline void GUI_Swap(POINT Point1, POINT Point2)
  * inline function to draw ASCII characters faster
  */
 static inline void GUI_FastChar(POINT Xpoint, POINT Ypoint,
-				const char Acsii_Char, sFONT* Font,
+				const char Acsii_Char, sFONT *Font,
 				COLOR Color_Background, COLOR Color_Foreground)
 {
 	POINT Page, Column;
@@ -133,8 +133,8 @@ static inline void GUI_FastChar(POINT Xpoint, POINT Ypoint,
 			       (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
 	const unsigned char *ptr = &Font->table[Char_Offset];
 
-	for (Page = 0; Page < Font->Height; Page ++) {
-		for (Column = 0; Column < Font->Width; Column ++) {
+	for (Page = 0; Page < Font->Height; Page++) {
+		for (Column = 0; Column < Font->Width; Column++) {
 		// To determine whether the font background color and
 		// screen background color is consistent
 		  if (FONT_BACKGROUND == Color_Background) {
