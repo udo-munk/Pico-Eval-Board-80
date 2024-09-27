@@ -3,7 +3,3 @@
 # Don't show diffs for binary files and don't do end-of-line conversion
 *.bin -diff -text
 *.dsk -diff -text
-*.hdd -diff -text
-*.jpg -diff -text
-*.pdf -diff -text
-*.ptp -diff -text
