@@ -355,8 +355,6 @@ void GUI_DisString(POINT Xstart, POINT Ystart, const char *pString,
 		}
 		GUI_DisChar(Xpoint, Ypoint, *pString, Font, Color_Background,
 			    Color_Foreground);
-		//GUI_FastChar(Xpoint, Ypoint, *pString, Font, Color_Background,
-		//	     Color_Foreground);
 
 		// The next character of the address
 		pString++;
