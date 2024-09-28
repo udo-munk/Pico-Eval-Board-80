@@ -32,7 +32,9 @@ void lcd_init(void)
 
 void lcd_exit(void)
 {
+	/* tell LCD task to stop drawing */
 	do_refresh = false;
+	/* wait until it stopped */
 	while (refresh_stopped == false)
 		;
 	GUI_Clear(BLACK);
@@ -65,9 +67,15 @@ void lcd_banner(void)
 
 static void lcd_show_time(void)
 {
+	static bool first_call = true;
 	time_t Time;
 	struct tm *t;
 	DEV_TIME dt;
+
+	if (first_call) {
+		GUI_DisString(10, 10, "Time", &Font24, BLACK, WHITE);
+		first_call = false;
+	}
 
 	time(&Time);
 	t = localtime(&Time);
@@ -75,7 +83,7 @@ static void lcd_show_time(void)
 	dt.Min = t->tm_min;
 	dt.Sec = t->tm_sec;
 
-	GUI_Showtime(10, 10, 155, 35, &dt, BLUE);
+	GUI_Showtime(80, 10, 235, 35, &dt, BLUE);
 }
 
 void lcd_task(void)
