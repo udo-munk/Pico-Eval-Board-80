@@ -36,6 +36,7 @@ void lcd_exit(void)
 	while (refresh_stopped == false)
 		;
 	GUI_Clear(BLACK);
+	System_Exit();
 }
 
 void lcd_wait_term(void)
