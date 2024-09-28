@@ -525,46 +525,33 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 	Font = GUI_GetFontSize(Dx, Dy);
 
 	// xx:xx:x0
-	LCD_SetArealColor(Xstart + Dx * 6, Ystart, Xend, Yend,
-				  FONT_BACKGROUND);
-	if ((pTime->Sec / 10) < 6 && (pTime->Sec / 10) > 0) {
+	GUI_DrawRectangle(Xstart + Dx * 6, Ystart, Xend, Yend, FONT_BACKGROUND,
+			  DRAW_FULL, DOT_PIXEL_1X1);
+
+	if ((pTime->Sec % 10) == 0) {
 		// xx:xx:00
-		LCD_SetArealColor(Xstart + Dx * 5, Ystart, Xend, Yend,
-				  FONT_BACKGROUND);
-	} else { //sec = 60
-		if ((pTime->Min % 10) < 10 && (pTime->Min % 10) > 0) {
-			// xx:x0:00
-			LCD_SetArealColor(Xstart + Dx * 3 + Dx / 2,
-					  Ystart, Xend, Yend,
-					  FONT_BACKGROUND);
-		} else {
-			if ((pTime->Min / 10) < 6 && (pTime->Min / 10)
-			    > 0) {
-				// xx:00:00
-				LCD_SetArealColor(Xstart + Dx * 2 + Dx
-						  / 2, Ystart, Xend,
-						  Yend,
-						  FONT_BACKGROUND);
-			} else { //min = 60
-				if ((pTime->Hour % 10) < 4 &&
-				    (pTime->Hour % 10) > 0 &&
-				    pTime->Hour < 24) {
-					// x0:00:00
-					LCD_SetArealColor(Xstart + Dx,
-							  Ystart, Xend,
-							  Yend,
-							  FONT_BACKGROUND);
-				} else {
-					// 00:00:00
-					LCD_SetArealColor(Xstart,
-							  Ystart, Xend,
-							  Yend,
-							  FONT_BACKGROUND);
-				}
-			}
-		}
+		GUI_DrawRectangle(Xstart + Dx * 5, Ystart, Xend, Yend,
+				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
 	}
-    
+
+	if (pTime->Sec == 0) {
+		// xx:x0:00
+		GUI_DrawRectangle(Xstart + Dx * 3, Ystart, Xend, Yend,
+				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+	}
+
+	if (((pTime->Min % 10) == 0) && (pTime->Sec == 0)) {
+		// xx:00:00
+		GUI_DrawRectangle(Xstart + Dx * 2, Ystart, Xend, Yend,
+				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+	}
+
+	if ((pTime->Min == 0) && (pTime->Sec == 0)) {
+		// 00:00:00
+		GUI_DrawRectangle(Xstart, Ystart, Xend, Yend,
+				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+	}
+
 	// Write data into the cache
 	GUI_DisChar(Xstart, Ystart, value[pTime->Hour / 10], Font,
 		    FONT_BACKGROUND, Color);

@@ -23,8 +23,8 @@
 #include "fonts.h"
 #include "Debug.h"
 
-#define LOW_Speed_Show 0
-#define HIGH_Speed_Show 1
+#define LOW_Speed_Show 1
+#define HIGH_Speed_Show 0
 
 /*******************************************************************************
 function:	dot pixel
