@@ -95,6 +95,7 @@ target_link_libraries(${PROJECT_NAME}
 	font
 	config
 	hardware_spi
+	hardware_adc
 )
 
 pico_add_extra_outputs(${PROJECT_NAME})

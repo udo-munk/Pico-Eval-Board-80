@@ -5,6 +5,8 @@
  */
 
 #include <time.h>
+#include "hardware/adc.h"
+#include "hardware/divider.h"
 
 #include "sim.h"
 #include "simdefs.h"
@@ -66,15 +68,34 @@ void lcd_banner(void)
  * these functions are called from the lcd task running on core 1
  */
 
+static inline float read_onboard_temp(void)
+{
+	/* 12-bit conversion, assume max value == ADC_VREF == 3.3 V */
+	const float conversionFactor = 3.3f / (1 << 12);
+
+	float adc = (float) adc_read() * conversionFactor;
+	float tempC = 27.0f - (adc - 0.706f) / 0.001721f;
+
+	return tempC;
+}
+
 static void lcd_show_time(void)
 {
 	static bool first_call = true;
 	time_t Time;
 	struct tm *t;
 	DEV_TIME dt;
+	int temp;
+	divmod_result_t res;
+
 
 	if (first_call) {
 		GUI_DisString(10, 10, "Time", &Font24, BLACK, WHITE);
+		GUI_DisString(300, 10, "Temp", &Font24, BLACK, WHITE);
+		GUI_DisChar(460, 10, 'C', &Font24, BLACK, WHITE);
+		GUI_DisChar(406, 10, '.', &Font24, BLACK, BLUE);
+		GUI_DrawLine(0, 50, 479, 50, GRAY, LINE_SOLID,
+			     DOT_PIXEL_2X2);
 		first_call = false;
 	}
 
@@ -83,8 +104,25 @@ static void lcd_show_time(void)
 	dt.Hour = t->tm_hour;
 	dt.Min = t->tm_min;
 	dt.Sec = t->tm_sec;
-
 	GUI_Showtime(85, 10, 240, 35, &dt, BLUE);
+
+	GUI_DrawRectangle(423, 10, 457, 34, FONT_BACKGROUND,
+			  DRAW_FULL, DOT_PIXEL_1X1);
+	GUI_DrawRectangle(372, 10, 406, 34, FONT_BACKGROUND,
+			  DRAW_FULL, DOT_PIXEL_1X1);
+	temp = (int) (read_onboard_temp() * 100.0f + 0.5f);
+	res = hw_divider_divmod_u32(temp, 10);
+	GUI_DisChar(440, 10, '0' + to_remainder_u32(res), &Font24,
+		    BLACK, BLUE);
+	res = hw_divider_divmod_u32(to_quotient_u32(res), 10);
+	GUI_DisChar(423, 10, '0' + to_remainder_u32(res), &Font24,
+		    BLACK, BLUE);
+	res = hw_divider_divmod_u32(to_quotient_u32(res), 10);
+	GUI_DisChar(389, 10, '0' + to_remainder_u32(res), &Font24,
+		    BLACK, BLUE);
+	res = hw_divider_divmod_u32(to_quotient_u32(res), 10);
+	GUI_DisChar(372, 10, '0' + to_remainder_u32(res), &Font24,
+		    BLACK, BLUE);
 }
 
 void lcd_task(void)

@@ -25,6 +25,7 @@
 #include "pico/stdlib.h"
 #include "pico/time.h"
 #include "pico/multicore.h"
+#include "hardware/adc.h"
 #include "hardware/uart.h"
 #include "hardware/watchdog.h"
 
@@ -106,6 +107,14 @@ int main(void)
 	stdio_msc_usb_init();	/* initialize MSC USB stdio */
 #endif
 	time_init();		/* initialize FatFS RTC */
+
+	/*
+	 * initialize hardware AD converter, enable onboard
+	 * temperature sensor and select its channel
+	 */
+	adc_init();
+	adc_set_temp_sensor_enabled(true);
+	adc_select_input(4);
 
 	/* initialize LCD */
 	lcd_init();
