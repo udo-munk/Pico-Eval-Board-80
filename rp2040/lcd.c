@@ -84,7 +84,7 @@ static void lcd_show_time(void)
 	dt.Min = t->tm_min;
 	dt.Sec = t->tm_sec;
 
-	GUI_Showtime(80, 10, 235, 35, &dt, BLUE);
+	GUI_Showtime(85, 10, 240, 35, &dt, BLUE);
 }
 
 void lcd_task(void)
