@@ -524,34 +524,39 @@ void GUI_Showtime(POINT Xstart, POINT Ystart, POINT Xend, POINT Yend,
 	POINT Dy = Yend - Ystart;	// determine the font size
 	Font = GUI_GetFontSize(Dx, Dy);
 
-	// xx:xx:x0
-	GUI_DrawRectangle(Xstart + Dx * 6, Ystart, Xend, Yend, FONT_BACKGROUND,
-			  DRAW_FULL, DOT_PIXEL_1X1);
-
-	if ((pTime->Sec % 10) == 0) {
-		// xx:xx:00
-		GUI_DrawRectangle(Xstart + Dx * 5, Ystart, Xend, Yend,
+	if ((pTime->Min == 0) && (pTime->Sec == 0)) {
+		// 00:00:00
+		GUI_DrawRectangle(Xstart, Ystart, Xend, Yend,
 				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
-	}
-
-	if (pTime->Sec == 0) {
-		// xx:x0:00
-		GUI_DrawRectangle(Xstart + Dx * 3, Ystart, Xend, Yend,
-				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+		goto done;
 	}
 
 	if (((pTime->Min % 10) == 0) && (pTime->Sec == 0)) {
 		// xx:00:00
 		GUI_DrawRectangle(Xstart + Dx * 2, Ystart, Xend, Yend,
 				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+		goto done;
 	}
 
-	if ((pTime->Min == 0) && (pTime->Sec == 0)) {
-		// 00:00:00
-		GUI_DrawRectangle(Xstart, Ystart, Xend, Yend,
+	if (pTime->Sec == 0) {
+		// xx:x0:00
+		GUI_DrawRectangle(Xstart + Dx * 3, Ystart, Xend, Yend,
 				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+		goto done;
 	}
 
+	if ((pTime->Sec % 10) == 0) {
+		// xx:xx:00
+		GUI_DrawRectangle(Xstart + Dx * 5, Ystart, Xend, Yend,
+				  FONT_BACKGROUND, DRAW_FULL, DOT_PIXEL_1X1);
+		goto done;
+	}
+
+	// xx:xx:x0
+	GUI_DrawRectangle(Xstart + Dx * 6, Ystart, Xend, Yend, FONT_BACKGROUND,
+			  DRAW_FULL, DOT_PIXEL_1X1);
+
+done:
 	// Write data into the cache
 	GUI_DisChar(Xstart, Ystart, value[pTime->Hour / 10], Font,
 		    FONT_BACKGROUND, Color);
