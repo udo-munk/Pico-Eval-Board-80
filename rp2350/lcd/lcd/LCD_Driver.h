@@ -82,7 +82,7 @@ static inline void LCD_WriteData(uint16_t Data)
 	DEV_Digital_Write(LCD_DC_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 0);
 	SPI4W_Write_Byte(Data >> 8);
-	SPI4W_Write_Byte(Data & 0XFF);
+	SPI4W_Write_Byte(Data & 0xFF);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
@@ -97,7 +97,7 @@ static inline void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 	DEV_Digital_Write(LCD_CS_PIN, 0);
 	for (i = 0; i < DataLen; i++) {
 		SPI4W_Write_Byte(Data >> 8);
-		SPI4W_Write_Byte(Data & 0XFF);
+		SPI4W_Write_Byte(Data & 0xFF);
 	}
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
