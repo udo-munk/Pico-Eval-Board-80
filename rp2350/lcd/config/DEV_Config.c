@@ -41,9 +41,12 @@ note:		Initialize the communication method
 void System_Init(void)
 {
 	DEV_GPIO_Init();
-	//spi_init(SPI_PORT, 150 * 1000 * 1000 / 30); /* 5.00 MHz */
-	spi_init(SPI_PORT, 150 * 1000 * 1000 / 16); /* 9.375 MHz */
-	//spi_init(SPI_PORT, 150 * 1000 * 1000 / 4); /* 37.50 MHz */
+#if PICO_RP2040
+	spi_init(SPI_PORT, 125 * 1000 * 1000 / 4); /* 31.25 MHz */
+#endif
+#if PICO_RP2350
+	spi_init(SPI_PORT, 150 * 1000 * 1000 / 4); /* 37.50 MHz */
+#endif
 	gpio_set_function(LCD_CLK_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MOSI_PIN, GPIO_FUNC_SPI);
 	gpio_set_function(LCD_MISO_PIN, GPIO_FUNC_SPI);
