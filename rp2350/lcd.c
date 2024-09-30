@@ -38,7 +38,7 @@ void lcd_exit(void)
 	do_refresh = false;
 	/* wait until it stopped */
 	while (refresh_stopped == false)
-		;
+		sleep_ms(20);
 	GUI_Clear(BLACK);
 	System_Exit();
 }
