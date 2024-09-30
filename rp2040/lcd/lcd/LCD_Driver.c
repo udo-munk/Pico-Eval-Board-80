@@ -140,30 +140,30 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 		MemoryAccessReg_Data = 0x08;
 		DisFunReg_Data = 0x42;
 		break;
-	case U2D_L2R: // 0x2
+	case U2D_L2R:
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x22;
 		break;
-	case U2D_R2L: // 0x6
+	case U2D_R2L:
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
 		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 0, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x02;
 		break;
-	case D2U_L2R: // 0xa
+	case D2U_L2R:
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
-		   X-Y Exchange*/
+		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 1, SS = 1, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x62;
 		break;
-	case D2U_R2L: // 0xe
+	case D2U_R2L:
 		/* Memory access control: MY = 0, MX = 0, MV = 1, ML = 0
-		   X-Y Exchange*/
+		   X-Y Exchange */
 		/* Display Function control: NN = 0, GS = 1, SS = 0, SM = 0 */
 		MemoryAccessReg_Data = 0x28;
 		DisFunReg_Data = 0x42;
