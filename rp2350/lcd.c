@@ -68,6 +68,7 @@ void lcd_banner(void)
 
 /*
  * these functions are called from the lcd task running on core 1
+ * while core 0 is running the VM at the same time
  */
 
 static inline float read_onboard_temp(void)
@@ -156,7 +157,7 @@ static void lcd_show_cpu(void)
 	GUI_DisChar(111, 95, hex0(SP), &Font24, BROWN, BLUE);
 }
 
-#define LCD_REFRESH 5
+#define LCD_REFRESH 5 /* in ticks/frames per second */
 #define LCD_REFRESH_US (1000000 / LCD_REFRESH)
 
 void lcd_task(void)
@@ -171,8 +172,10 @@ void lcd_task(void)
 	while (do_refresh) {
 		t = get_absolute_time();
 
+		/* update time/temperature once a second */
 		if (ticks == 0)
 			lcd_show_time();
+
 		lcd_show_cpu();
 
 		d = absolute_time_diff_us(t, get_absolute_time());
@@ -185,5 +188,6 @@ void lcd_task(void)
 			ticks = 0;
 	}
 
+	/* task stopped refreshing the LCD */
 	refresh_stopped = true;
 }
