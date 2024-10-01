@@ -139,10 +139,16 @@ static void lcd_show_cpu(void)
 	static bool first_call = true;
 
 	if (first_call) {
-		GUI_DrawRectangle(10, 60, 140, 125, GRAY, DRAW_FULL,
+		GUI_DrawRectangle(10, 60, 140, 155, GRAY, DRAW_FULL,
 				  DOT_PIXEL_1X1);
 		GUI_DisString(15, 65, "PC", &Font24, GRAY, WHITE);
 		GUI_DisString(15, 95, "SP", &Font24, GRAY, WHITE);
+		GUI_DisString(15, 125, "AF", &Font24, GRAY, WHITE);
+		GUI_DrawRectangle(150, 60, 280, 155, GRAY, DRAW_FULL,
+				  DOT_PIXEL_1X1);
+		GUI_DisString(155, 65, "BC", &Font24, GRAY, WHITE);
+		GUI_DisString(155, 95, "DE", &Font24, GRAY, WHITE);
+		GUI_DisString(155, 125, "HL", &Font24, GRAY, WHITE);
 		first_call = false;
 	}
 
@@ -155,6 +161,24 @@ static void lcd_show_cpu(void)
 	GUI_DisChar(77, 95, hex2(SP), &Font24, BROWN, BLUE);
 	GUI_DisChar(94, 95, hex1(SP), &Font24, BROWN, BLUE);
 	GUI_DisChar(111, 95, hex0(SP), &Font24, BROWN, BLUE);
+
+	GUI_DisChar(60, 125, hex0(A), &Font24, BROWN, BLUE);
+	GUI_DisChar(77, 125, hex0(F), &Font24, BROWN, BLUE);
+
+	GUI_DisChar(195, 65, hex1(B), &Font24, BROWN, BLUE);
+	GUI_DisChar(212, 65, hex0(B), &Font24, BROWN, BLUE);
+	GUI_DisChar(229, 65, hex1(C), &Font24, BROWN, BLUE);
+	GUI_DisChar(246, 65, hex0(C), &Font24, BROWN, BLUE);
+
+	GUI_DisChar(195, 95, hex1(D), &Font24, BROWN, BLUE);
+	GUI_DisChar(212, 95, hex0(D), &Font24, BROWN, BLUE);
+	GUI_DisChar(229, 95, hex1(E), &Font24, BROWN, BLUE);
+	GUI_DisChar(246, 95, hex0(E), &Font24, BROWN, BLUE);
+
+	GUI_DisChar(195, 125, hex1(H), &Font24, BROWN, BLUE);
+	GUI_DisChar(212, 125, hex0(H), &Font24, BROWN, BLUE);
+	GUI_DisChar(229, 125, hex1(L), &Font24, BROWN, BLUE);
+	GUI_DisChar(246, 125, hex0(L), &Font24, BROWN, BLUE);
 }
 
 #define LCD_REFRESH 5 /* in ticks/frames per second */
