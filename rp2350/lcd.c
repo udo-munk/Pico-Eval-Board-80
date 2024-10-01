@@ -109,7 +109,7 @@ static void lcd_show_time(void)
 	dt.Sec = t->tm_sec;
 	GUI_Showtime(85, 10, 240, 35, &dt, BLUE);
 
-	/* update temerature */
+	/* update temperature */
 	GUI_DrawRectangle(423, 10, 457, 34, FONT_BACKGROUND,
 			  DRAW_FULL, DOT_PIXEL_1X1);
 	GUI_DrawRectangle(372, 10, 406, 34, FONT_BACKGROUND,
