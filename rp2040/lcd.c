@@ -139,7 +139,7 @@ static void lcd_show_cpu(void)
 	static bool first_call = true;
 
 	if (first_call) {
-		GUI_DrawRectangle(10, 60, 140, 140, GRAY, DRAW_FULL,
+		GUI_DrawRectangle(10, 60, 140, 125, GRAY, DRAW_FULL,
 				  DOT_PIXEL_1X1);
 		GUI_DisString(15, 65, "PC", &Font24, GRAY, WHITE);
 		GUI_DisString(15, 95, "SP", &Font24, GRAY, WHITE);
