@@ -107,6 +107,14 @@ int main(void)
 #endif
 	time_init();		/* initialize FatFS RTC */
 
+#ifdef RASPBERRYPI_PICO_W	/* initialize Pico W hardware */
+	if (cyw43_arch_init())
+	{
+		printf("CYW43 init failed\n");
+		return -1;
+	}
+#endif
+
 	/*
 	 * initialize hardware AD converter, enable onboard
 	 * temperature sensor and select its channel
