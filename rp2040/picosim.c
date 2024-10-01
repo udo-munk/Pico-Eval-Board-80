@@ -28,9 +28,8 @@
 #include "hardware/adc.h"
 #include "hardware/uart.h"
 #include "hardware/watchdog.h"
-
 /* Pico W also needs this */
-#if PICO == 1
+#ifdef RASPBERRYPI_PICO_W
 #include "pico/cyw43_arch.h"
 #endif
 
