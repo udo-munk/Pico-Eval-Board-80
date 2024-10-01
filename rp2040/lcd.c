@@ -176,6 +176,7 @@ void lcd_task(void)
 		if (ticks == 0)
 			lcd_show_time();
 
+		/* update VM CPU registers on each run */
 		lcd_show_cpu();
 
 		d = absolute_time_diff_us(t, get_absolute_time());
