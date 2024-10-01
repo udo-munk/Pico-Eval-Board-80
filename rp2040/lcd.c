@@ -1,7 +1,7 @@
 /*
  * Functions for using the Pico-Eval-Board LCD
  *
- * Copyright (c) 2024 Udo Munk
+ * Copyright (c) 2024 Udo Munk & Thomas Eberhardt
  */
 
 #include <time.h>
@@ -10,6 +10,8 @@
 
 #include "sim.h"
 #include "simdefs.h"
+#include "simglb.h"
+
 #include "lcd.h"
 #include "LCD_GUI.h"
 #include "fonts.h"
@@ -125,13 +127,62 @@ static void lcd_show_time(void)
 		    BLACK, BLUE);
 }
 
+static const char *hex = "0123456789ABCDEF";
+static inline char hex3(uint16_t x) { return hex[(x >> 12) & 0xf]; }
+static inline char hex2(uint16_t x) { return hex[(x >> 8) & 0xf]; }
+static inline char hex1(uint16_t x) { return hex[(x >> 4) & 0xf]; }
+static inline char hex0(uint16_t x) { return hex[x & 0xf]; }
+
+static void lcd_show_cpu(void)
+{
+	static bool first_call = true;
+
+	if (first_call) {
+		GUI_DrawRectangle(10, 60, 140, 140, GRAY, DRAW_FULL,
+				  DOT_PIXEL_1X1);
+		GUI_DisString(15, 65, "PC", &Font24, GRAY, WHITE);
+		GUI_DisString(15, 95, "SP", &Font24, GRAY, WHITE);
+		first_call = false;
+	}
+
+	GUI_DisChar(60, 65, hex3(PC), &Font24, BROWN, BLUE);
+	GUI_DisChar(77, 65, hex2(PC), &Font24, BROWN, BLUE);
+	GUI_DisChar(94, 65, hex1(PC), &Font24, BROWN, BLUE);
+	GUI_DisChar(111, 65, hex0(PC), &Font24, BROWN, BLUE);
+
+	GUI_DisChar(60, 95, hex3(SP), &Font24, BROWN, BLUE);
+	GUI_DisChar(77, 95, hex2(SP), &Font24, BROWN, BLUE);
+	GUI_DisChar(94, 95, hex1(SP), &Font24, BROWN, BLUE);
+	GUI_DisChar(111, 95, hex0(SP), &Font24, BROWN, BLUE);
+}
+
+#define LCD_REFRESH 5
+#define LCD_REFRESH_US (1000000 / LCD_REFRESH)
+
 void lcd_task(void)
 {
+	absolute_time_t t;
+	int64_t d;
+	int ticks = 0;
+
 	GUI_Clear(BLACK);
 
+	/* loops every LCD_REFRESH_US */
 	while (do_refresh) {
-		lcd_show_time();
-		sleep_ms(1000);
+		t = get_absolute_time();
+
+		if (ticks == 0)
+			lcd_show_time();
+		lcd_show_cpu();
+
+		d = absolute_time_diff_us(t, get_absolute_time());
+		if (d < LCD_REFRESH_US)
+			sleep_us(LCD_REFRESH_US - d);
+		//else
+		//	puts("REFRESH!");
+
+		if (ticks++ >= LCD_REFRESH)
+			ticks = 0;
 	}
 
 	refresh_stopped = true;
