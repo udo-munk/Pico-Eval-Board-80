@@ -102,6 +102,7 @@ static void lcd_show_time(void)
 		first_call = false;
 	}
 
+	/* update time */
 	time(&Time);
 	t = localtime(&Time);
 	dt.Hour = t->tm_hour;
@@ -109,6 +110,7 @@ static void lcd_show_time(void)
 	dt.Sec = t->tm_sec;
 	GUI_Showtime(85, 10, 240, 35, &dt, BLUE);
 
+	/* update temerature */
 	GUI_DrawRectangle(423, 10, 457, 34, FONT_BACKGROUND,
 			  DRAW_FULL, DOT_PIXEL_1X1);
 	GUI_DrawRectangle(372, 10, 406, 34, FONT_BACKGROUND,
@@ -200,6 +202,7 @@ void lcd_task(void)
 		if (ticks == 0)
 			lcd_show_time();
 
+		/* update VM CPU registers on each run */
 		lcd_show_cpu();
 
 		d = absolute_time_diff_us(t, get_absolute_time());
