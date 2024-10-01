@@ -91,7 +91,6 @@ static void lcd_show_time(void)
 	int temp;
 	divmod_result_t res;
 
-
 	if (first_call) {
 		GUI_DisString(10, 10, "Time", &Font24, BLACK, WHITE);
 		GUI_DisString(300, 10, "Temp", &Font24, BLACK, WHITE);
