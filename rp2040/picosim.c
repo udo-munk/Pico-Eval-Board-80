@@ -28,9 +28,8 @@
 #include "hardware/adc.h"
 #include "hardware/uart.h"
 #include "hardware/watchdog.h"
-
 /* Pico W also needs this */
-#if PICO == 1
+#ifdef RASPBERRYPI_PICO_W
 #include "pico/cyw43_arch.h"
 #endif
 
@@ -107,6 +106,14 @@ int main(void)
 	stdio_msc_usb_init();	/* initialize MSC USB stdio */
 #endif
 	time_init();		/* initialize FatFS RTC */
+
+#ifdef RASPBERRYPI_PICO_W	/* initialize Pico W hardware */
+	if (cyw43_arch_init())
+	{
+		printf("CYW43 init failed\n");
+		return -1;
+	}
+#endif
 
 	/*
 	 * initialize hardware AD converter, enable onboard
