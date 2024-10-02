@@ -9,7 +9,7 @@ set(PICO_BOARD_HEADER_DIRS ${CMAKE_SOURCE_DIR})
 
 # Set platform, board, and compiler
 set(PICO_PLATFORM rp2040)
-set (PICO_BOARD pico)
+set(PICO_BOARD pico)
 #set(PICO_BOARD pico_w)
 set(PICO_COMPILER pico_arm_gcc)
 
