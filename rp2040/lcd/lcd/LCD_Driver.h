@@ -179,8 +179,6 @@ parameter:
 	Xend   :   End point coordinates
 	Yend   :   End point coordinates
 	Color  :   Set the color
-
-*UM* : this does not work reliable, avoid until fixed
 *******************************************************************************/
 static inline void LCD_SetArealColor(POINT Xstart, POINT Ystart,
 				     POINT Xend, POINT Yend, COLOR Color)
