@@ -88,6 +88,15 @@ static inline void LCD_WriteData(uint16_t Data)
 /******************************************************************************
 function:	Write register data
 *******************************************************************************/
+static inline void LCD_Write_OneData(uint16_t Data)
+{
+	DEV_Digital_Write(LCD_DC_PIN, 1);
+	DEV_Digital_Write(LCD_CS_PIN, 0);
+	SPI4W_Write_Byte(Data >> 8);
+	SPI4W_Write_Byte(Data & 0xFF);
+	DEV_Digital_Write(LCD_CS_PIN, 1);
+}
+
 static inline void LCD_Write_AllData(uint16_t Data, uint32_t DataLen)
 {
 	register uint32_t i;
@@ -167,7 +176,7 @@ static inline void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
 	if ((Xpoint <= sLCD_DIS.LCD_Dis_Column) &&
 	    (Ypoint <= sLCD_DIS.LCD_Dis_Page)) {
 		LCD_SetCursor (Xpoint, Ypoint);
-		LCD_SetColor(Color, 1, 1);
+		LCD_Write_OneData(Color);
 	}
 }
 
