@@ -420,7 +420,7 @@ note:
 	This function is suitable for bitmap, because a 16-bit data accounted
 	for 16 points
 ******************************************************************************/
-void GUI_Disbitmap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
+void GUI_DisBitMap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
                    POINT Width, POINT Height)
 {
 	POINT i, j, byteWidth = (Width + 7) / 8;

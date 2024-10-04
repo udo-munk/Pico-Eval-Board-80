@@ -131,7 +131,7 @@ void GUI_DrawCircle(POINT X_Center, POINT Y_Center, LENGTH Radius,
 		    COLOR Color, DRAW_FILL Draw_Fill, DOT_PIXEL Dot_Pixel);
 
 // pic
-void GUI_Disbitmap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
+void GUI_DisBitMap(POINT Xpoint, POINT Ypoint, const unsigned char *pMap,
 		   POINT Width, POINT Height);
 void GUI_DisGrayMap(POINT Xpoint, POINT Ypoint, const unsigned char *pBmp);
 
