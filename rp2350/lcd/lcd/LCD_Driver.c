@@ -57,9 +57,9 @@ static void LCD_InitReg(void)
 
 	LCD_WriteReg(0xc5);  // VCOM Control
 	LCD_WriteData(0x00); // 0: NV memory is not programmed
-	LCD_WriteData(0x1e); // VCM_REG [7:0] = -1.53125
-	LCD_WriteData(0x80); // 1: VCOM value from VCM_REG [7:0]
-	LCD_WriteData(0x40); // VCM_OUT [7:0]: NV memory programmed value
+	LCD_WriteData(0x40); // VCM_REG [7:0]
+	LCD_WriteData(0x00); // VCM_REG_EN
+	LCD_WriteData(0x40); // VCM_OUT [7:0]
 
 	LCD_WriteReg(0xb1);  // Sets the frame frequency of full color normal
 			     // mode
