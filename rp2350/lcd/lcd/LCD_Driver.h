@@ -77,7 +77,7 @@ static inline void LCD_WriteReg(uint8_t Reg)
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
-static inline void LCD_WriteData(uint16_t Data)
+static inline void LCD_WriteData(uint8_t Data)
 {
 	DEV_Digital_Write(LCD_DC_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 0);
