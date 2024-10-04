@@ -81,8 +81,7 @@ static inline void LCD_WriteData(uint16_t Data)
 {
 	DEV_Digital_Write(LCD_DC_PIN, 1);
 	DEV_Digital_Write(LCD_CS_PIN, 0);
-	SPI4W_Write_Byte(Data >> 8);
-	SPI4W_Write_Byte(Data & 0xFF);
+	SPI4W_Write_Byte(Data);
 	DEV_Digital_Write(LCD_CS_PIN, 1);
 }
 
@@ -131,6 +130,7 @@ static inline void LCD_SetWindow(POINT Xstart, POINT Ystart,
 	LCD_WriteData((Yend - 1) >> 8);
 	LCD_WriteData((Yend - 1) & 0xff);
 
+	// Memory Write, might be followed by data for the region
 	LCD_WriteReg(0x2C);
 }
 
