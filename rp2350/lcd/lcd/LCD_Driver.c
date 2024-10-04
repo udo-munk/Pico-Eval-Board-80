@@ -195,11 +195,12 @@ void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir)
 	}
 
 	// Set the read / write scan direction of the frame memory
-	LCD_WriteReg(0xb6);
+	LCD_WriteReg(0xb6);	// Display Function Control
 	LCD_WriteData(0x00);
 	LCD_WriteData(DisFunReg_Data);
+	LCD_WriteData(0x3b);
 
-	LCD_WriteReg(0x36);
+	LCD_WriteReg(0x36);	// Memory Access Control
 	LCD_WriteData(MemoryAccessReg_Data);
 }
 
