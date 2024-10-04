@@ -47,23 +47,29 @@ function:	Common register initialization
 *******************************************************************************/
 static void LCD_InitReg(void)
 {
-	id = LCD_Read_Id();
+	id = LCD_Read_Id();  // not really needed, we support the 3.5" LCD only
 
-	LCD_WriteReg(0x21);
-	LCD_WriteReg(0xc2);  // Normal mode, increase can change the
-			     // display quality, while increasing power
-			     // consumption
-	LCD_WriteData(0x33);
-	LCD_WriteReg(0xc5);
-	LCD_WriteData(0x00);
-	LCD_WriteData(0x1e); // VCM_REG[7:0]. <=0x80.
-	LCD_WriteData(0x80);
+	LCD_WriteReg(0x21);  // Display Inversion On
+
+	LCD_WriteReg(0xc2);  // Normal mode
+	LCD_WriteData(0x33); // increase can change the display quality,
+			     // while increasing power consumption
+
+	LCD_WriteReg(0xc5);  // VCOM Control
+	LCD_WriteData(0x00); // 0: NV memory is not programmed
+	LCD_WriteData(0x1e); // VCM_REG [7:0] = -1.53125
+	LCD_WriteData(0x80); // 1: VCOM value from VCM_REG [7:0]
+	LCD_WriteData(0x40); // VCM_OUT [7:0]: NV memory programmed value
+
 	LCD_WriteReg(0xb1);  // Sets the frame frequency of full color normal
 			     // mode
 	LCD_WriteData(0xb0); // 0xb0 =70HZ, <=0xb0.0xa0=62HZ
-	LCD_WriteReg(0x36);
-	LCD_WriteData(0x28); // 2 DOT FRAME MODE,F<=70HZ.
-	LCD_WriteReg(0xe0);
+	LCD_WriteData(0x11); // 17 clocks per line
+
+	LCD_WriteReg(0x36);  // Memory Access Control
+	LCD_WriteData(0x28);
+
+	LCD_WriteReg(0xe0);  // Positive Gamma Control
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -79,7 +85,8 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x30);
 	LCD_WriteData(0x3e);
 	LCD_WriteData(0x0f);
-	LCD_WriteReg(0xe1);
+
+	LCD_WriteReg(0xe1);  // Negative Gamma Control
 	LCD_WriteData(0x0);
 	LCD_WriteData(0x13);
 	LCD_WriteData(0x18);
@@ -95,10 +102,13 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x31);
 	LCD_WriteData(0x37);
 	LCD_WriteData(0x0f);
+
 	LCD_WriteReg(0x3A);  // Set Interface Pixel Format
-	LCD_WriteData(0x55);
+	LCD_WriteData(0x55); // 16 bits/pixel
+
 	LCD_WriteReg(0x11);  // sleep out
 	sleep_ms(120);
+
 	LCD_WriteReg(0x29);  // Turn on the LCD display
 }
 
