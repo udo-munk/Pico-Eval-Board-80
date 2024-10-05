@@ -202,8 +202,8 @@ static inline void LCD_SetArealColor(POINT Xstart, POINT Ystart,
 function:	Macro definition variable name
 *******************************************************************************/
 extern void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval);
+extern void LCD_Exit(void);
 extern void LCD_SetGramScanWay(LCD_SCAN_DIR Scan_dir);
-
 extern void LCD_SetBackLight(uint16_t value);
 extern void LCD_Clear(COLOR Color);
 extern uint8_t LCD_Read_Id(void);
