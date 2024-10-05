@@ -95,6 +95,9 @@ int main(void)
 	char s[2];
 	uint32_t rgb = 0x005500;
 
+	// to test if the LCD works, it doesn't
+	//set_sys_clock_khz(125000, true);
+
 	stdio_init_all();	/* initialize stdio */
 #if LIB_STDIO_MSC_USB
 	sd_init_driver();	/* initialize SD card driver */
