@@ -220,6 +220,12 @@ void LCD_Init(LCD_SCAN_DIR LCD_ScanDir, uint16_t LCD_BLval)
 					 // transfer modes
 }
 
+void LCD_Exit(void)
+{
+	LCD_SetBackLight(0);
+	LCD_WriteReg(0x28);	// Display Off
+}
+
 /*******************************************************************************
 function:	Clear screen
 *******************************************************************************/
