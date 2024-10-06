@@ -41,7 +41,7 @@ static inline UBYTE DEV_Digital_Read(UWORD Pin)
 	return gpio_get(Pin);
 }
 
-static inline void SPI4W_Write_Byte(uint8_t value)
+static inline void SPI_Write_Byte(uint8_t value)
 {   
 	spi_write_blocking(SPI_PORT, &value, 1);
 }
