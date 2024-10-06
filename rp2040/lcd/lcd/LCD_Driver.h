@@ -61,7 +61,6 @@ typedef struct {
 } LCD_DIS;
 
 extern LCD_DIS sLCD_DIS;
-extern uint8_t id;
 
 /******************************************************************************
 function:	Write register address and data
