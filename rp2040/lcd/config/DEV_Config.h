@@ -50,11 +50,6 @@ static inline uint8_t SPI4W_Write_Byte(uint8_t value)
 	return rxDat;
 }
 
-static inline uint8_t SPI4W_Read_Byte(uint8_t value)
-{
-	return SPI4W_Write_Byte(value);
-}
-
 extern void DEV_GPIO_Mode(UWORD Pin, UWORD Mode);
 extern void DEV_GPIO_Init(void);
 
