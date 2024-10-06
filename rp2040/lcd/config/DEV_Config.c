@@ -54,4 +54,5 @@ void System_Init(void)
 
 void System_Exit(void)
 {
+	spi_deinit(SPI_PORT);
 }
