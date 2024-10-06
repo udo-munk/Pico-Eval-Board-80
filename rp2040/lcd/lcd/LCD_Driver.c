@@ -104,7 +104,7 @@ static void LCD_InitReg(void)
 	LCD_WriteData(0x55); // 16 bits/pixel
 
 	LCD_WriteReg(0x11);  // sleep out
-	sleep_ms(120);
+	sleep_ms(5);
 
 	LCD_WriteReg(0x29);  // Turn on the LCD display
 }
