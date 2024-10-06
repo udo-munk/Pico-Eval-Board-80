@@ -41,13 +41,9 @@ static inline UBYTE DEV_Digital_Read(UWORD Pin)
 	return gpio_get(Pin);
 }
 
-static inline uint8_t SPI4W_Write_Byte(uint8_t value)
+static inline void SPI4W_Write_Byte(uint8_t value)
 {   
-	uint8_t rxDat;
-
-	spi_write_read_blocking(SPI_PORT, &value, &rxDat, 1);
-
-	return rxDat;
+	spi_write_blocking(SPI_PORT, &value, 1);
 }
 
 extern void DEV_GPIO_Mode(UWORD Pin, UWORD Mode);
