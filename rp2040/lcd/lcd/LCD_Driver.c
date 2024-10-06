@@ -13,7 +13,6 @@
 #include "LCD_Driver.h"
 
 LCD_DIS sLCD_DIS;
-uint8_t id;
 
 /*******************************************************************************
 function:	Hardware reset
@@ -47,8 +46,6 @@ function:	Common register initialization
 *******************************************************************************/
 static void LCD_InitReg(void)
 {
-	id = LCD_Read_Id();  // not really needed, we support the 3.5" LCD only
-
 	LCD_WriteReg(0x21);  // Display Inversion On
 
 	LCD_WriteReg(0xc2);  // Normal mode
@@ -233,19 +230,4 @@ void LCD_Clear(COLOR Color)
 {
 	LCD_SetArealColor(0, 0, sLCD_DIS.LCD_Dis_Column, sLCD_DIS.LCD_Dis_Page,
 			  Color);
-}
-
-uint8_t LCD_Read_Id(void)
-{
-	uint8_t reg = 0xdc;
-	uint8_t tx_val = 0x00;
-	uint8_t rx_val;
-
-	DEV_Digital_Write(LCD_CS_PIN, 0);
-	DEV_Digital_Write(LCD_DC_PIN, 0);
-	SPI4W_Write_Byte(reg);
-	spi_write_read_blocking(SPI_PORT, &tx_val, &rx_val, 1);
-	DEV_Digital_Write(LCD_CS_PIN, 1);
-
-	return rx_val;
 }
