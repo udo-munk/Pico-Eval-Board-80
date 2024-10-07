@@ -187,8 +187,6 @@ int main(void)
 
 	put_pixel(0x000000);	/* LED off */
 	exit_disks();		/* stop disk drives */
-	lcd_exit();		/* LCD off */
-	multicore_reset_core1();/* stop core 1 */
 
 #ifndef WANT_ICE
 	putchar('\n');
@@ -197,6 +195,9 @@ int main(void)
 #endif
 	puts("\nPress any key to restart CPU");
 	get_cmdline(s, 2);
+
+	lcd_exit();		/* LCD off */
+	multicore_reset_core1();/* stop core 1 */
 
 	/* reset machine */
 	watchdog_enable(1, 1);
