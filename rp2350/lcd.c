@@ -163,8 +163,10 @@ static void lcd_show_cpu(void)
 	GUI_DisChar(94, 95, hex1(SP), &Font24, BROWN, BLUE);
 	GUI_DisChar(111, 95, hex0(SP), &Font24, BROWN, BLUE);
 
-	GUI_DisChar(60, 125, hex0(A), &Font24, BROWN, BLUE);
-	GUI_DisChar(77, 125, hex0(F), &Font24, BROWN, BLUE);
+	GUI_DisChar(60, 125, hex1(A), &Font24, BROWN, BLUE);
+	GUI_DisChar(77, 125, hex0(A), &Font24, BROWN, BLUE);
+	GUI_DisChar(94, 125, hex1(F), &Font24, BROWN, BLUE);
+	GUI_DisChar(111, 125, hex0(F), &Font24, BROWN, BLUE);
 
 	GUI_DisChar(195, 65, hex1(B), &Font24, BROWN, BLUE);
 	GUI_DisChar(212, 65, hex0(B), &Font24, BROWN, BLUE);
