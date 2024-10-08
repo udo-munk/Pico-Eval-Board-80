@@ -18,6 +18,7 @@
 
 static volatile bool do_refresh = true;
 static volatile bool refresh_stopped = false;
+volatile bool first_call = true;
 
 /*
  * these functions are called from the application running on core 0
@@ -84,7 +85,6 @@ static inline float read_onboard_temp(void)
 
 static void lcd_show_time(void)
 {
-	static bool first_call = true;
 	time_t Time;
 	struct tm *t;
 	DEV_TIME dt;
@@ -98,7 +98,6 @@ static void lcd_show_time(void)
 		GUI_DisChar(406, 10, '.', &Font24, BLACK, BLUE);
 		GUI_DrawLine(0, 50, 479, 50, GRAY, LINE_SOLID,
 			     DOT_PIXEL_2X2);
-		first_call = false;
 	}
 
 	/* update time */
@@ -137,8 +136,6 @@ static inline char hex0(uint16_t x) { return hex[x & 0xf]; }
 
 static void lcd_show_cpu(void)
 {
-	static bool first_call = true;
-
 	if (first_call) {
 		GUI_DrawRectangle(10, 60, 140, 155, GRAY, DRAW_FULL,
 				  DOT_PIXEL_1X1);
