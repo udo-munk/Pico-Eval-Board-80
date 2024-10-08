@@ -27,6 +27,7 @@ set(Z80PACK ${CMAKE_SOURCE_DIR}/../../z80pack)
 
 add_executable(${PROJECT_NAME}
 	picosim.c
+	dazzler.c
 	disks.c
 	simcfg.c
 	simio.c
