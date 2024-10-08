@@ -36,6 +36,7 @@
 #include "simcore.h"
 #include "simio.h"
 
+#include "dazzler.h"
 #include "rtc80.h"
 #include "sd-fdc.h"
 #include "rgbled.h"
@@ -62,6 +63,7 @@ BYTE (*const port_in[256])(void) = {
 	[  0] = p000_in,	/* SIO status */
 	[  1] = p001_in,	/* SIO data */
 	[  4] = fdc_in,		/* FDC status */
+	[ 14] = dazzler_flags_in, /* Cromemco Dazzler flags */
 	[ 64] = mmu_in,		/* MMU */
 	[ 65] = clkc_in,	/* RTC read clock command */
 	[ 66] = clkd_in,	/* RTC read clock data */
@@ -77,6 +79,8 @@ void (*const port_out[256])(BYTE data) = {
 	[  0] = p000_out,	/* RGB LED */
 	[  1] = p001_out,	/* SIO data */
 	[  4] = fdc_out,	/* FDC command */
+	[ 14] = dazzler_ctl_out, /* Cromemco Dazzler control */
+	[ 15] = dazzler_format_out, /* Cromemco Dazzler format */
 	[ 64] = mmu_out,	/* MMU */
 	[ 65] = clkc_out,	/* RTC write clock command */
 	[ 66] = clkd_out,	/* RTC write clock data */

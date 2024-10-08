@@ -18,7 +18,7 @@
 
 static volatile bool do_refresh = true;
 static volatile bool refresh_stopped = false;
-volatile bool first_call = true;
+volatile bool first_flag = true;
 
 /*
  * these functions are called from the application running on core 0
@@ -91,7 +91,7 @@ static void lcd_show_time(void)
 	int temp;
 	divmod_result_t res;
 
-	if (first_call) {
+	if (first_flag) {
 		GUI_DisString(10, 10, "Time", &Font24, BLACK, WHITE);
 		GUI_DisString(300, 10, "Temp", &Font24, BLACK, WHITE);
 		GUI_DisChar(460, 10, 'C', &Font24, BLACK, WHITE);
@@ -136,7 +136,7 @@ static inline char hex0(uint16_t x) { return hex[x & 0xf]; }
 
 static void lcd_show_cpu(void)
 {
-	if (first_call) {
+	if (first_flag) {
 		GUI_DrawRectangle(10, 60, 140, 155, GRAY, DRAW_FULL,
 				  DOT_PIXEL_1X1);
 		GUI_DisString(15, 65, "PC", &Font24, GRAY, WHITE);
@@ -147,7 +147,7 @@ static void lcd_show_cpu(void)
 		GUI_DisString(155, 65, "BC", &Font24, GRAY, WHITE);
 		GUI_DisString(155, 95, "DE", &Font24, GRAY, WHITE);
 		GUI_DisString(155, 125, "HL", &Font24, GRAY, WHITE);
-		first_call = false;
+		first_flag = false;
 	}
 
 	GUI_DisChar(60, 65, hex3(PC), &Font24, BROWN, BLUE);
