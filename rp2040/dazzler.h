@@ -13,5 +13,6 @@
 
 extern void dazzler_ctl_out(BYTE data), dazzler_format_out(BYTE data);
 extern BYTE dazzler_flags_in(void);
+extern volatile bool first_flag;
 
 #endif /* !DAZZLER_INC */

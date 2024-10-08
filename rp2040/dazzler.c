@@ -282,12 +282,13 @@ static void __no_inline_not_in_flash_func(draw_bitmap)(const uint8_t *bitmap,
 	}
 }
 
-static void __not_in_flash_func(dazzler_draw)(int first_flag)
+static void __not_in_flash_func(dazzler_draw)(void)
 {
 	if (first_flag) {
 		GUI_Clear(BLACK);
 		draw_bitmap(cromemco, CROMEMCO_WIDTH, CROMEMCO_HEIGHT, 14, 1);
 		draw_bitmap(dazzler, DAZZLER_WIDTH, DAZZLER_HEIGHT, 209, 2);
+		first_flag = false;
 		return;
 	}
 
@@ -311,8 +312,8 @@ void dazzler_ctl_out(BYTE data)
 	if (data & 128) {
 		if (state == 0) {
 			state = 1;
-			dazzler_draw(1);
-			//lcd_custom_disp(dazzler_draw);
+			first_flag = true;
+			dazzler_draw();
 		}
 	} else {
 		if (state == 1) {
