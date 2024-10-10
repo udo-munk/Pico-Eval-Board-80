@@ -123,8 +123,7 @@ static BYTE format;
 
 static inline void pixel(uint16_t x, uint16_t y, uint16_t color)
 {
-	GUI_DrawPoint(XOFF + x, YOFF + y, color, DOT_PIXEL_1X1,
-		      DOT_FILL_AROUND);
+	LCD_SetPointColor(XOFF + x, YOFF + y, color);
 }
 
 /* draw pixels for one frame in hires */
