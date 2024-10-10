@@ -118,7 +118,7 @@ static BYTE flags = 64;
 static BYTE format;
 
 /* centered image on 480x320 LCD */
-#define XOFF	176
+#define XOFF	160
 #define YOFF	96
 
 static inline void pixel(uint16_t x, uint16_t y, uint16_t color)
