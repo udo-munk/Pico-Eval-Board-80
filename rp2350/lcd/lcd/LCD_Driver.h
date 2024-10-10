@@ -171,7 +171,7 @@ static inline void LCD_SetPointColor(POINT Xpoint, POINT Ypoint, COLOR Color)
 {
 	if ((Xpoint <= sLCD_DIS.LCD_Dis_Column) &&
 	    (Ypoint <= sLCD_DIS.LCD_Dis_Page)) {
-		LCD_SetCursor (Xpoint, Ypoint);
+		LCD_SetCursor(Xpoint, Ypoint);
 		LCD_Write_OneData(Color);
 	}
 }
@@ -190,7 +190,7 @@ static inline void LCD_SetArealColor(POINT Xstart, POINT Ystart,
 {
 	if ((Xend > Xstart) && (Yend > Ystart)) {
 		LCD_SetWindow(Xstart, Ystart, Xend, Yend);
-		LCD_SetColor (Color, Xend - Xstart, Yend - Ystart);
+		LCD_SetColor(Color, Xend - Xstart, Yend - Ystart);
 	}
 }
 
