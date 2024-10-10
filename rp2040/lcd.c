@@ -11,6 +11,7 @@
 #include "sim.h"
 #include "simdefs.h"
 #include "simglb.h"
+#include "dazzler.h"
 
 #include "lcd.h"
 #include "LCD_GUI.h"
@@ -98,6 +99,7 @@ static void lcd_show_time(void)
 		GUI_DisChar(406, 10, '.', &Font24, BLACK, BLUE);
 		GUI_DrawLine(0, 50, 479, 50, GRAY, LINE_SOLID,
 			     DOT_PIXEL_2X2);
+		first_flag = false;
 	}
 
 	/* update time */
@@ -190,18 +192,24 @@ void lcd_task(void)
 	int64_t d;
 	int ticks = 0;
 
-	GUI_Clear(BLACK);
-
 	/* loops every LCD_REFRESH_US */
 	while (do_refresh) {
 		t = get_absolute_time();
 
-		/* update time/temperature once a second */
-		if (ticks == 0)
-			lcd_show_time();
+		if (!dazzler_state) {
+			/* update time/temperature once a second */
+			if (first_flag) {
+				GUI_Clear(BLACK);
+				lcd_show_time();
+			} else if (ticks == 0) {
+				lcd_show_time();
+			}
 
-		/* update VM CPU registers on each run */
-		lcd_show_cpu();
+			/* update VM CPU registers on each run */
+			lcd_show_cpu();
+		} else {
+			dazzler_draw();
+		}
 
 		d = absolute_time_diff_us(t, get_absolute_time());
 		if (d < LCD_REFRESH_US)

@@ -112,14 +112,14 @@ static const uint8_t dazzler[] = {
 };
 
 /* DAZZLER stuff */
-static int state;
+int dazzler_state;
 static WORD dma_addr;
 static BYTE flags = 64;
 static BYTE format;
 
-/* centered image on 240x135 LCD */
-#define XOFF	56
-#define YOFF	3
+/* centered image on 480x320 LCD */
+#define XOFF	176
+#define YOFF	96
 
 static inline void pixel(uint16_t x, uint16_t y, uint16_t color)
 {
@@ -282,12 +282,12 @@ static void __no_inline_not_in_flash_func(draw_bitmap)(const uint8_t *bitmap,
 	}
 }
 
-static void __not_in_flash_func(dazzler_draw)(void)
+void __not_in_flash_func(dazzler_draw)(void)
 {
 	if (first_flag) {
 		GUI_Clear(BLACK);
-		draw_bitmap(cromemco, CROMEMCO_WIDTH, CROMEMCO_HEIGHT, 14, 1);
-		draw_bitmap(dazzler, DAZZLER_WIDTH, DAZZLER_HEIGHT, 209, 2);
+		draw_bitmap(cromemco, CROMEMCO_WIDTH, CROMEMCO_HEIGHT, 140, 96);
+		draw_bitmap(dazzler, DAZZLER_WIDTH, DAZZLER_HEIGHT, 324, 96);
 		first_flag = false;
 		return;
 	}
@@ -310,15 +310,14 @@ void dazzler_ctl_out(BYTE data)
 
 	/* switch DAZZLER on/off */
 	if (data & 128) {
-		if (state == 0) {
-			state = 1;
+		if (dazzler_state == 0) {
+			dazzler_state = 1;
 			first_flag = true;
-			dazzler_draw();
 		}
 	} else {
-		if (state == 1) {
-			state = 0;
-			//lcd_status_disp(LCD_STATUS_CURRENT);
+		if (dazzler_state == 1) {
+			dazzler_state = 0;
+			first_flag = true;
 		}
 	}
 }
