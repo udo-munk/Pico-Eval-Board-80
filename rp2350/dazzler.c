@@ -286,8 +286,10 @@ void __not_in_flash_func(dazzler_draw)(void)
 {
 	if (first_flag) {
 		GUI_Clear(BLACK);
-		draw_bitmap(cromemco, CROMEMCO_WIDTH, CROMEMCO_HEIGHT, 140, 96);
-		draw_bitmap(dazzler, DAZZLER_WIDTH, DAZZLER_HEIGHT, 324, 96);
+		draw_bitmap(cromemco, CROMEMCO_WIDTH, CROMEMCO_HEIGHT,
+			    XOFF - 30, YOFF);
+		draw_bitmap(dazzler, DAZZLER_WIDTH, DAZZLER_HEIGHT,
+			    XOFF + 110 + 30, YOFF);
 		first_flag = false;
 		return;
 	}
