@@ -11,6 +11,7 @@
 #include "sim.h"
 #include "simdefs.h"
 #include "simglb.h"
+#include "dazzler.h"
 
 #include "lcd.h"
 #include "LCD_GUI.h"
@@ -18,6 +19,7 @@
 
 static volatile bool do_refresh = true;
 static volatile bool refresh_stopped = false;
+volatile bool first_flag = true;
 
 /*
  * these functions are called from the application running on core 0
@@ -84,21 +86,19 @@ static inline float read_onboard_temp(void)
 
 static void lcd_show_time(void)
 {
-	static bool first_call = true;
 	time_t Time;
 	struct tm *t;
 	DEV_TIME dt;
 	int temp;
 	divmod_result_t res;
 
-	if (first_call) {
+	if (first_flag) {
 		GUI_DisString(10, 10, "Time", &Font24, BLACK, WHITE);
 		GUI_DisString(300, 10, "Temp", &Font24, BLACK, WHITE);
 		GUI_DisChar(460, 10, 'C', &Font24, BLACK, WHITE);
 		GUI_DisChar(406, 10, '.', &Font24, BLACK, BLUE);
 		GUI_DrawLine(0, 50, 479, 50, GRAY, LINE_SOLID,
 			     DOT_PIXEL_2X2);
-		first_call = false;
 	}
 
 	/* update time */
@@ -137,9 +137,7 @@ static inline char hex0(uint16_t x) { return hex[x & 0xf]; }
 
 static void lcd_show_cpu(void)
 {
-	static bool first_call = true;
-
-	if (first_call) {
+	if (first_flag) {
 		GUI_DrawRectangle(10, 60, 140, 155, GRAY, DRAW_FULL,
 				  DOT_PIXEL_1X1);
 		GUI_DisString(15, 65, "PC", &Font24, GRAY, WHITE);
@@ -150,7 +148,7 @@ static void lcd_show_cpu(void)
 		GUI_DisString(155, 65, "BC", &Font24, GRAY, WHITE);
 		GUI_DisString(155, 95, "DE", &Font24, GRAY, WHITE);
 		GUI_DisString(155, 125, "HL", &Font24, GRAY, WHITE);
-		first_call = false;
+		first_flag = false;
 	}
 
 	GUI_DisChar(60, 65, hex3(PC), &Font24, BROWN, BLUE);
@@ -193,18 +191,24 @@ void lcd_task(void)
 	int64_t d;
 	int ticks = 0;
 
-	GUI_Clear(BLACK);
-
 	/* loops every LCD_REFRESH_US */
 	while (do_refresh) {
 		t = get_absolute_time();
 
-		/* update time/temperature once a second */
-		if (ticks == 0)
-			lcd_show_time();
+		if (!dazzler_state) {
+			/* update time/temperature once a second */
+			if (first_flag) {
+				GUI_Clear(BLACK);
+				lcd_show_time();
+			} else if (ticks == 0) {
+				lcd_show_time();
+			}
 
-		/* update VM CPU registers on each run */
-		lcd_show_cpu();
+			/* update VM CPU registers on each run */
+			lcd_show_cpu();
+		} else {
+			dazzler_draw();
+		}
 
 		d = absolute_time_diff_us(t, get_absolute_time());
 		if (d < LCD_REFRESH_US)
