@@ -99,7 +99,6 @@ static void lcd_show_time(void)
 		GUI_DisChar(406, 10, '.', &Font24, BLACK, BLUE);
 		GUI_DrawLine(0, 50, 479, 50, GRAY, LINE_SOLID,
 			     DOT_PIXEL_2X2);
-		first_flag = false;
 	}
 
 	/* update time */
