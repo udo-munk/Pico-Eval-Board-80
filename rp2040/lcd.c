@@ -84,7 +84,7 @@ static inline float read_onboard_temp(void)
 	return tempC;
 }
 
-static void lcd_show_time(void)
+static void __not_in_flash_func(lcd_show_time)(void)
 {
 	time_t Time;
 	struct tm *t;
@@ -135,7 +135,7 @@ static inline char hex2(uint16_t x) { return hex[(x >> 8) & 0xf]; }
 static inline char hex1(uint16_t x) { return hex[(x >> 4) & 0xf]; }
 static inline char hex0(uint16_t x) { return hex[x & 0xf]; }
 
-static void lcd_show_cpu(void)
+static void __not_in_flash_func(lcd_show_cpu)(void)
 {
 	if (first_flag) {
 		GUI_DrawRectangle(10, 60, 140, 155, GRAY, DRAW_FULL,
