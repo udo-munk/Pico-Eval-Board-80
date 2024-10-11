@@ -185,7 +185,7 @@ static void lcd_show_cpu(void)
 #define LCD_REFRESH 5 /* in ticks/frames per second */
 #define LCD_REFRESH_US (1000000 / LCD_REFRESH)
 
-void lcd_task(void)
+void __not_in_flash_func(lcd_task)(void)
 {
 	absolute_time_t t;
 	int64_t d;
