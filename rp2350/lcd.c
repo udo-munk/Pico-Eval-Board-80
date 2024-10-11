@@ -129,7 +129,7 @@ static void lcd_show_time(void)
 		    BLACK, BLUE);
 }
 
-static const char *hex = "0123456789ABCDEF";
+static const char *__not_in_flash("hex_table") hex = "0123456789ABCDEF";
 static inline char hex3(uint16_t x) { return hex[(x >> 12) & 0xf]; }
 static inline char hex2(uint16_t x) { return hex[(x >> 8) & 0xf]; }
 static inline char hex1(uint16_t x) { return hex[(x >> 4) & 0xf]; }
