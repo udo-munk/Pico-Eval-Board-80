@@ -49,3 +49,8 @@ Into the CODE80 directory copy all the .bin files from src-examples.
 Into the DISKS80 directory copy the disk images from disks.
 CONF80 is used to save the configuration, nothing more to do there,
 the directory must exist though.
+
+
+Here a few pictures how Z80pack running on the device looks like:
+
+![image](https://github.com/udo-munk/Pico-Eval-Board-80/blob/main/resources/terminal.png "waiting for terminal connection")
