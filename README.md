@@ -54,3 +54,5 @@ the directory must exist though.
 Here a few pictures how Z80pack running on the device looks like:
 
 ![image](https://github.com/udo-munk/Pico-Eval-Board-80/blob/main/resources/terminal.jpg "waiting for terminal connection")
+
+![image](https://github.com/udo-munk/Pico-Eval-Board-80/blob/main/resources/banner.jpg "banner after connecting")
