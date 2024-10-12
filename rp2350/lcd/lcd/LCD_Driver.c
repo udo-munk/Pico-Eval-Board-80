@@ -60,7 +60,7 @@ static void LCD_InitReg(void)
 
 	LCD_WriteReg(0xb1);  // Sets the frame frequency of full color normal
 			     // mode
-	LCD_WriteData(0xb0); // 0xb0 =70HZ, <=0xb0.0xa0=62HZ
+	LCD_WriteData(0xb0); // 0xb0 = 70HZ, <= 0xb0.0xa0 = 62HZ
 	LCD_WriteData(0x11); // 17 clocks per line
 
 	LCD_WriteReg(0x36);  // Memory Access Control
