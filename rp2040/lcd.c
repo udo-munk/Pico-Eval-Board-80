@@ -40,9 +40,12 @@ void lcd_exit(void)
 {
 	/* tell LCD task to stop drawing */
 	do_refresh = false;
+
 	/* wait until it stopped */
 	while (refresh_stopped == false)
 		sleep_ms(20);
+
+	/* shutdown LCD */
 	LCD_Exit();
 	System_Exit();
 }
