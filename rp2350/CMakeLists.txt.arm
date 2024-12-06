@@ -54,18 +54,18 @@ pico_generate_pio_header(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/WS2812.pio)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
 	${CMAKE_SOURCE_DIR}
-	${CMAKE_SOURCE_DIR}/lcd/config
-	${CMAKE_SOURCE_DIR}/lcd/font
-	${CMAKE_SOURCE_DIR}/lcd/lcd
+	../libs/lcd/config
+	../libs//lcd/font
+	../libs/lcd/lcd
 	${Z80PACK}/iodevices
 	${Z80PACK}/z80core
 )
 
-add_subdirectory(no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
-add_subdirectory(stdio_msc_usb)
-add_subdirectory(lcd/config)
-add_subdirectory(lcd/font)
-add_subdirectory(lcd/lcd)
+add_subdirectory(../libs/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
+add_subdirectory(../libs/stdio_msc_usb stdio_msc_usb)
+add_subdirectory(../libs/lcd/config lcd_config)
+add_subdirectory(../libs/lcd/font lcd_font)
+add_subdirectory(../libslcd/lcd lcd_font)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	PICO_STACK_SIZE=4096

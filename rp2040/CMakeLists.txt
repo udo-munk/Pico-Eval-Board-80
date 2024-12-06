@@ -62,8 +62,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	${Z80PACK}/z80core
 )
 
-add_subdirectory(no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
-add_subdirectory(stdio_msc_usb)
+add_subdirectory(../libs/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src FatFs)
+add_subdirectory(../libs/stdio_msc_usb stdio_msc_usb)
 add_subdirectory(lcd/config)
 add_subdirectory(lcd/font)
 add_subdirectory(lcd/lcd)
