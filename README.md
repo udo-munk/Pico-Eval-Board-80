@@ -23,19 +23,22 @@ To install z80pack on this device:
 
 To build the application for a Pi Pico RP2040 board:
 
-	cd Pico-Eval-Board-80/rp2040
+	cd Pico-Eval-Board-80/srcsim
 	mkdir build
 	cd build
-	cmake .. -G "Unix Makefiles"
+	cmake -G "Unix Makefiles" ..
 	make
 
 This device also can be used with a Pi Pico 2 RP2350 board, then build with:
 
-	cd Pico-Eval-Board-80/rp2350
+	cd Pico-Eval-Board-80/srcsim
 	mkdir build
 	cd build
-	cmake .. -G "Unix Makefiles"
+	cmake -D PICO_PLATFORM=rp2350-arm-s -G "Unix Makefiles" ..
 	make
+
+You can also use PICO_PLATFORM=rp2350-riscv if you have the appropriate
+RISC-V toolchain installed.
 
 Flash picosim.uf2 into the device, and then prepare a MicroSD card.
 
