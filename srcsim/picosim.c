@@ -174,8 +174,11 @@ int main(void)
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
 
-	f_flag = speed;		/* setup speed of the CPU */
-	tmax = speed * 10000;	/* theoretically */
+	f_value = speed;	/* setup speed of the CPU */
+	if (f_value)
+		tmax = speed * 10000;	/* theoretically */
+	else
+		tmax = 100000;
 
 	PC = 0xff00;		/* power on jump into the boot ROM */
 
