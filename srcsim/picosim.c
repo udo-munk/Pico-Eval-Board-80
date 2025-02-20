@@ -1,7 +1,7 @@
 /*
  * Z80SIM  -  a Z80-CPU simulator
  *
- * Copyright (C) 2024 by Udo Munk & Thomas Eberhardt
+ * Copyright (C) 2024-2025 by Udo Munk & Thomas Eberhardt
  *
  * This is the main program for a Raspberry Pico (W) board,
  * substitutes z80core/simmain.c
@@ -169,15 +169,19 @@ int main(void)
 	printf("%s\n\n", USR_CPR);
 
 	init_cpu();		/* initialize CPU */
+	PC = 0xff00;		/* power on jump into the boot ROM */
 	init_disks();		/* initialize disk drives */
 	init_memory();		/* initialize memory configuration */
 	init_io();		/* initialize I/O devices */
 	config();		/* configure the machine */
 
-	f_flag = speed;		/* setup speed of the CPU */
-	tmax = speed * 10000;	/* theoretically */
+	f_value = speed;	/* setup speed of the CPU */
+	if (f_value)
+		tmax = speed * 10000;	/* theoretically */
+	else
+		tmax = 100000;	/* for periodic CPU accounting updates */
 
-	PC = 0xff00;		/* power on jump into the boot ROM */
+
 
 	put_pixel(0x440000);	/* LED green */
 	multicore_launch_core1(lcd_task); /* start LCD task on core 1 */
