@@ -179,12 +179,7 @@ int main(void)
 	if (f_value)
 		tmax = speed * 10000;	/* theoretically */
 	else
-<<<<<<< HEAD
 		tmax = 100000;	/* for periodic CPU accounting updates */
-
-=======
-		tmax = 100000;
->>>>>>> 29f4d1ed666897dd22aaf260ea1d9272a6d29d82
 
 
 	put_pixel(0x440000);	/* LED green */
