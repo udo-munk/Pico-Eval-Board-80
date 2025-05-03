@@ -47,8 +47,8 @@ static sd_sdio_if_t sdio_if = {
 	.CMD_gpio = 18,
 	.D0_gpio = 19,
 #if PICO_RP2040
-	//.baud_rate = 125 * 1000 * 1000 / 6	/* 20.833333 MHz */
-	.baud_rate = 200 * 1000 * 1000 / 8	/* 25.00 MHz */
+	.baud_rate = 125 * 1000 * 1000 / 6	/* 20.833333 MHz */
+	//.baud_rate = 200 * 1000 * 1000 / 8	/* 25.00 MHz */
 #endif
 #if PICO_RP2350
 	.baud_rate = 150 * 1000 * 1000 / 8	/* 18.75 MHz */
