@@ -33,7 +33,7 @@
 
 FIL sd_file;	/* at any time we have only one file open */
 FRESULT sd_res;	/* result code from FatFS */
-char disks[NUMDISK][DISKLEN]; /* path name for 4 disk images /DISKS80/filename.DSK */
+char disks[NUMDISK][DISKLEN+1]; /* path name for 4 disk images /DISKS80/filename.DSK */
 
 static FATFS fs; /* FatFs on MicroSD */
 
@@ -47,10 +47,11 @@ static sd_sdio_if_t sdio_if = {
 	.CMD_gpio = 18,
 	.D0_gpio = 19,
 #if PICO_RP2040
-	.baud_rate = 125 * 1000 * 1000 / 6  /* 20.833333 MHz */
+	//.baud_rate = 125 * 1000 * 1000 / 6	/* 20.833333 MHz */
+	.baud_rate = 200 * 1000 * 1000 / 8	/* 25.00 MHz */
 #endif
 #if PICO_RP2350
-	.baud_rate = 150 * 1000 * 1000 / 8  /* 18.75 MHz */
+	.baud_rate = 150 * 1000 * 1000 / 8	/* 18.75 MHz */
 #endif
 };
 
@@ -98,16 +99,19 @@ void list_files(const char *dir, const char *ext)
 	DIR dp;
 	FILINFO fno;
 	FRESULT res;
+	int cols = 80 / (FNLEN + 8) - 1;
 	register int i = 0;
+
+	/* convert to string */
+	#define STR_(X) #X
+	/* this makes sure the argument is expanded before converting to string */
+	#define STR(X) STR_(X)
 
 	res = f_findfirst(&dp, &fno, dir, ext);
 	if (res == FR_OK) {
 		while (1) {
-			printf("%s\t", fno.fname);
-			if (strlen(fno.fname) < 8)
-				putchar('\t');
-			i++;
-			if (i > 4) {
+			printf("%-" STR(FNLEN) "s\t", fno.fname);
+			if (i > cols) {
 				putchar('\n');
 				i = 0;
 			}
@@ -129,7 +133,7 @@ void load_file(const char *name)
 	int i = 0;
 	register unsigned int j;
 	unsigned int br;
-	char SFN[25];
+	char SFN[DISKLEN+1];
 
 	strcpy(SFN, "/CODE80/");
 	strcat(SFN, name);
@@ -187,7 +191,7 @@ void check_disks(void)
  */
 void mount_disk(int drive, const char *name)
 {
-	char SFN[DISKLEN];
+	char SFN[DISKLEN+1];
 	int i;
 
 	strcpy(SFN, "/DISKS80/");

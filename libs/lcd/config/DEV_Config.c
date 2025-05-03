@@ -43,6 +43,7 @@ void System_Init(void)
 	DEV_GPIO_Init();
 #if PICO_RP2040
 	spi_init(SPI_PORT, 125 * 1000 * 1000 / 3); /* 41.6666 MHz */
+	//spi_init(SPI_PORT, 200 * 1000 * 1000 / 5); /* 40.00 MHz */
 #endif
 #if PICO_RP2350
 	spi_init(SPI_PORT, 150 * 1000 * 1000 / 5); /* 30.00 MHz */

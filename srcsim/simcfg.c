@@ -47,7 +47,7 @@
 static void prompt_fn(char *s)
 {
 	printf("Filename: ");
-	get_cmdline(s, 9);
+	get_cmdline(s, FNLEN+1);
 	while (*s) {
 		*s = toupper((unsigned char) *s);
 		s++;
@@ -87,7 +87,7 @@ void config(void)
 	const char *cext = "*.BIN";
 	const char *dpath = "/DISKS80";
 	const char *dext = "*.DSK";
-	char s[10];
+	char s[FNLEN+1];
 	unsigned int br;
 	int go_flag = 0;
 	int i, n, menu;
@@ -105,10 +105,10 @@ void config(void)
 		f_read(&sd_file, &fp_value, sizeof(fp_value), &br);
 		f_read(&sd_file, &brightness, sizeof(brightness), &br);
 		f_read(&sd_file, &t, sizeof(t), &br);
-		f_read(&sd_file, &disks[0], DISKLEN, &br);
-		f_read(&sd_file, &disks[1], DISKLEN, &br);
-		f_read(&sd_file, &disks[2], DISKLEN, &br);
-		f_read(&sd_file, &disks[3], DISKLEN, &br);
+		f_read(&sd_file, &disks[0], DISKLEN+1, &br);
+		f_read(&sd_file, &disks[1], DISKLEN+1, &br);
+		f_read(&sd_file, &disks[2], DISKLEN+1, &br);
+		f_read(&sd_file, &disks[3], DISKLEN+1, &br);
 		f_close(&sd_file);
 	}
 
@@ -305,10 +305,10 @@ again:
 		f_write(&sd_file, &fp_value, sizeof(fp_value), &br);
 		f_write(&sd_file, &brightness, sizeof(brightness), &br);
 		f_write(&sd_file, &t, sizeof(t), &br);
-		f_write(&sd_file, &disks[0], DISKLEN, &br);
-		f_write(&sd_file, &disks[1], DISKLEN, &br);
-		f_write(&sd_file, &disks[2], DISKLEN, &br);
-		f_write(&sd_file, &disks[3], DISKLEN, &br);
+		f_write(&sd_file, &disks[0], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[1], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[2], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[3], DISKLEN+1, &br);
 		f_close(&sd_file);
 	}
 }
