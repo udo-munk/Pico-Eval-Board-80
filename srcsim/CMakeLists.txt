@@ -35,6 +35,10 @@ pico_sdk_init()
 
 set(Z80PACK ${CMAKE_SOURCE_DIR}/../../z80pack)
 
+if(PICO_CYW43_SUPPORTED)
+	set(EXTRA_SOURCES net_ntp.c)
+endif()
+
 add_executable(${PROJECT_NAME}
 	picosim.c
 	dazzler.c
@@ -58,6 +62,7 @@ add_executable(${PROJECT_NAME}
 	${Z80PACK}/z80core/simz80-fd.c
 	${Z80PACK}/z80core/simz80-fdcb.c
 	${Z80PACK}/z80core/simz80.c
+	${EXTRA_SOURCES}
 )
 
 # generate the header file into the source tree

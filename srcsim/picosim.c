@@ -29,6 +29,8 @@
 #include "hardware/uart.h"
 #include "hardware/watchdog.h"
 #ifdef RASPBERRYPI_PICO_W
+#include <time.h>
+#include "net_ntp.h"
 #include "pico/cyw43_arch.h"
 #endif
 #include "net_vars.h"
@@ -201,7 +203,7 @@ int main(void)
 		puts("failed.");
 	} else {
 		puts("connected.");
-		//do_ntp();
+		do_ntp();
 	}
 wifi_done:
 #endif
