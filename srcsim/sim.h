@@ -26,7 +26,7 @@
 #endif
 
 #define USR_COM "Raspberry Pi Pico"
-#define USR_REL "1.7"
+#define USR_REL "1.8"
 #define USR_CPR "Copyright (C) 2024-2025 by Udo Munk & Thomas Eberhardt"
 
 #ifndef PRIu64

@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "hardware/rtc.h"
 #include "pico/stdlib.h"
 #include "pico/time.h"
@@ -43,6 +44,9 @@
 #endif
 
 #include "net_vars.h"
+#if defined(RASPBERRYPI_PICO_W) || defined(RASPBERRYPI_PICO2_W)
+#include "net_ntp.h"
+#endif
 
 static datetime_t t = { .year = 2024, .month = 1, .day = 1, .dotw = 1,
 			.hour = 0, .min = 0, .sec = 0 };
@@ -212,6 +216,21 @@ void config(void)
 	int i, n, menu;
 	static const char *dotw[7] = { "Sun", "Mon", "Tue", "Wed",
 				       "Thu", "Fri", "Sat" };
+
+#if defined(RASPBERRYPI_PICO_W) || defined(RASPBERRYPI_PICO2_W)
+	if (ntp_time) {
+		puts("ntp time present, using it for setting the clock\n");
+		time_t local_time = ntp_time + utc_offset * 60 * 60;
+		struct tm *ntp_t = gmtime(&local_time);
+		t.year = ntp_t->tm_year + 1900;
+		t.month = ntp_t->tm_mon + 1;
+		t.day = ntp_t->tm_mday;
+		t.hour = ntp_t->tm_hour;
+		t.min = ntp_t->tm_min;
+		t.sec = ntp_t->tm_sec;
+		t.dotw = ntp_t->tm_wday;
+	}
+#endif
 
 	rtc_set_datetime(&t);
 	sleep_us(64);
