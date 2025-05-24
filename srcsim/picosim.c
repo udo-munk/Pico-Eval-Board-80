@@ -31,6 +31,7 @@
 #ifdef RASPBERRYPI_PICO_W
 #include "pico/cyw43_arch.h"
 #endif
+#include "net_vars.h"
 
 #include "ff.h"
 #include "hw_config.h"
@@ -178,7 +179,31 @@ int main(void)
 		panic("CYW43 init failed\n");
 
 	/* try to connect WiFi */
+	int wifi_retry = 5;	/* max WiFi connect retries */
+	int result;
+
 	cyw43_arch_enable_sta_mode();
+	printf("connecting to WiFi... ");
+	if (!strlen(wifi_ssid)) {
+		puts("no WiFi SSID configured.");
+		goto wifi_done;
+	}
+	while (wifi_retry) {
+		if ((result = cyw43_arch_wifi_connect_timeout_ms(wifi_ssid, wifi_password,
+		    CYW43_AUTH_WPA2_AES_PSK, 30000))) {
+			printf("retry... ");
+			wifi_retry--;
+		} else
+			break;
+	}
+
+	if (result) {
+		puts("failed.");
+	} else {
+		puts("connected.");
+		//do_ntp();
+	}
+wifi_done:
 #endif
 
 	config();		/* configure the machine */
