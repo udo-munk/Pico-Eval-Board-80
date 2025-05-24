@@ -10,7 +10,7 @@
  * 23-APR-2024 dummy, no configuration implemented yet
  * 12-MAY-2024 implemented configuration dialog
  * 28-MAY-2024 implemented mount/unmount of disk images
- * 24-MAY-2025 separate read/save config file from config
+ * 24-MAY-2025 separate read/save config file from config and add network config
  */
 
 #ifndef SIMCFG_INC

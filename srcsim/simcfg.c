@@ -12,7 +12,7 @@
  * 27-MAY-2024 implemented load file
  * 28-MAY-2024 implemented mount/unmount of disk images
  * 03-JUN-2024 added directory list for code files and disk images
- * 24-MAY-2025 separate read/save config file from config
+ * 24-MAY-2025 separate read/save config file from config and add network config
  */
 
 #include <stdlib.h>
@@ -41,6 +41,8 @@
 #if LIB_STDIO_MSC_USB
 #include "stdio_msc_usb.h"
 #endif
+
+#include "net_vars.h"
 
 static datetime_t t = { .year = 2024, .month = 1, .day = 1, .dotw = 1,
 			.hour = 0, .min = 0, .sec = 0 };
@@ -97,6 +99,10 @@ void read_config(void)
 		f_read(&sd_file, &fp_value, sizeof(fp_value), &br);
 		f_read(&sd_file, &brightness, sizeof(brightness), &br);
 		f_read(&sd_file, &t, sizeof(t), &br);
+		f_read(&sd_file, &wifi_ssid, sizeof(wifi_ssid), &br);
+		f_read(&sd_file, &wifi_password, sizeof(wifi_password), &br);
+		f_read(&sd_file, &ntp_server, sizeof(ntp_server), &br);
+		f_read(&sd_file, &utc_offset, sizeof(utc_offset), &br);
 		f_read(&sd_file, &disks[0], DISKLEN+1, &br);
 		f_read(&sd_file, &disks[1], DISKLEN+1, &br);
 		f_read(&sd_file, &disks[2], DISKLEN+1, &br);
@@ -122,6 +128,10 @@ void save_config(void)
 		f_write(&sd_file, &fp_value, sizeof(fp_value), &br);
 		f_write(&sd_file, &brightness, sizeof(brightness), &br);
 		f_write(&sd_file, &t, sizeof(t), &br);
+		f_write(&sd_file, &wifi_ssid, sizeof(wifi_ssid), &br);
+		f_write(&sd_file, &wifi_password, sizeof(wifi_password), &br);
+		f_write(&sd_file, &ntp_server, sizeof(ntp_server), &br);
+		f_write(&sd_file, &utc_offset, sizeof(utc_offset), &br);
 		f_write(&sd_file, &disks[0], DISKLEN+1, &br);
 		f_write(&sd_file, &disks[1], DISKLEN+1, &br);
 		f_write(&sd_file, &disks[2], DISKLEN+1, &br);
@@ -129,6 +139,64 @@ void save_config(void)
 		f_close(&sd_file);
 	}
 }
+
+#if defined(RASPBERRYPI_PICO_W)
+/*
+ * network configuration for Pico W
+ */
+void net_config(void)
+{
+	bool quit = false;
+	char s[WIFI_SSID_LEN+1];
+
+	while (!quit) {
+		printf("s - WiFi SSID: %s\n", wifi_ssid);
+		printf("p - WiFi password: %s\n", wifi_password);
+		printf("n - NTP server: %s\n", ntp_server);
+		printf("u - UTC offset in hours: %d\n", utc_offset);
+		printf("q - quit\n");
+
+		printf("\nCommand: ");
+		get_cmdline(s, 2);
+		putchar('\n');
+
+		switch (tolower((unsigned char) s[0])) {
+		case 's':
+			printf("Enter SSID: ");
+			get_cmdline(s, WIFI_SSID_LEN+1);
+			strcpy(wifi_ssid, s);
+			putchar('\n');
+			break;
+
+		case 'p':
+			printf("Enter password: ");
+			get_cmdline(s, WIFI_PWD_LEN+1);
+			strcpy(wifi_password, s);
+			putchar('\n');
+			break;
+
+		case 'n':
+			printf("Enter NTP server: ");
+			get_cmdline(s, HOST_NAME_MAX+1);
+			if (strlen(s))
+				strcpy(ntp_server, s);
+			else
+				strcpy(ntp_server, DEFAULT_NTP);
+			putchar('\n');
+			break;
+
+		case 'u':
+			utc_offset = get_int("UTC offset", " (hours)", -12, +14);
+			putchar('\n');
+			break;
+
+		case 'q':
+			quit = true;
+			break;
+		}
+	}
+}
+#endif
 
 /*
  * Configuration dialog for the machine
@@ -158,6 +226,9 @@ void config(void)
 			printf("Current time: %s %04d-%02d-%02d "
 			       "%02d:%02d:%02d\n", dotw[t.dotw],
 			       t.year, t.month, t.day, t.hour, t.min, t.sec);
+#if defined(RASPBERRYPI_PICO_W)
+			printf("n - network configuration\n");
+#endif
 			printf("b - LCD brightness: %d\n", brightness);
 			printf("a - set date\n");
 			printf("t - set time\n");
@@ -187,6 +258,12 @@ void config(void)
 		putchar('\n');
 
 		switch (tolower((unsigned char) s[0])) {
+#if defined(RASPBERRYPI_PICO_W)
+		case 'n':
+			net_config();
+			break;
+#endif
+
 		case 'b':
 			if ((i = get_int("brightness", "", 0, 1000)) >= 0) {
 				brightness = i;
