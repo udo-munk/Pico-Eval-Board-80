@@ -173,8 +173,12 @@ int main(void)
 	read_config();          /* read configuration from MicroSD */
 
 #ifdef RASPBERRYPI_PICO_W	/* initialize Pico W hardware */
+	/* initialize Pico W WiFi hardware */
 	if (cyw43_arch_init())
 		panic("CYW43 init failed\n");
+
+	/* try to connect WiFi */
+	cyw43_arch_enable_sta_mode();
 #endif
 
 	config();		/* configure the machine */
@@ -201,6 +205,12 @@ int main(void)
 
 	put_pixel(0x000000);	/* LED off */
 	exit_disks();		/* stop disk drives */
+
+#if defined(RASPBERRYPI_PICO_W) || defined(RASPBERRYPI_PICO2_W)
+	/* de-initialize Pico W WiFi hardware */
+	cyw43_arch_disable_sta_mode();
+	cyw43_arch_deinit();
+#endif
 
 #ifndef WANT_ICE
 	putchar('\n');
