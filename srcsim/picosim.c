@@ -210,8 +210,10 @@ int main(void)
 	multicore_reset_core1();/* stop core 1 */
 
 	/* reset machine */
-	watchdog_enable(1, 1);
-	for (;;);
+	watchdog_reboot(0, 0, 0);
+	while (true) {
+		__nop();
+	}
 }
 
 /*
