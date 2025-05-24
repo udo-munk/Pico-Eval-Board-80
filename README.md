@@ -29,6 +29,12 @@ To build the application for a Pi Pico RP2040 board:
 	cmake -G "Unix Makefiles" ..
 	make
 
+This machine can be used with Pico and Pico W boards, it is setup
+for a Pico board. To setup for a Pico W comment/uncomment the lines
+in CMakeLists.txt.
+A Pico W tries to connect to WiFi and if that worked tries to get date/time via NTP
+over the WiFi connection. The date/time is used to set the system clock then.
+
 This device also can be used with a Pi Pico 2 RP2350 board, then build with:
 
 	cd Pico-Eval-Board-80/srcsim
@@ -39,6 +45,9 @@ This device also can be used with a Pi Pico 2 RP2350 board, then build with:
 
 You can also use PICO_PLATFORM=rp2350-riscv if you have the appropriate
 RISC-V toolchain installed.
+
+Please note that the LCD won't work with a RP2350, the 8080/Z80 virtual machine works
+OK, though.
 
 Flash picosim.uf2 into the device, and then prepare a MicroSD card.
 
