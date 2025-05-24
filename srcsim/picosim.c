@@ -106,11 +106,6 @@ int main(void)
 #endif
 	time_init();		/* initialize FatFS RTC */
 
-#ifdef RASPBERRYPI_PICO_W	/* initialize Pico W hardware */
-	if (cyw43_arch_init())
-		panic("CYW43 init failed\n");
-#endif
-
 	/*
 	 * initialize hardware AD converter, enable onboard
 	 * temperature sensor and select its channel
@@ -174,7 +169,16 @@ int main(void)
 	init_disks();		/* initialize disk drives */
 	init_memory();		/* initialize memory configuration */
 	init_io();		/* initialize I/O devices */
+
+	read_config();          /* read configuration from MicroSD */
+
+#ifdef RASPBERRYPI_PICO_W	/* initialize Pico W hardware */
+	if (cyw43_arch_init())
+		panic("CYW43 init failed\n");
+#endif
+
 	config();		/* configure the machine */
+	save_config();          /* save configuration on MicroSD */
 
 	f_value = speed;	/* setup speed of the CPU */
 	if (f_value)

@@ -1,7 +1,7 @@
 /*
  * Z80SIM  -  a Z80-CPU simulator
  *
- * Copyright (C) 2024 by Udo Munk & Thomas Eberhardt
+ * Copyright (C) 2024-2025 by Udo Munk & Thomas Eberhardt
  *
  * This module configures the machine appropriate for the
  * Z80/8080 software we want to run on it.
@@ -12,6 +12,7 @@
  * 27-MAY-2024 implemented load file
  * 28-MAY-2024 implemented mount/unmount of disk images
  * 03-JUN-2024 added directory list for code files and disk images
+ * 24-MAY-2025 separate read/save config file from config
  */
 
 #include <stdlib.h>
@@ -40,6 +41,11 @@
 #if LIB_STDIO_MSC_USB
 #include "stdio_msc_usb.h"
 #endif
+
+static datetime_t t = { .year = 2024, .month = 1, .day = 1, .dotw = 1,
+			.hour = 0, .min = 0, .sec = 0 };
+static int brightness = 1000;
+static const char *cfg = "/CONF80/" CONF_FILE;
 
 /*
  * prompt for a filename
@@ -78,26 +84,12 @@ static int get_int(const char *prompt, const char *hint,
 }
 
 /*
- * Configuration dialog for the machine
+ * try to read config file
  */
-void config(void)
+void read_config(void)
 {
-	const char *cfg = "/CONF80/" CONF_FILE;
-	const char *cpath = "/CODE80";
-	const char *cext = "*.BIN";
-	const char *dpath = "/DISKS80";
-	const char *dext = "*.DSK";
-	char s[FNLEN+1];
 	unsigned int br;
-	int go_flag = 0;
-	int i, n, menu;
-	int brightness = 1000;
-	datetime_t t = { .year = 2024, .month = 1, .day = 1, .dotw = 1,
-			.hour = 0, .min = 0, .sec = 0 };
-	static const char *dotw[7] = { "Sun", "Mon", "Tue", "Wed",
-				       "Thu", "Fri", "Sat" };
 
-	/* try to read config file */
 	sd_res = f_open(&sd_file, cfg, FA_READ);
 	if (sd_res == FR_OK) {
 		f_read(&sd_file, &cpu, sizeof(cpu), &br);
@@ -111,6 +103,47 @@ void config(void)
 		f_read(&sd_file, &disks[3], DISKLEN+1, &br);
 		f_close(&sd_file);
 	}
+#if defined(EXCLUDE_I8080) || defined(EXCLUDE_Z80)
+	cpu = DEF_CPU;
+#endif
+}
+
+/*
+ * try to save config file
+ */
+void save_config(void)
+{
+	unsigned int br;
+
+	sd_res = f_open(&sd_file, cfg, FA_WRITE | FA_CREATE_ALWAYS);
+	if (sd_res == FR_OK) {
+		f_write(&sd_file, &cpu, sizeof(cpu), &br);
+		f_write(&sd_file, &speed, sizeof(speed), &br);
+		f_write(&sd_file, &fp_value, sizeof(fp_value), &br);
+		f_write(&sd_file, &brightness, sizeof(brightness), &br);
+		f_write(&sd_file, &t, sizeof(t), &br);
+		f_write(&sd_file, &disks[0], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[1], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[2], DISKLEN+1, &br);
+		f_write(&sd_file, &disks[3], DISKLEN+1, &br);
+		f_close(&sd_file);
+	}
+}
+
+/*
+ * Configuration dialog for the machine
+ */
+void config(void)
+{
+	const char *cpath = "/CODE80";
+	const char *cext = "*.BIN";
+	const char *dpath = "/DISKS80";
+	const char *dext = "*.DSK";
+	char s[FNLEN+1];
+	int go_flag = 0;
+	int i, n, menu;
+	static const char *dotw[7] = { "Sun", "Mon", "Tue", "Wed",
+				       "Thu", "Fri", "Sat" };
 
 	rtc_set_datetime(&t);
 	sleep_us(64);
@@ -297,18 +330,4 @@ again:
 		}
 	}
 
-	/* try to save config file */
-	sd_res = f_open(&sd_file, cfg, FA_WRITE | FA_CREATE_ALWAYS);
-	if (sd_res == FR_OK) {
-		f_write(&sd_file, &cpu, sizeof(cpu), &br);
-		f_write(&sd_file, &speed, sizeof(speed), &br);
-		f_write(&sd_file, &fp_value, sizeof(fp_value), &br);
-		f_write(&sd_file, &brightness, sizeof(brightness), &br);
-		f_write(&sd_file, &t, sizeof(t), &br);
-		f_write(&sd_file, &disks[0], DISKLEN+1, &br);
-		f_write(&sd_file, &disks[1], DISKLEN+1, &br);
-		f_write(&sd_file, &disks[2], DISKLEN+1, &br);
-		f_write(&sd_file, &disks[3], DISKLEN+1, &br);
-		f_close(&sd_file);
-	}
 }
