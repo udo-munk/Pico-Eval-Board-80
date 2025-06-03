@@ -127,10 +127,12 @@ void list_files(const char *dir, const char *ext)
 
 /*
  * load a file 'name' into memory
+ * returns true on success, false on error
  */
-void load_file(const char *name)
+bool load_file(const char *name)
 {
 	int i = 0;
+	bool res;
 	register unsigned int j;
 	unsigned int br;
 	char SFN[DISKLEN+1];
@@ -143,23 +145,27 @@ void load_file(const char *name)
 	sd_res = f_open(&sd_file, SFN, FA_READ);
 	if (sd_res != FR_OK) {
 		puts("File not found");
-		return;
+		return false;
 	}
 
 	/* read file into memory */
-	while ((sd_res = f_read(&sd_file, &dsk_buf[0], SEC_SZ, &br)) == FR_OK) {
+	while ((sd_res = f_read(&sd_file, dsk_buf, SEC_SZ, &br)) == FR_OK) {
 		for (j = 0; j < br; j++)
 			dma_write(i + j, dsk_buf[j]);
 		if (br < SEC_SZ)	/* last record reached */
 			break;
 		i += SEC_SZ;
 	}
-	if (sd_res != FR_OK)
+	if (sd_res != FR_OK) {
 		printf("f_read error: %s (%d)\n", FRESULT_str(sd_res), sd_res);
-	else
+		res = false;
+	} else {
 		printf("loaded file \"%s\" (%d bytes)\n", SFN, i + br);
+		res = true;
+	}
 
 	f_close(&sd_file);
+	return res;
 }
 
 /*
