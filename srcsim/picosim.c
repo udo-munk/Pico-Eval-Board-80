@@ -19,6 +19,7 @@
 /* Raspberry SDK and FatFS includes */
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #if LIB_PICO_STDIO_USB || LIB_STDIO_MSC_USB
 #include <tusb.h>
 #endif
