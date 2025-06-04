@@ -15,14 +15,17 @@
 /*#define ALT_I8080*/	/* use alt. 8080 sim. primarily optimized for size */
 /*#define ALT_Z80*/	/* use alt. Z80 sim. primarily optimized for size */
 #define UNDOC_INST	/* compile undocumented instructions */
+#ifndef EXCLUDE_Z80
 /*#define FAST_BLOCK*/	/* much faster but not accurate Z80 block instr. */
-#define BAREMETAL	/* set up the simulator core for bare metal use */
+#endif
 
 /*#define WANT_ICE*/	/* attach ICE to headless machine */
 #ifdef WANT_ICE
+#define BAREMETAL	/* set up the simulator core for bare metal use */
 #define WANT_TIM	/* count t-states */
 #define HISIZE	100	/* number of entries in history */
 #define SBSIZE	4	/* number of software breakpoints */
+#define WANT_HB		/* hardware breakpoint */
 #endif
 
 #define USR_COM "Raspberry Pi Pico"
